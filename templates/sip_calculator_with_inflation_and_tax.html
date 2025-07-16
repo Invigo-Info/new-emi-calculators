@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIP Calculator with Inflation and Tax | Calculate SIP Returns After Inflation and Tax Impact</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sip_calculator_with_inflation_and_tax_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SIP Calculator with Inflation and Tax</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/lump-sum-or-one-time-sip-calculator/" class="mega-link">Lump Sum SIP Calculator</a>
+                                <a href="/sip-calculator-with-expense-ratio/" class="mega-link">SIP with Expense Ratio</a>
+                                <a href="/sip-calculator-with-inflation-and-tax/" class="mega-link active">SIP with Inflation & Tax</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- SIP with Inflation and Tax Calculation Section -->
+                <div class="section">
+                    <h2>Plan your SIP Investment with Inflation and Tax Impact</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Monthly SIP Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="sipAmount" value="5000" min="0" max="1000000" step="500">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="sipAmountSlider" min="0" max="1000000" value="5000" step="500" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹10L</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Expected Return Rate (In %)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="returnRate" value="12" min="0" max="25" step="0.5">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="returnRateSlider" min="0" max="25" value="12" step="0.5" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0%</span>
+                                    <span>25%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Investment Period (Years)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="tenureYears" value="10" min="1" max="30" step="1">
+                                    <span class="input-suffix">Yrs</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="tenureYearsSlider" min="1" max="30" value="10" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>1yr</span>
+                                    <span>30yrs</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Inflation Rate (In %)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="inflationRate" value="6" min="0" max="15" step="0.5">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="inflationRateSlider" min="0" max="15" value="6" step="0.5" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0%</span>
+                                    <span>15%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Tax Rate (In %)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="taxRate" value="10" min="0" max="30" step="1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="taxRateSlider" min="0" max="30" value="10" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0%</span>
+                                    <span>30%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card invested-amount-card">
+                        <div class="card-content">
+                            <div class="card-label">Total Invested</div>
+                            <div class="card-value" id="totalInvestedResult">₹6,00,000</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card gross-returns-card">
+                        <div class="card-content">
+                            <div class="card-label">Gross Returns</div>
+                            <div class="card-value" id="grossReturnsResult">₹5,52,923</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card inflation-impact-card">
+                        <div class="card-content">
+                            <div class="card-label">Inflation Impact</div>
+                            <div class="card-value" id="inflationImpactResult">₹2,45,230</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card tax-impact-card">
+                        <div class="card-content">
+                            <div class="card-label">Tax Impact</div>
+                            <div class="card-value" id="taxImpactResult">₹55,293</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card net-returns-card">
+                        <div class="card-content">
+                            <div class="card-label">Net Returns</div>
+                            <div class="card-value" id="netReturnsResult">₹2,52,400</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card maturity-card">
+                        <div class="card-content">
+                            <div class="card-label">Final Amount</div>
+                            <div class="card-value" id="maturityAmountResult">₹8,52,400</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card real-value-card">
+                        <div class="card-content">
+                            <div class="card-label">Real Value (Today's Money)</div>
+                            <div class="card-value" id="realValueResult">₹4,75,400</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">SIP Returns vs Inflation & Tax Breakdown</div>
+                    <div class="pie-chart-container">
+                        <canvas id="sipInflationTaxBreakupChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator invested-amount"></div>
+                            <div class="summary-label">Total Invested</div>
+                            <div class="summary-amount" id="investedAmountDisplay">₹6,00,000</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator net-returns-amount"></div>
+                            <div class="summary-label">Net Returns</div>
+                            <div class="summary-amount" id="netReturnsAmountDisplay">₹2,52,400</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator inflation-impact-amount"></div>
+                            <div class="summary-label">Inflation Impact</div>
+                            <div class="summary-amount" id="inflationImpactDisplay">₹2,45,230</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator tax-impact-amount"></div>
+                            <div class="summary-label">Tax Impact</div>
+                            <div class="summary-amount" id="taxImpactDisplay">₹55,293</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Year-wise Breakdown Table Section -->
+        <div class="amortization-section">
+            <h2>Year-wise SIP Growth with Inflation & Tax Impact</h2>
+            <div class="table-container">
+                <table class="amortization-table" id="yearlyBreakdownTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Yearly Investment</th>
+                            <th>Cumulative Investment</th>
+                            <th>Gross Value</th>
+                            <th>Tax Impact</th>
+                            <th>Net Value (After Tax)</th>
+                            <th>Real Value (After Inflation)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="yearlyBreakdownBody">
+                        <!-- Table rows will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="download-section">
+            <h2>Download & Share</h2>
+            <p>Download your SIP calculation results as PDF or Excel file, or share this calculation with others.</p>
+            <div class="download-buttons">
+                <button onclick="downloadPDF()" class="download-btn pdf-btn">
+                    <span class="btn-icon">📄</span>
+                    Download PDF
+                </button>
+                <button onclick="downloadExcel()" class="download-btn excel-btn">
+                    <span class="btn-icon">📊</span>
+                    Download Excel
+                </button>
+                <button onclick="shareLink()" class="download-btn share-btn">
+                    <span class="btn-icon">🔗</span>
+                    Share Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/sip_calculator_with_inflation_and_tax_script.js') }}"></script>
+</body>
+</html> 

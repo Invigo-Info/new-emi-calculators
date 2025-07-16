@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atal Pension Yojana Calculator | Calculate APY Returns</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/atal_pension_yojana_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Atal Pension Yojana Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/reverse-sip-calculator/" class="mega-link">Reverse SIP Calculator</a>
+                                <a href="/daily-sip-calculator/" class="mega-link">Daily SIP Calculator</a>
+                                <a href="/monthly-sip-calculator/" class="mega-link">Monthly SIP Calculator</a>
+                                <a href="/cagr-sip-calculator/" class="mega-link">CAGR Calculator</a>
+                                <a href="/roi-calculator/" class="mega-link">ROI Calculator</a>
+                                <a href="/fd-calculator/" class="mega-link">FD Calculator</a>
+                                <a href="/rd-calculator/" class="mega-link">RD Calculator</a>
+                                <a href="/compound-interest-calculator/" class="mega-link">Compound Interest Calculator</a>
+                                <a href="/senior-citizen-savings-scheme-calculator/" class="mega-link">SCSS Calculator</a>
+                                <a href="/sukanya-samriddhi-yojana-calculator/" class="mega-link">SSY Calculator</a>
+                                <a href="/atal-pension-yojana-calculator/" class="mega-link active">APY Calculator</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- APY Calculation Section -->
+                <div class="section">
+                    <h2>Calculate APY Returns</h2>
+
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Joining Age</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="joiningAge" value="25" min="18" max="40" step="1">
+                                    <span class="input-suffix">Years</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="joiningAgeSlider" min="18" max="40" value="25" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>18 Yrs</span>
+                                    <span>40 Yrs</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Desired Pension Amount</label>
+                                <div class="pension-container">
+                                    <select id="pensionAmount" class="pension-select">
+                                        <option value="1000">₹1,000 per month</option>
+                                        <option value="2000">₹2,000 per month</option>
+                                        <option value="3000" selected>₹3,000 per month</option>
+                                        <option value="4000">₹4,000 per month</option>
+                                        <option value="5000">₹5,000 per month</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card monthly-contribution-card">
+                        <div class="card-content">
+                            <div class="card-label bold-title">Monthly Contribution</div>
+                            <div class="card-value" id="monthlyContributionResult">₹210</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card investment-duration-card">
+                        <div class="card-content">
+                            <div class="card-label">Investment Duration</div>
+                            <div class="card-value" id="investmentDurationResult">35 Years</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card total-investment-card">
+                        <div class="card-content">
+                            <div class="card-label">Total Investment</div>
+                            <div class="card-value" id="totalInvestmentResult">₹87,780</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card pension-amount-card">
+                        <div class="card-content">
+                            <div class="card-label">Monthly Pension</div>
+                            <div class="card-value" id="pensionAmountResult">₹3,000</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card lump-sum-card">
+                        <div class="card-content">
+                            <div class="card-label">Lump Sum (on death after 60)</div>
+                            <div class="card-value" id="lumpSumResult">₹6,00,000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">APY Investment Breakdown</div>
+                    <div class="pie-chart-container">
+                        <canvas id="apyChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator total-investment"></div>
+                            <div class="summary-label">Your Contribution</div>
+                            <div class="summary-amount" id="totalInvestmentDisplay">₹87,780</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator total-returns"></div>
+                            <div class="summary-label">Investment Growth</div>
+                            <div class="summary-amount" id="totalGrowthDisplay">₹5,01,720</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amortization Table Section -->
+        <div class="table-section">
+            <div class="table-header">
+                <h2>APY Contribution Schedule</h2>
+                <div class="table-toggle">
+                    <button id="yearlyViewBtn" class="toggle-btn active">Yearly View</button>
+                    <button id="monthlyViewBtn" class="toggle-btn">Monthly View</button>
+                </div>
+            </div>
+            
+            <!-- Yearly Table -->
+            <div id="yearlyTable" class="table-container">
+                <div class="table-wrapper">
+                    <table class="amortization-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Age</th>
+                                <th>Annual Contribution</th>
+                                <th>Government Co-contribution</th>
+                                <th>Total Invested</th>
+                                <th>Investment Growth</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="yearlyTableBody">
+                            <!-- Yearly data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Monthly Table -->
+            <div id="monthlyTable" class="table-container hidden">
+                <div class="table-wrapper">
+                    <table class="amortization-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Month</th>
+                                <th>Age</th>
+                                <th>Monthly Contribution</th>
+                                <th>Gov Co-contribution</th>
+                                <th>Cumulative Investment</th>
+                                <th>Investment Growth</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthlyTableBody">
+                            <!-- Monthly data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/atal_pension_yojana_script.js') }}"></script>
+</body>
+</html> 

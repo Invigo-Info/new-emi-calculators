@@ -1,0 +1,928 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: #2d3748;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.calculator-container {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Input Sections */
+.input-sections {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+.section:last-child {
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 8px;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    transition: border-color 0.2s ease;
+}
+
+.input-container:focus-within {
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.input-container.readonly {
+    background-color: #f7fafc;
+    border-color: #cbd5e0;
+}
+
+.input-container input {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    font-weight: 500;
+    background: transparent;
+    width: 100%;
+    color: #2d3748;
+}
+
+.input-container input[readonly] {
+    color: #718096;
+}
+
+.currency, .unit {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #718096;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.unit {
+    margin-right: 12px;
+    margin-left: 0;
+}
+
+.input-container input + .unit + input {
+    margin-left: 12px;
+}
+
+/* Prepayments Section */
+.prepayments-section {
+    margin-top: 30px;
+}
+
+.add-prepayments-btn {
+    background: #3182ce;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.add-prepayments-btn:hover {
+    background: #2c5aa0;
+}
+
+.plus-icon {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.prepayments-container {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f7fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.prepayments-container h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 15px;
+}
+
+.prepayment-grid-four {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.prepayment-column {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.prepayment-header {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #2d3748;
+    text-align: left;
+    margin-bottom: 8px;
+}
+
+.prepayment-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.prepayment-input-group input {
+    width: 100%;
+    padding: 12px 15px 12px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    background: #f9fafb;
+    transition: all 0.2s ease;
+}
+
+.prepayment-input-group input:focus {
+    outline: none;
+    border-color: #3182ce;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.currency-symbol {
+    position: absolute;
+    right: 12px;
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.prepayment-date-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.prepayment-date-group input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    background: #f9fafb;
+    color: #374151;
+    transition: all 0.2s ease;
+}
+
+.prepayment-date-group input:focus {
+    outline: none;
+    border-color: #3182ce;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+/* Results Section */
+.results-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.results-grid {
+    margin-bottom: 30px;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item.total {
+    background: #f7fafc;
+    margin: 10px -20px 0;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+}
+
+.result-label {
+    font-size: 0.875rem;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.result-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.result-item.total .result-value {
+    font-size: 1.125rem;
+    color: #3182ce;
+}
+
+/* Chart Section */
+.chart-section {
+    margin-top: 30px;
+}
+
+.pie-chart-container {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 30px;
+}
+
+.chart-summary {
+    border-top: 2px solid #e2e8f0;
+    padding-top: 20px;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 0.875rem;
+}
+
+.summary-item.total {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #2d3748;
+    border-top: 2px solid #e2e8f0;
+    margin-top: 10px;
+    padding-top: 15px;
+}
+
+.color-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.color-indicator.down-payment {
+    background-color: #805ad5;
+}
+
+.color-indicator.principal {
+    background-color: #38a169;
+}
+
+.color-indicator.prepayments {
+    background-color: #e53e3e;
+}
+
+.color-indicator.interest {
+    background-color: #dd6b20;
+}
+
+.color-indicator.taxes {
+    background-color: #3182ce;
+}
+
+.summary-label {
+    flex: 1;
+    color: #4a5568;
+}
+
+.summary-value {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+/* Schedule Section */
+.schedule-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.schedule-section h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.chart-container {
+    height: 500px;
+    margin-bottom: 30px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Table Section */
+.table-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 30px;
+}
+
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.payment-table thead {
+    background: #4a5568;
+    color: white;
+}
+
+.payment-table th {
+    padding: 15px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+    border-right: 1px solid #2d3748;
+}
+
+.payment-table th:last-child {
+    border-right: none;
+}
+
+.sub-header {
+    font-size: 0.7rem;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+.payment-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+}
+
+.payment-table td:last-child {
+    border-right: none;
+}
+
+.payment-table tbody tr:hover {
+    background-color: #f7fafc;
+}
+
+.payment-table .year-cell {
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+.year-row {
+    background-color: #f7fafc;
+    transition: background-color 0.2s ease;
+}
+
+.year-row:hover {
+    background-color: #edf2f7 !important;
+}
+
+.year-row.expanded {
+    background-color: #e2e8f0;
+    border-bottom: 2px solid #3182ce;
+}
+
+.expand-icon {
+    display: inline-block;
+    margin-right: 8px;
+    font-family: monospace;
+    font-size: 12px;
+    font-weight: bold;
+    color: #3182ce;
+    transition: transform 0.2s ease;
+}
+
+.year-text {
+    font-weight: 600;
+}
+
+.month-row {
+    background-color: #f8fafc;
+    border-left: 3px solid #3182ce;
+}
+
+.month-row:hover {
+    background-color: #edf2f7;
+}
+
+.month-cell {
+    padding-left: 30px !important;
+    font-size: 0.8rem;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.payment-table tbody tr.year-row td {
+    border-top: 2px solid #cbd5e0;
+    font-weight: 600;
+}
+
+.payment-table tbody tr.year-row:first-child td {
+    border-top: none;
+}
+
+.payment-table tbody tr.month-row td {
+    border-left: 3px solid #3182ce;
+    padding-left: 8px;
+}
+
+.payment-table tbody tr.month-row td:first-child {
+    border-left: 3px solid #3182ce;
+    padding-left: 30px;
+}
+
+/* Alternate row coloring for better readability */
+.payment-table tbody tr.month-row:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.payment-table tbody tr.month-row:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Hover effects */
+.payment-table tbody tr.year-row:hover td {
+    background-color: #e9ecef !important;
+}
+
+.payment-table tbody tr.month-row:hover td {
+    background-color: #dee2e6 !important;
+}
+
+.payment-table .principal-col {
+    background-color: #d4edda;
+    color: #155724;
+    font-weight: 500;
+}
+
+.payment-table .interest-col {
+    background-color: #fff3cd;
+    color: #856404;
+    font-weight: 500;
+}
+
+.payment-table .taxes-col {
+    background-color: #e7e3ff;
+    color: #4c3575;
+    font-weight: 500;
+}
+
+.payment-table .total-col {
+    background-color: #f8f9fa;
+    color: #212529;
+    font-weight: 600;
+}
+
+.payment-table .balance-col {
+    background-color: #f8d7da;
+    color: #721c24;
+    font-weight: 500;
+}
+
+.payment-table .loan-paid-col {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    font-weight: 500;
+}
+
+.payment-table thead .principal-col {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+.payment-table thead .interest-col {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.payment-table thead .taxes-col {
+    background-color: #6f42c1 !important;
+    color: white !important;
+}
+
+.payment-table thead .total-col {
+    background-color: #6c757d !important;
+    color: white !important;
+}
+
+.payment-table thead .balance-col {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.payment-table thead .loan-paid-col {
+    background-color: #17a2b8 !important;
+    color: white !important;
+}
+
+/* Download Section */
+.download-section {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 2px solid #e2e8f0;
+}
+
+.download-prompt {
+    font-size: 0.875rem;
+    color: #4a5568;
+    margin-bottom: 20px;
+}
+
+.download-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.pdf-btn {
+    background: #3182ce;
+    color: white;
+}
+
+.pdf-btn:hover {
+    background: #2c5aa0;
+}
+
+.excel-btn {
+    background: #38a169;
+    color: white;
+}
+
+.excel-btn:hover {
+    background: #2f855a;
+}
+
+.share-btn {
+    background: #805ad5;
+    color: white;
+}
+
+.share-btn:hover {
+    background: #6b46c1;
+}
+
+.btn-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .calculator-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .results-section {
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .input-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .input-sections,
+    .results-section,
+    .schedule-section,
+    .table-section {
+        padding: 20px;
+    }
+    
+    .prepayment-grid-four {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    .prepayment-column {
+        padding: 15px 10px;
+    }
+    
+    .download-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .download-btn {
+        width: 200px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .prepayment-grid-four {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .payment-table {
+        font-size: 0.75rem;
+    }
+    
+    .payment-table th,
+    .payment-table td {
+        padding: 8px 6px;
+    }
+} 
+
+/* Mega Menu Styles */
+.home-btn {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.home-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: white;
+    transform: translateY(-2px);
+}
+
+.mega-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.mega-menu-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mega-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: white;
+    transform: translateY(-2px);
+}
+
+.mega-menu-arrow {
+    transition: transform 0.3s ease;
+    font-size: 12px;
+}
+
+.mega-menu.active .mega-menu-arrow {
+    transform: rotate(180deg);
+}
+
+.mega-menu-content {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    padding: 30px;
+    margin-top: 10px;
+    min-width: 800px;
+    max-width: 1000px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.mega-menu.active .mega-menu-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.mega-menu-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.mega-menu-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.mega-menu-category {
+    /* No specific styles needed */
+}
+
+.category-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.category-icon {
+    font-size: 18px;
+}
+
+.category-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mega-link {
+    color: #666;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    display: block;
+}
+
+.mega-link:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: translateX(5px);
+}
+
+.mega-link.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+}
+
+/* Responsive Design for Mega Menu */
+@media (max-width: 1024px) {
+    .mega-menu-content {
+        min-width: 700px;
+        padding: 25px;
+    }
+    
+    .mega-menu-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mega-menu-content {
+        min-width: 90vw;
+        max-width: 90vw;
+        padding: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .mega-menu-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .mega-menu-btn {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+    
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+}

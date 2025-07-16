@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flat vs Reducing Rate Interest Calculator | Compare Interest Calculation Methods</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flat_vs_reducing_rate_interest_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Flat vs Reducing Rate Interest Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/emi-calculator-with-part-payment/" class="mega-link">EMI with Part Payment</a>
+                                <a href="/flat-interest-rate-emi-calculator/" class="mega-link">Flat Interest Rate EMI</a>
+                                <a href="/no-cost-emi-calculator/" class="mega-link">No Cost EMI</a>
+                                <a href="/flat-vs-reducing-rate-interest-calculator/" class="mega-link active">Flat vs Reducing Rate</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/sip-calculator-with-expense-ratio/" class="mega-link">SIP with Expense Ratio</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Main Calculation Section -->
+                <div class="section">
+                    <h2>Compare Flat vs Reducing Rate Interest Methods</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="loanAmount" value="500000" min="1000" max="50000000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="loanAmountSlider" min="1000" max="50000000" value="500000" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹1K</span>
+                                    <span>₹5Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Interest Rate (Annual %)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="interestRate" value="12.0" min="0.1" max="36" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="interestRateSlider" min="0.1" max="36" value="12.0" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0.1%</span>
+                                    <span>36%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Tenure (Years)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="tenureYears" value="5" min="1" max="30" step="1">
+                                    <span class="input-suffix">Yrs</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="tenureYearsSlider" min="1" max="30" value="5" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>1yr</span>
+                                    <span>30yrs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+
+
+                <div class="results-comparison-grid">
+                    <!-- Flat Interest Rate Results Column -->
+                    <div class="results-column flat-results-column">
+                        <div class="column-header">
+                            <h4>🔶 Flat Interest Rate</h4>
+                            <p>Simple Interest Calculation</p>
+                        </div>
+                        <div class="column-results">
+                            <div class="result-card flat-emi-card">
+                                <div class="card-content">
+                                    <div class="card-icon">📊</div>
+                                    <div class="card-label">Monthly EMI</div>
+                                    <div class="card-value" id="flatEmiResult">₹13,333</div>
+                                </div>
+                            </div>
+
+                            <div class="result-card flat-total-interest-card">
+                                <div class="card-content">
+                                    <div class="card-icon">📋</div>
+                                    <div class="card-label">Total Interest</div>
+                                    <div class="card-value" id="flatTotalInterestResult">₹3,00,000</div>
+                                </div>
+                            </div>
+
+                            <div class="result-card flat-total-amount-card">
+                                <div class="card-content">
+                                    <div class="card-icon">💰</div>
+                                    <div class="card-label">Total Amount</div>
+                                    <div class="card-value" id="flatTotalAmountResult">₹8,00,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reducing Interest Rate Results Column -->
+                    <div class="results-column reducing-results-column">
+                        <div class="column-header">
+                            <h4>🔷 Reducing Interest Rate</h4>
+                            <p>Compound Interest Calculation</p>
+                        </div>
+                        <div class="column-results">
+                            <div class="result-card reducing-emi-card">
+                                <div class="card-content">
+                                    <div class="card-icon">📈</div>
+                                    <div class="card-label">Monthly EMI</div>
+                                    <div class="card-value" id="reducingEmiResult">₹11,122</div>
+                                </div>
+                            </div>
+
+                            <div class="result-card reducing-total-interest-card">
+                                <div class="card-content">
+                                    <div class="card-icon">💳</div>
+                                    <div class="card-label">Total Interest</div>
+                                    <div class="card-value" id="reducingTotalInterestResult">₹1,67,320</div>
+                                </div>
+                            </div>
+
+                            <div class="result-card reducing-total-amount-card">
+                                <div class="card-content">
+                                    <div class="card-icon">💚</div>
+                                    <div class="card-label">Total Amount</div>
+                                    <div class="card-value" id="reducingTotalAmountResult">₹6,67,320</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparison Summary Section -->
+                <div class="comparison-summary-section">
+                    <div class="summary-header">
+                        <h4>💡 Savings Summary</h4>
+                        <p>How much you save with Reducing Interest Rate</p>
+                    </div>
+                    <div class="summary-cards">
+                        <div class="result-card difference-card">
+                            <div class="card-content">
+                                <div class="card-icon">🔄</div>
+                                <div class="card-label">EMI Difference</div>
+                                <div class="card-value" id="emiDifferenceResult">₹2,211</div>
+                            </div>
+                        </div>
+
+                        <div class="result-card total-savings-card">
+                            <div class="card-content">
+                                <div class="card-icon">💡</div>
+                                <div class="card-label">Total Interest Savings</div>
+                                <div class="card-value" id="totalSavingsResult">₹1,32,680</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">
+                        <h3>Interest Method Comparison</h3>
+                    </div>
+                    <div class="chart-container">
+                        <div class="pie-chart-container">
+                            <h4>Flat Interest Rate</h4>
+                            <canvas id="flatInterestChart" width="250" height="250"></canvas>
+                        </div>
+                        <div class="pie-chart-container">
+                            <h4>Reducing Interest Rate</h4>
+                            <canvas id="reducingInterestChart" width="250" height="250"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-section">
+                            <h4>Flat Interest Method</h4>
+                            <div class="summary-item">
+                                <div class="color-indicator principal-amount"></div>
+                                <span class="summary-label">Principal Amount:</span>
+                                <span class="summary-amount" id="flatPrincipalDisplay">₹5,00,000</span>
+                            </div>
+                            <div class="summary-item">
+                                <div class="color-indicator flat-interest-amount"></div>
+                                <span class="summary-label">Interest Amount:</span>
+                                <span class="summary-amount" id="flatInterestDisplay">₹3,00,000</span>
+                            </div>
+                        </div>
+                        <div class="summary-section">
+                            <h4>Reducing Interest Method</h4>
+                            <div class="summary-item">
+                                <div class="color-indicator principal-amount"></div>
+                                <span class="summary-label">Principal Amount:</span>
+                                <span class="summary-amount" id="reducingPrincipalDisplay">₹5,00,000</span>
+                            </div>
+                            <div class="summary-item">
+                                <div class="color-indicator reducing-interest-amount"></div>
+                                <span class="summary-label">Interest Amount:</span>
+                                <span class="summary-amount" id="reducingInterestDisplay">₹1,67,320</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table Section -->
+        <div class="comparison-table-section">
+            <div class="section-header">
+                <h2>Detailed Comparison Table</h2>
+                <p class="table-description">Year-wise breakdown comparing Flat Interest Rate vs Reducing Interest Rate calculations</p>
+            </div>
+            <div class="table-container">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Year</th>
+                            <th colspan="3">Flat Interest Rate</th>
+                            <th colspan="3">Reducing Interest Rate</th>
+                            <th rowspan="2">Interest Savings</th>
+                        </tr>
+                        <tr>
+                            <th>EMI</th>
+                            <th>Interest</th>
+                            <th>Balance</th>
+                            <th>EMI</th>
+                            <th>Interest</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparisonTableBody">
+                        <!-- Dynamic content will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="download-section">
+            <h2>Download & Share</h2>
+            <p>Download your calculation results or share with others</p>
+            <div class="download-buttons">
+                <button class="download-btn pdf-btn" onclick="downloadPDF()">
+                    <span class="btn-icon">📄</span>
+                    Download PDF
+                </button>
+                <button class="download-btn excel-btn" onclick="downloadExcel()">
+                    <span class="btn-icon">📊</span>
+                    Download Excel
+                </button>
+                <button class="download-btn share-btn" onclick="shareLink()">
+                    <span class="btn-icon">🔗</span>
+                    Share Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/flat_vs_reducing_rate_interest_script.js') }}"></script>
+</body>
+</html> 

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Ratio Calculator | Calculate Investment Returns After Expense Ratio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/expense_ratio_calculator_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Expense Ratio Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/lump-sum-or-one-time-sip-calculator/" class="mega-link">Lump Sum SIP Calculator</a>
+                                <a href="/sip-calculator-with-expense-ratio/" class="mega-link">SIP with Expense Ratio</a>
+                                <a href="/expense-ratio-calculator/" class="mega-link active">Expense Ratio Calculator</a>
+                                <a href="/mutual-funds-expense-ratio-calculator/" class="mega-link">MF Expense Ratio</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Expense Ratio Calculation Section -->
+                <div class="section">
+                    <h2>Calculate Impact of Expense Ratio on Your Investment Returns</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Investment Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="investmentAmount" value="100000" min="1000" max="10000000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="investmentAmountSlider" min="1000" max="10000000" value="100000" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹1K</span>
+                                    <span>₹1Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Investment Type</label>
+                                <div class="frequency-container">
+                                    <select id="investmentType" class="frequency-select">
+                                        <option value="lumpsum" selected>Lump Sum</option>
+                                        <option value="sip">SIP (Monthly)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Expected Annual Return (%)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="expectedReturn" value="12" min="5" max="30" step="0.5">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="expectedReturnSlider" min="5" max="30" value="12" step="0.5" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>5%</span>
+                                    <span>30%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Expense Ratio (%)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="expenseRatio" value="1.5" min="0.1" max="3.5" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="expenseRatioSlider" min="0.1" max="3.5" value="1.5" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0.1%</span>
+                                    <span>3.5%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Investment Period (Years)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="investmentPeriod" value="10" min="1" max="30" step="1">
+                                    <span class="input-suffix">Yrs</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="investmentPeriodSlider" min="1" max="30" value="10" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>1yr</span>
+                                    <span>30yrs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card invested-amount-card">
+                        <div class="card-content">
+                            <div class="card-icon">💰</div>
+                            <div class="card-label">Total Invested</div>
+                            <div class="card-value" id="totalInvestedResult">₹1,00,000</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card gross-returns-card">
+                        <div class="card-content">
+                            <div class="card-icon">📈</div>
+                            <div class="card-label">Gross Returns</div>
+                            <div class="card-value" id="grossReturnsResult">₹2,10,585</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card expense-impact-card">
+                        <div class="card-content">
+                            <div class="card-icon">📉</div>
+                            <div class="card-label">Expense Impact</div>
+                            <div class="card-value" id="expenseImpactResult">₹25,000</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card net-returns-card">
+                        <div class="card-content">
+                            <div class="card-icon">🎯</div>
+                            <div class="card-label">Net Returns</div>
+                            <div class="card-value" id="netReturnsResult">₹1,85,585</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card maturity-card">
+                        <div class="card-content">
+                            <div class="card-icon">💎</div>
+                            <div class="card-label">Final Amount</div>
+                            <div class="card-value" id="finalAmountResult">₹2,85,585</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Investment Returns vs Expense Ratio Breakdown</div>
+                    <div class="pie-chart-container">
+                        <canvas id="expenseRatioChart" width="350" height="350"></canvas>
+                    </div>
+
+                    <!-- Chart Summary -->
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <span class="color-indicator invested-amount"></span>
+                            <span class="summary-label">Total Invested:</span>
+                            <span class="summary-amount" id="investedAmountDisplay">₹1,00,000</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="color-indicator net-returns-amount"></span>
+                            <span class="summary-label">Net Returns:</span>
+                            <span class="summary-amount" id="netReturnsDisplay">₹1,85,585</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="color-indicator expense-impact-amount"></span>
+                            <span class="summary-label">Expense Impact:</span>
+                            <span class="summary-amount" id="expenseImpactDisplay">₹25,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yearly Breakdown Table -->
+        <div class="amortization-section">
+            <h2>Year-wise Investment Breakdown</h2>
+            <div class="table-container">
+                <table class="amortization-table">
+                    <thead>
+                        <tr>
+                            <th>Year/Month</th>
+                            <th>Investment</th>
+                            <th>Gross Value</th>
+                            <th>Expense Cost</th>
+                            <th>Net Value</th>
+                        </tr>
+                    </thead>
+                    <tbody id="yearlyBreakdownBody">
+                        <!-- Table rows will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="download-section">
+            <h2>Download & Share</h2>
+            <p>Download your expense ratio calculation results or share the calculator link.</p>
+            <div class="download-buttons">
+                <button class="download-btn pdf-btn" onclick="downloadPDF()">
+                    <span class="btn-icon">📄</span>
+                    Download PDF
+                </button>
+                <button class="download-btn excel-btn" onclick="downloadExcel()">
+                    <span class="btn-icon">📊</span>
+                    Download Excel
+                </button>
+                <button class="download-btn share-btn" onclick="shareLink()">
+                    <span class="btn-icon">🔗</span>
+                    Share Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/expense_ratio_calculator_script.js') }}"></script>
+</body>
+</html> 

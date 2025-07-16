@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumpsum vs SIP Calculator | Compare Investment Methods</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lumpsum_vs_sip_calculator_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lumpsum vs SIP Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/emi-calculator-with-part-payment/" class="mega-link">EMI with Part Payment</a>
+                                <a href="/flat-interest-rate-emi-calculator/" class="mega-link">Flat Interest Rate EMI</a>
+                                <a href="/no-cost-emi-calculator/" class="mega-link">No Cost EMI</a>
+                                <a href="/flat-vs-reducing-rate-interest-calculator/" class="mega-link">Flat vs Reducing Rate</a>
+                                <a href="/lumpsum-vs-sip-calculator/" class="mega-link active">Lumpsum vs SIP Calculator</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/sip-calculator-with-expense-ratio/" class="mega-link">SIP with Expense Ratio</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Main Calculation Section -->
+                <div class="section">
+                    <h2>Compare Lumpsum vs SIP Investment Methods</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Investment Amount (Lumpsum)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="investmentAmount" value="500000" min="0" max="50000000" step="10000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="investmentAmountSlider" min="0" max="50000000" value="500000" step="10000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹5Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Monthly SIP Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="monthlySip" value="10000" min="0" max="500000" step="500">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="monthlySipSlider" min="0" max="500000" value="10000" step="500" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹5L</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Expected Return Rate (Annual %)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="expectedReturn" value="12.0" min="1" max="30" step="0.5">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="expectedReturnSlider" min="1" max="30" value="12.0" step="0.5" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>1%</span>
+                                    <span>30%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Investment Period (Years)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="investmentPeriod" value="10" min="1" max="40" step="1">
+                                    <span class="input-suffix">Yrs</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="investmentPeriodSlider" min="1" max="40" value="10" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>1yr</span>
+                                    <span>40yrs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-comparison-grid">
+                    <!-- Lumpsum Investment Results Column -->
+                    <div class="results-column lumpsum-results-column">
+                        <div class="column-header">
+                            <h4>💰 Lumpsum Investment</h4>
+                            <p>One-time Investment Strategy</p>
+                        </div>
+                        <div class="column-results">
+                            <div class="result-card lumpsum-investment-card">
+                                <div class="card-content">
+                                    <div class="card-icon">📊</div>
+                                    <div class="card-label">Initial Investment</div>
+                                    <div class="card-value" id="lumpsumInvestmentResult">₹5,00,000</div>
+                                </div>
+                            </div>
+
+                            <div class="result-card lumpsum-maturity-card">
+                                <div class="card-content">
+                                    <div class="card-icon">💎</div>
+                                    <div class="card-label">Maturity Value</div>
+                                    <div class="card-value" id="lumpsumMaturityResult">₹15,52,924</div>
+                                </div>
+                            </div>
+
+                            <div class="result-card lumpsum-gains-card">
+                                <div class="card-content">
+                                    <div class="card-icon">📈</div>
+                                    <div class="card-label">Total Gains</div>
+                                    <div class="card-value" id="lumpsumGainsResult">₹10,52,924</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SIP Investment Results Column -->
+                    <div class="results-column sip-results-column">
+                        <div class="column-header">
+                            <h4>📈 SIP Investment</h4>
+                            <p>Systematic Investment Plan</p>
+                        </div>
+                        <div class="column-results">
+                            <div class="result-card sip-investment-card">
+                                <div class="card-content">
+                                    <div class="card-icon">💳</div>
+                                    <div class="card-label">Total Investment</div>
+                                    <div class="card-value" id="sipInvestmentResult">₹12,00,000</div>
+                                </div>
+                            </div>
+
+                            <div class="result-card sip-maturity-card">
+                                <div class="card-content">
+                                    <div class="card-icon">💚</div>
+                                    <div class="card-label">Maturity Value</div>
+                                    <div class="card-value" id="sipMaturityResult">₹23,23,391</div>
+                                </div>
+                            </div>
+
+                            <div class="result-card sip-gains-card">
+                                <div class="card-content">
+                                    <div class="card-icon">🎯</div>
+                                    <div class="card-label">Total Gains</div>
+                                    <div class="card-value" id="sipGainsResult">₹11,23,391</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparison Summary Section -->
+                <div class="comparison-summary-section">
+                    <div class="summary-header">
+                        <h4>🏆 Investment Comparison Summary</h4>
+                        <p>Which investment strategy works better?</p>
+                    </div>
+                    <div class="summary-cards">
+                        <div class="result-card better-option-card">
+                            <div class="card-content">
+                                <div class="card-icon">🥇</div>
+                                <div class="card-label">Better Option</div>
+                                <div class="card-value" id="betterOptionResult">SIP</div>
+                            </div>
+                        </div>
+
+                        <div class="result-card advantage-card">
+                            <div class="card-content">
+                                <div class="card-icon">💡</div>
+                                <div class="card-label">Advantage Amount</div>
+                                <div class="card-value" id="advantageAmountResult">₹7,70,467</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">
+                        <h3>Investment Growth Comparison</h3>
+                    </div>
+                    <div class="chart-container">
+                        <div class="pie-chart-container">
+                            <h4>Lumpsum Investment</h4>
+                            <canvas id="lumpsumChart" width="250" height="250"></canvas>
+                        </div>
+                        <div class="pie-chart-container">
+                            <h4>SIP Investment</h4>
+                            <canvas id="sipChart" width="250" height="250"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-section">
+                            <h4>Lumpsum Breakdown</h4>
+                            <div class="breakdown-row">
+                                <span class="breakdown-label">Initial Investment:</span>
+                                <span class="breakdown-value" id="lumpsumPrincipalDisplay">₹5,00,000</span>
+                            </div>
+                            <div class="breakdown-row">
+                                <span class="breakdown-label">Total Gains:</span>
+                                <span class="breakdown-value" id="lumpsumGainsDisplay">₹10,52,924</span>
+                            </div>
+                        </div>
+                        <div class="summary-section">
+                            <h4>SIP Breakdown</h4>
+                            <div class="breakdown-row">
+                                <span class="breakdown-label">Total Investment:</span>
+                                <span class="breakdown-value" id="sipPrincipalDisplay">₹12,00,000</span>
+                            </div>
+                            <div class="breakdown-row">
+                                <span class="breakdown-label">Total Gains:</span>
+                                <span class="breakdown-value" id="sipGainsDisplay">₹11,23,391</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investment Schedule Table -->
+                <div class="table-section">
+                    <div class="table-header">
+                        <h3>Year-wise Investment Growth Comparison</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" class="year-header">Year</th>
+                                    <th colspan="2" class="lumpsum-header">Lumpsum Investment</th>
+                                    <th colspan="3" class="sip-header">SIP Investment</th>
+                                    <th rowspan="2" class="better-option-header">Better Option</th>
+                                    <th rowspan="2" class="advantage-header">Advantage</th>
+                                </tr>
+                                <tr>
+                                    <th class="sub-header">Value</th>
+                                    <th class="sub-header">Gains</th>
+                                    <th class="sub-header">Invested</th>
+                                    <th class="sub-header">Value</th>
+                                    <th class="sub-header">Gains</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparisonTableBody">
+                                <!-- Dynamic content will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/lumpsum_vs_sip_calculator_script.js') }}"></script>
+</body>
+</html> 

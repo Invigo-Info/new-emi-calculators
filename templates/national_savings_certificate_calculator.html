@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Savings Certificate Calculator | NSC Investment Returns</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/national_savings_certificate_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>National Savings Certificate Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/reverse-sip-calculator/" class="mega-link">Reverse SIP Calculator</a>
+                                <a href="/goal-sip-calculator/" class="mega-link">Goal SIP Calculator</a>
+                                <a href="/inflation-calculator/" class="mega-link">Inflation Calculator</a>
+                                <a href="/daily-sip-calculator/" class="mega-link">Daily SIP Calculator</a>
+                                <a href="/monthly-sip-calculator/" class="mega-link">Monthly SIP Calculator</a>
+                                <a href="/cagr-sip-calculator/" class="mega-link">CAGR Calculator</a>
+                                <a href="/roi-calculator/" class="mega-link">ROI Calculator</a>
+                                <a href="/fd-calculator/" class="mega-link">FD Calculator</a>
+                                <a href="/rd-calculator/" class="mega-link">RD Calculator</a>
+                                <a href="/compound-interest-calculator/" class="mega-link">Compound Interest Calculator</a>
+                                <a href="/senior-citizen-savings-scheme-calculator/" class="mega-link">SCSS Calculator</a>
+                                <a href="/sukanya-samriddhi-yojana-calculator/" class="mega-link">SSY Calculator</a>
+                                <a href="/atal-pension-yojana-calculator/" class="mega-link">APY Calculator</a>
+                                <a href="/national-savings-certificate-calculator/" class="mega-link active">NSC Calculator</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- NSC Calculation Section -->
+                <div class="section">
+                    <h2>Calculate NSC Returns</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Investment Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="investmentAmount" value="50000" min="100" max="10000000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="investmentAmountSlider" min="100" max="10000000" value="50000" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹100</span>
+                                    <span>₹1Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Annual Interest Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="interestRate" value="6.8" min="1.0" max="15.0" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="interestRateSlider" min="1.0" max="15.0" value="6.8" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>1%</span>
+                                    <span>15%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Investment Tenure</label>
+                                <div class="input-field-container" style="background: #f0f9ff; border-color: #0ea5e9;">
+                                    <input type="text" id="tenureYears" value="5 Years (Fixed)" readonly style="cursor: not-allowed; color: #0369a1; font-weight: 600;">
+                                </div>
+                            </div>
+                            <div class="tenure-note" style="font-size: 12px; color: #0369a1; margin-top: 5px; font-style: italic;">
+                                ℹ️ NSC has a fixed maturity period of 5 years
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card maturity-amount-card">
+                        <div class="card-content">
+                            <div class="card-label bold-title">Maturity Amount</div>
+                            <div class="card-value" id="maturityAmountResult">₹69,757</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card investment-value-card">
+                        <div class="card-content">
+                            <div class="card-label">Total Investment</div>
+                            <div class="card-value" id="investmentValueResult">₹50,000</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card interest-earned-card">
+                        <div class="card-content">
+                            <div class="card-label">Interest Earned</div>
+                            <div class="card-value" id="interestEarnedResult">₹19,757</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card tax-benefit-card">
+                        <div class="card-content">
+                            <div class="card-label">Tax Benefit (80C)</div>
+                            <div class="card-value" id="taxBenefitResult">₹50,000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">NSC Investment Breakdown</div>
+                    <div class="pie-chart-container">
+                        <canvas id="nscChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator investment-value"></div>
+                            <div class="summary-label">Principal Amount</div>
+                            <div class="summary-amount" id="principalDisplay">₹50,000</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest-gain"></div>
+                            <div class="summary-label">Interest Earned</div>
+                            <div class="summary-amount" id="interestGainDisplay">₹19,757</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-btn download-btn" onclick="downloadPDF()">
+                        <span class="btn-icon">📄</span>
+                        Download PDF
+                    </button>
+                    <button class="action-btn table-btn" onclick="toggleTable()">
+                        <span class="btn-icon">📊</span>
+                        View Table
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-section hidden" id="tableSection">
+            <div class="table-header">
+                <h2>NSC Investment Schedule</h2>
+                <div class="table-toggle">
+                    <button class="toggle-btn active" id="yearlyBtn" onclick="showYearlyTable()">Yearly</button>
+                    <button class="toggle-btn" id="monthlyBtn" onclick="showMonthlyTable()">Monthly</button>
+                </div>
+            </div>
+            
+            <div class="table-container" id="yearlyTableContainer">
+                <div class="table-wrapper">
+                    <table class="amortization-table" id="yearlyTable">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Opening Balance</th>
+                                <th>Interest Earned</th>
+                                <th>Closing Balance</th>
+                                <th>Cumulative Interest</th>
+                            </tr>
+                        </thead>
+                        <tbody id="yearlyTableBody">
+                            <!-- Table rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="table-container hidden" id="monthlyTableContainer">
+                <div class="table-wrapper">
+                    <table class="amortization-table" id="monthlyTable">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Month</th>
+                                <th>Amount</th>
+                                <th>Interest Earned</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthlyTableBody">
+                            <!-- Table rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/national_savings_certificate_script.js') }}"></script>
+</body>
+</html> 

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Loan EMI Calculator - Calculate Gold Loan EMI Online</title>
+    <meta name="description" content="Calculate your Gold Loan EMI with our free online calculator. Get instant results for your gold loan amount, monthly EMI, and total interest.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gold_loan_emi_style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gold Loan EMI Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="mega-menu-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🏠</span>
+                                        Home Loans
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI Calculator</a></li>
+                                        <li><a href="/home-loan-eligibility-calculator/" class="mega-link">Home Loan Eligibility</a></li>
+                                        <li><a href="/home-loan-affordability-calculator/" class="mega-link">Home Loan Affordability</a></li>
+                                        <li><a href="/home-loan-refinance-calculator/" class="mega-link">Home Loan Refinance</a></li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🔧</span>
+                                        Loan Tools
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/" class="mega-link">Simple EMI Calculator</a></li>
+                                        <li><a href="/loan-amount-calculator/" class="mega-link">Loan Amount Calculator</a></li>
+                                        <li><a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure Calculator</a></li>
+                                        <li><a href="/interest-rate-calculator/" class="mega-link">Interest Rate Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🚗</span>
+                                        Vehicle Loans
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI Calculator</a></li>
+                                        <li><a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler Loan EMI</a></li>
+                                        <li><a href="/commercial-vehicle-emi-calculator/" class="mega-link">Commercial Vehicle EMI</a></li>
+                                        <li><a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🏢</span>
+                                        Property & Real Estate
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI Calculator</a></li>
+                                        <li><a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property Loan</a></li>
+                                        <li><a href="/loan-against-property-emi-calculator/" class="mega-link">Loan Against Property</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">💼</span>
+                                        Personal Finance
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a></li>
+                                        <li><a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a></li>
+                                        <li><a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a></li>
+                                        <li><a href="/gold-loan-emi-calculator/" class="mega-link active">Gold Loan EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">📱</span>
+                                        Consumer Finance
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI with GST</a></li>
+                                        <li><a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a></li>
+                                        <li><a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <p>Calculate your eligible gold loan amount and EMI based on your gold ornaments</p>
+        </header>
+
+        <div class="calculator-wrapper">
+            <div class="calculator-section">
+                <div class="input-section">
+                    <h2>Calculate your eligible gold loan amount</h2>
+                    
+                    <form id="goldLoanForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="tenure">Tenure in Months</label>
+                                <div class="tenure-options">
+                                    <input type="radio" id="tenure6" name="tenure_months" value="6" checked>
+                                    <label for="tenure6" class="tenure-btn">6 Months</label>
+                                    
+                                    <input type="radio" id="tenure12" name="tenure_months" value="12">
+                                    <label for="tenure12" class="tenure-btn">12 Months</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="num_ornaments">No. Of Ornaments</label>
+                                <select id="num_ornaments" name="num_ornaments">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="interest_rate">Illustrative Interest Rate (p.a.)*</label>
+                            <div class="slider-container">
+                                <input type="range" id="interest_rate" name="annual_rate" 
+                                       min="9" max="18" value="9.25" step="0.25">
+                                <div class="slider-labels">
+                                    <span>9%</span>
+                                    <span>13%</span>
+                                    <span>17%</span>
+                                    <span>18%</span>
+                                </div>
+                                <div class="rate-display">
+                                    <span id="rate_value">9.25</span>%
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ornaments-section">
+                            <h3>Gold Ornament Details</h3>
+                            <div class="ornaments-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Sr. No.</th>
+                                            <th>Carat (in K)</th>
+                                            <th>Weight (in Grams)</th>
+                                            <th>Amount (in Rs.)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ornaments_tbody">
+                                        <tr class="ornament-row" data-index="0">
+                                            <td>1</td>
+                                            <td>
+                                                <select class="carat-select" name="carat_0">
+                                                    <option value="24K" selected>24K</option>
+                                                    <option value="23K">23K</option>
+                                                    <option value="22K">22K</option>
+                                                    <option value="21K">21K</option>
+                                                    <option value="20K">20K</option>
+                                                    <option value="18K">18K</option>
+                                                    <option value="16K">16K</option>
+                                                    <option value="14K">14K</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="weight-input" name="weight_0" 
+                                                       value="20" min="0.1" step="0.1" placeholder="Weight">
+                                            </td>
+                                            <td class="amount-cell">
+                                                <span class="ornament-amount">₹ 1,30,000</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-card">
+                    <h3>Eligible Gold Loan Amount</h3>
+                    <div class="amount-display">
+                        ₹ <span id="eligible_amount">1,40,880</span>*
+                    </div>
+                    
+                    <div class="result-details">
+                        <div class="detail-row">
+                            <span>Monthly EMI</span>
+                            <span>₹ <span id="monthly_emi">0</span></span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Total Amount Payable</span>
+                            <span>₹ <span id="total_payable">1,53,911</span></span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Interest Payable</span>
+                            <span>₹ <span id="interest_payable">13,031</span></span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Total Gold Value</span>
+                            <span>₹ <span id="total_gold_value">1,73,333</span></span>
+                        </div>
+                        <div class="detail-row ltv-highlight">
+                            <span>LTV (Loan to Value) Ratio</span>
+                            <span><span id="ltv_ratio">75</span>%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-section">
+                        <h4>Payment Breakdown</h4>
+                        <div class="chart-container">
+                            <canvas id="paymentChart" width="300" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-section" id="schedule_section">
+            <h3>EMI Payment Schedule</h3>
+            <div class="schedule-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>EMI Amount</th>
+                            <th>Principal</th>
+                            <th>Interest</th>
+                            <th>Outstanding Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule_tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/gold_loan_emi_script.js') }}"></script>
+</body>
+</html> 

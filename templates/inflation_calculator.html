@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inflation Calculator | Calculate Future Value Impact</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inflation_calculator_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Inflation Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/reverse-sip-calculator/" class="mega-link">Reverse SIP Calculator</a>
+                                <a href="/goal-sip-calculator/" class="mega-link">Goal SIP Calculator</a>
+                                <a href="/inflation-calculator/" class="mega-link active">Inflation Calculator</a>
+                                <a href="/daily-sip-calculator/" class="mega-link">Daily SIP Calculator</a>
+                                <a href="/monthly-sip-calculator/" class="mega-link">Monthly SIP Calculator</a>
+                                <a href="/cagr-sip-calculator/" class="mega-link">CAGR Calculator</a>
+                                <a href="/roi-calculator/" class="mega-link">ROI Calculator</a>
+                                <a href="/fd-calculator/" class="mega-link">FD Calculator</a>
+                                <a href="/rd-calculator/" class="mega-link">RD Calculator</a>
+                                <a href="/compound-interest-calculator/" class="mega-link">Compound Interest Calculator</a>
+                                <a href="/senior-citizen-savings-scheme-calculator/" class="mega-link">SCSS Calculator</a>
+                                <a href="/sukanya-samriddhi-yojana-calculator/" class="mega-link">SSY Calculator</a>
+                                <a href="/atal-pension-yojana-calculator/" class="mega-link">APY Calculator</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Inflation Calculation Section -->
+                <div class="section">
+                    <h2>Calculate Inflation Impact</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Current Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="currentAmount" value="100000" min="0" max="10000000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="currentAmountSlider" min="0" max="10000000" value="100000" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹1Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Annual Inflation Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="inflationRate" value="6.0" min="0.0" max="15.0" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="inflationRateSlider" min="0.0" max="15.0" value="6.0" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0%</span>
+                                    <span>15%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Time Period</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="timePeriod" value="10" min="1" max="50" step="1">
+                                    <span class="input-suffix">Years</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="timePeriodSlider" min="1" max="50" value="10" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>1 Yr</span>
+                                    <span>50 Yrs</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card future-value-card">
+                        <div class="card-content">
+                            <div class="card-label bold-title">Future Value</div>
+                            <div class="card-value" id="futureValueResult">₹1,79,085</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card current-cost-card">
+                        <div class="card-content">
+                            <div class="card-label">Current Cost Value</div>
+                            <div class="card-value" id="currentCostResult">₹1,00,000</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card purchasing-power-card">
+                        <div class="card-content">
+                            <div class="card-label">Price Increase due to Inflation</div>
+                            <div class="card-value" id="purchasingPowerResult">₹79,085</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Inflation Impact Analysis</div>
+                    <div class="pie-chart-container">
+                        <canvas id="inflationChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator current-value"></div>
+                            <div class="summary-label">Current Value</div>
+                            <div class="summary-amount" id="currentValueDisplay">₹1,00,000</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator inflation-impact"></div>
+                            <div class="summary-label">Price Increase due to Inflation</div>
+                            <div class="summary-amount" id="inflationImpactDisplay">₹79,085</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-btn download-btn" onclick="downloadPDF()">
+                        <span class="btn-icon">📄</span>
+                        Download PDF
+                    </button>
+                    <button class="action-btn table-btn" onclick="toggleTable()">
+                        <span class="btn-icon">📊</span>
+                        View Details
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-section hidden" id="tableSection">
+            <div class="table-header">
+                <h2>Inflation Analysis Table</h2>
+                <div class="table-toggle">
+                    <button class="toggle-btn active" onclick="showYearlyTable()">Yearly</button>
+                    <button class="toggle-btn" onclick="showMonthlyTable()">Monthly</button>
+                </div>
+            </div>
+            
+            <div class="table-container" id="yearlyTable">
+                <div class="table-wrapper">
+                    <table class="amortization-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Current Value</th>
+                                <th>Future Value</th>
+                                <th>Price Increase due to Inflation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="yearlyTableBody">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-container hidden" id="monthlyTable">
+                <div class="table-wrapper">
+                    <table class="amortization-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Current Value</th>
+                                <th>Future Value</th>
+                                <th>Price Increase due to Inflation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthlyTableBody">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/inflation_calculator_script.js') }}"></script>
+</body>
+</html> 

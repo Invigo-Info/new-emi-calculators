@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Calculator for Home Loan, Car Loan & Personal Loan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>EMI Calculator</h1>
+            <nav class="main-nav">
+                <div class="nav-item">
+                    <a href="/" class="nav-link active">Home</a>
+                </div>
+                
+                <div class="nav-item mega-menu-container">
+                    <a href="#" class="nav-link mega-menu-trigger">EMI Calculators <span class="dropdown-arrow">▼</span></a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Home Loan Calculators</h4>
+                                <a href="/home-loan-calculator/" class="mega-menu-link">Home Loan EMI Calculator</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-menu-link">Home Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-menu-link">Home Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-menu-link">Home Loan Refinance</a>
+                                <a href="/loan-against-property-emi-calculator/" class="mega-menu-link">Loan Against Property EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Vehicle Loan Calculators</h4>
+                                <a href="/car-loan-emi-calculator/" class="mega-menu-link">Car Loan EMI Calculator</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-menu-link">Two Wheeler Loan EMI</a>
+                                <a href="/commercial-vehicle-emi-calculator/" class="mega-menu-link">Commercial Vehicle EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-menu-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Personal & Business Loans</h4>
+                                <a href="/personal-loan-emi-calculator/" class="mega-menu-link">Personal Loan EMI</a>
+                                <a href="/business-loan-emi-calculator/" class="mega-menu-link">Business Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-menu-link">Education Loan EMI</a>
+                                <a href="/gold-loan-emi-calculator/" class="mega-menu-link">Gold Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-menu-link">Credit Card EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Property & Equipment</h4>
+                                <a href="/commercial-property-emi-calculator/" class="mega-menu-link">Commercial Property EMI</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-menu-link">Land Loan EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-menu-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-menu-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>EMI Types & Features</h4>
+                                <a href="/monthly-emi-calculator/" class="mega-menu-link">Monthly EMI Calculator</a>
+                                <a href="/quarterly-emi-calculator/" class="mega-menu-link">Quarterly EMI Calculator</a>
+                                <a href="/weekly-emi-calculator/" class="mega-menu-link">Weekly EMI Calculator</a>
+                                <a href="/daily-emi-calculator/" class="mega-menu-link">Daily EMI Calculator</a>
+                                <a href="/bullet-emi-calculator/" class="mega-menu-link">Bullet EMI Calculator</a>
+                                <a href="/step-up-emi-calculator/" class="mega-menu-link">Step Up EMI Calculator</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Interest Rate Types</h4>
+                                <a href="/reducing-balance-emi-calculator/" class="mega-menu-link">Reducing Balance EMI</a>
+                                <a href="/reducing-rate-emi-calculator/" class="mega-menu-link">Reducing Rate EMI</a>
+                                <a href="/flat-interest-rate-emi-calculator/" class="mega-menu-link">Flat Interest Rate EMI</a>
+                                <a href="/floating-interest-rate-emi-calculator/" class="mega-menu-link">Floating Interest Rate EMI</a>
+                                <a href="/flat-vs-reducing-rate-interest-calculator/" class="mega-menu-link">Flat vs Reducing Rate</a>
+                                <a href="/no-cost-emi-calculator/" class="mega-menu-link">No Cost EMI Calculator</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Loan Analysis Tools</h4>
+                                <a href="/loan-amount-calculator/" class="mega-menu-link">Loan Amount Calculator</a>
+                                <a href="/loan-tenure-calculator/" class="mega-menu-link">Loan Tenure Calculator</a>
+                                <a href="/interest-rate-calculator/" class="mega-menu-link">Interest Rate Calculator</a>
+                                <a href="/reverse-emi-calculator/" class="mega-menu-link">Reverse EMI Calculator</a>
+                                <a href="/emi-calculator-with-part-payment/" class="mega-menu-link">EMI with Part Payment</a>
+                                <a href="/emi-overdue-status-calculator/" class="mega-menu-link">EMI Overdue Status</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nav-item mega-menu-container">
+                    <a href="#" class="nav-link mega-menu-trigger">SIP Calculators <span class="dropdown-arrow">▼</span></a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Basic SIP Calculators</h4>
+                                <a href="/sip-calculator/" class="mega-menu-link">SIP Calculator</a>
+                                <a href="/monthly-sip-calculator/" class="mega-menu-link">Monthly SIP Calculator</a>
+                                <a href="/quarterly-sip-calculator/" class="mega-menu-link">Quarterly SIP Calculator</a>
+                                <a href="/yearly-sip-calculator/" class="mega-menu-link">Yearly SIP Calculator</a>
+                                <a href="/daily-sip-calculator/" class="mega-menu-link">Daily SIP Calculator</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Advanced SIP Calculators</h4>
+                                <a href="/step-up-sip-calculator/" class="mega-menu-link">Step Up SIP Calculator</a>
+                                <a href="/goal-sip-calculator/" class="mega-menu-link">Goal SIP Calculator</a>
+                                <a href="/lump-sum-sip-calculator/" class="mega-menu-link">Lump Sum SIP Calculator</a>
+                                <a href="/lumpsum-vs-sip-calculator/" class="mega-menu-link">Lumpsum vs SIP Calculator</a>
+                                <a href="/reverse-sip-calculator/" class="mega-menu-link">Reverse SIP Calculator</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>SIP with Tax & Fees</h4>
+                                <a href="/sip-calculator-with-expense-ratio/" class="mega-menu-link">SIP with Expense Ratio</a>
+                                <a href="/sip-calculator-with-inflation/" class="mega-menu-link">SIP with Inflation</a>
+                                <a href="/sip-calculator-with-inflation-and-tax/" class="mega-menu-link">SIP with Inflation & Tax</a>
+                                <a href="/sip-calculator-with-inflation-and-tax-2/" class="mega-menu-link">SIP with Inflation & Tax 2</a>
+                                <a href="/sip-exit-load-calculator/" class="mega-menu-link">SIP Exit Load Calculator</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Specialized SIP Calculators</h4>
+                                <a href="/elss-sip-calculator/" class="mega-menu-link">ELSS SIP Calculator</a>
+                                <a href="/gold-sip-calculator/" class="mega-menu-link">Gold SIP Calculator</a>
+                                <a href="/sip-delay-calculator/" class="mega-menu-link">SIP Delay Calculator</a>
+                                <a href="/swp-calculator/" class="mega-menu-link">SWP Calculator</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Analysis & Comparison</h4>
+                                <a href="/cagr-sip-calculator/" class="mega-menu-link">CAGR Calculator</a>
+                                <a href="/roi-calculator/" class="mega-menu-link">ROI Calculator</a>
+                                <a href="/expense-ratio-calculator/" class="mega-menu-link">Expense Ratio Calculator</a>
+                                <a href="/exit-load-calculator/" class="mega-menu-link">Exit Load Calculator</a>
+                                <a href="/mutual-funds-expense-ratio-calculator/" class="mega-menu-link">Mutual Funds Expense Ratio</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Other Investment Tools</h4>
+                                <a href="/fd-calculator/" class="mega-menu-link">FD Calculator</a>
+                                <a href="/rd-calculator/" class="mega-menu-link">RD Calculator</a>
+                                <a href="/epf-calculator/" class="mega-menu-link">EPF Calculator</a>
+                                <a href="/nps-calculator/" class="mega-menu-link">NPS Calculator</a>
+                                <a href="/compound-interest-calculator/" class="mega-menu-link">Compound Interest Calculator</a>
+                                <a href="/inflation-calculator/" class="mega-menu-link">Inflation Calculator</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Government Schemes</h4>
+                                <a href="/sukanya-samriddhi-yojana-calculator/" class="mega-menu-link">SSY Calculator</a>
+                                <a href="/atal-pension-yojana-calculator/" class="mega-menu-link">APY Calculator</a>
+                                <a href="/kisan-vikas-patra-calculator/" class="mega-menu-link">Kisan Vikas Patra</a>
+                                <a href="/national-savings-certificate-calculator/" class="mega-menu-link">NSC Calculator</a>
+                                <a href="/post-office-monthly-income-scheme-calculator/" class="mega-menu-link">POMIS Calculator</a>
+                                <a href="/senior-citizen-savings-scheme-calculator/" class="mega-menu-link">SCSS Calculator</a>
+                                <a href="/gratuity-calculator/" class="mega-menu-link">Gratuity Calculator</a>
+                                <a href="/stock-average-calculator/" class="mega-menu-link">Stock Average Calculator</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <p>Calculate your Equated Monthly Installment (EMI) for different types of loans</p>
+        </header>
+
+        <div class="calculator-container">
+            <!-- Loan Type Tabs -->
+            <div class="loan-tabs">
+                <button class="tab-button active" data-loan="home">Home Loan</button>
+                <button class="tab-button" data-loan="personal">Personal Loan</button>
+                <button class="tab-button" data-loan="car">Car Loan</button>
+            </div>
+
+            <div class="calculator-content">
+                <div class="input-section">
+                    <!-- Loan Amount -->
+                    <div class="input-group">
+                        <div class="input-row">
+                            <label for="loanAmount" id="loanAmountLabel">Home Loan Amount</label>
+                            <div class="input-container">
+                                <span class="currency">₹</span>
+                                <input type="number" id="loanAmount" value="2500000" min="1000" max="20000000">
+                            </div>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="loanAmountSlider" min="100000" max="20000000" step="50000" value="2500000">
+                            <div class="slider-labels">
+                                <span>0</span>
+                                <span>25L</span>
+                                <span>50L</span>
+                                <span>75L</span>
+                                <span>100L</span>
+                                <span>125L</span>
+                                <span>150L</span>
+                                <span>175L</span>
+                                <span>200L</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interest Rate -->
+                    <div class="input-group">
+                        <div class="input-row">
+                            <label for="interestRate">Interest Rate</label>
+                            <div class="input-container">
+                                <input type="number" id="interestRate" value="8.5" min="1" max="30" step="0.1">
+                                <span class="percentage">%</span>
+                            </div>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="interestRateSlider" min="5" max="20" step="0.1" value="8.5">
+                            <div class="slider-labels">
+                                <span>5</span>
+                                <span>7.5</span>
+                                <span>10</span>
+                                <span>12.5</span>
+                                <span>15</span>
+                                <span>17.5</span>
+                                <span>20</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loan Tenure -->
+                    <div class="input-group">
+                        <div class="input-row">
+                            <label for="loanTenure">Loan Tenure</label>
+                            <div class="tenure-input-container">
+                                <input type="number" id="tenureValue" value="240" min="1" max="360">
+                                <div class="tenure-tabs">
+                                    <button type="button" class="tenure-tab" id="yearTab" data-type="year">Yr</button>
+                                    <button type="button" class="tenure-tab active" id="monthTab" data-type="month">Mo</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="tenureSlider" min="1" max="360" value="240" step="1">
+                            <div class="slider-labels" id="tenureLabels">
+                                <span>0</span>
+                                <span>60</span>
+                                <span>120</span>
+                                <span>180</span>
+                                <span>240</span>
+                                <span>300</span>
+                                <span>360</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EMI Scheme (Car Loan Only) -->
+                    <div class="input-group" id="emiSchemeGroup" style="display: none;">
+                        <label>EMI Scheme</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="emiScheme" value="arrears" checked>
+                                <span class="checkmark"></span>
+                                EMI in Arrears
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="emiScheme" value="advance">
+                                <span class="checkmark"></span>
+                                EMI in Advance
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-section">
+                    <div class="emi-results">
+                        <div class="result-card">
+                            <h3>Loan EMI</h3>
+                            <div class="result-value" id="emiAmount">₹24,959</div>
+                        </div>
+                        <div class="result-card">
+                            <h3>Total Interest Payable</h3>
+                            <div class="result-value" id="totalInterest">₹34,90,279</div>
+                        </div>
+                        <div class="result-card">
+                            <h3>Total Payment<br><small>(Principal + Interest)</small></h3>
+                            <div class="result-value" id="totalPayment">₹59,90,279</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pie Chart Section -->
+                    <div class="chart-section">
+                        <h3 class="chart-title">Break-up of Total Payment</h3>
+                        <div class="pie-chart-container">
+                            <canvas id="paymentBreakupChart"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="legend-color principal-color"></span>
+                                <span class="legend-label">Principal Loan Amount</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color interest-color"></span>
+                                <span class="legend-label">Total Interest</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yearly Payment Schedule Section - Top Priority Position -->
+        <div class="yearly-schedule-container">
+            <div class="schedule-header">
+                <h3 class="schedule-title">Yearly Payment Schedule</h3>
+                <div class="schedule-controls">
+                    <label>Schedule showing EMI payments starting from</label>
+                    <input type="month" id="startMonth" class="month-picker">
+                    <select id="scheduleView" class="schedule-dropdown">
+                        <option value="calendar">Calendar Year wise</option>
+                        <option value="financial">Financial Year wise</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="yearly-chart-container">
+                <canvas id="yearlyPaymentChart"></canvas>
+            </div>
+        </div>
+
+        <!-- EMI Payment Schedule Table -->
+        <div class="payment-schedule-table-container">
+            <div class="table-container">
+                <table class="payment-schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th class="principal-col">Principal<br><span class="sub-header">(A)</span></th>
+                            <th class="interest-col">Interest<br><span class="sub-header">(B)</span></th>
+                            <th class="total-payment-col">Total Payment<br><span class="sub-header">(A + B)</span></th>
+                            <th class="balance-col">Balance</th>
+                            <th class="loan-paid-col">Loan Paid<br><span class="sub-header">To Date</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentScheduleTableBody">
+                        <!-- Table rows will be dynamically generated -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="download-section">
+                <p class="download-prompt">Want to download OR share a custom link to your EMI calculation (with all your numbers pre-filled)?</p>
+                <div class="download-buttons">
+                    <button class="download-btn pdf-btn" id="downloadPDF">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        Download PDF
+                    </button>
+                    <button class="download-btn excel-btn" id="downloadExcel">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        Download Excel
+                    </button>
+                    <button class="download-btn share-btn" id="shareCalculation">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.6 20.92,19A2.92,2.92 0 0,0 18,16.08Z"/>
+                        </svg>
+                        Share
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html> 

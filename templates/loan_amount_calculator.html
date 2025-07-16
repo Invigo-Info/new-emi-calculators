@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Amount Calculator (Arrears & Advance) | EMI to Loan Amount</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loan_amount_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- PDF and Excel generation libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Loan Amount Calculator (Arrears & Advance)</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="mega-menu-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🏠</span>
+                                        Home Loans
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI Calculator</a></li>
+                                        <li><a href="/home-loan-eligibility-calculator/" class="mega-link">Home Loan Eligibility</a></li>
+                                        <li><a href="/home-loan-affordability-calculator/" class="mega-link">Home Loan Affordability</a></li>
+                                        <li><a href="/home-loan-refinance-calculator/" class="mega-link">Home Loan Refinance</a></li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🔧</span>
+                                        Loan Tools
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/" class="mega-link">Simple EMI Calculator</a></li>
+                                        <li><a href="/loan-amount-calculator/" class="mega-link active">Loan Amount Calculator</a></li>
+                                        <li><a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure Calculator</a></li>
+                                        <li><a href="/interest-rate-calculator/" class="mega-link">Interest Rate Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🚗</span>
+                                        Vehicle Loans
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI Calculator</a></li>
+                                        <li><a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler Loan EMI</a></li>
+                                        <li><a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🏢</span>
+                                        Property & Real Estate
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI Calculator</a></li>
+                                        <li><a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property Loan</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">💼</span>
+                                        Personal Finance
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a></li>
+                                        <li><a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a></li>
+                                        <li><a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">📱</span>
+                                        Consumer Finance
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI with GST</a></li>
+                                        <li><a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a></li>
+                                        <li><a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <p>Calculate your Equated Monthly Installment (EMI) for different types of loans</p>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Loan Details Section -->
+                <div class="section">
+                    <h3 class="section-title">Loan Amount Calculator</h3>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">EMI</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="emi" value="21000.00" min="1000" max="200000" step="0.01">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="emiSlider" min="0" max="100000" value="21000" step="100" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>0.25L</span>
+                                    <span>0.5L</span>
+                                    <span>0.75L</span>
+                                    <span>1L</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Interest Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="interestRate" value="10.75" min="0" max="20" step="0.01">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="interestRateSlider" min="0" max="20" value="10.75" step="0.25" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>2.5</span>
+                                    <span>5</span>
+                                    <span>7.5</span>
+                                    <span>10</span>
+                                    <span>12.5</span>
+                                    <span>15</span>
+                                    <span>17.5</span>
+                                    <span>20</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Tenure</label>
+                                <div class="tenure-input-container">
+                                    <input type="number" id="tenureValue" value="60" min="1" max="360" step="1">
+                                    <div class="tenure-buttons">
+                                        <button type="button" class="tenure-btn" id="tenureYrBtn" data-unit="years">Yr</button>
+                                        <button type="button" class="tenure-btn active" id="tenureMoBtn" data-unit="months">Mo</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="tenureSlider" min="0" max="360" value="60" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels" id="tenureSliderLabels">
+                                    <span>0</span>
+                                    <span>60</span>
+                                    <span>120</span>
+                                    <span>180</span>
+                                    <span>240</span>
+                                    <span>300</span>
+                                    <span>360</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Fees & Charges</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="feesCharges" value="10000" min="0" max="100000" step="1">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="feesSlider" min="0" max="100000" value="10000" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>0.25L</span>
+                                    <span>0.5L</span>
+                                    <span>0.75L</span>
+                                    <span>1L</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <!-- EMI Scheme Section -->
+                <div class="emi-scheme-section">
+                    <div class="emi-scheme-options">
+                        <button type="button" class="emi-scheme-btn" id="emiAdvanceBtn" data-scheme="advance">EMI in Advance</button>
+                        <button type="button" class="emi-scheme-btn active" id="emiArrearsBtn" data-scheme="arrears">✓ EMI in Arrears</button>
+                    </div>
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-label">Principal Loan Amount</div>
+                        <div class="result-value" id="principalAmount">₹ 9,71,415</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Loan APR</div>
+                        <div class="result-value" id="loanApr">11.20 %</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Total Interest Payable</div>
+                        <div class="result-value" id="totalInterest">₹ 2,88,585</div>
+                    </div>
+                    <div class="result-item total">
+                        <div class="result-label">Total Payment<br>(Principal + Interest + Fees & Charges)</div>
+                        <div class="result-value" id="totalPayment">₹ 12,70,000</div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="pie-chart-container">
+                        <canvas id="paymentBreakupChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator principal"></div>
+                            <div class="summary-label">Principal</div>
+                            <div class="summary-value" id="principalSummary">₹ 9,71,415</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest"></div>
+                            <div class="summary-label">Interest</div>
+                            <div class="summary-value" id="interestSummary">₹ 2,88,585</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator fees"></div>
+                            <div class="summary-label">Fees & Charges</div>
+                            <div class="summary-value" id="feesSummary">₹ 10,000</div>
+                        </div>
+                        <div class="summary-item total">
+                            <div class="summary-label"><strong>Total Payment</strong></div>
+                            <div class="summary-value" id="totalSummary"><strong>₹ 12,70,000</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Schedule Section -->
+        <div class="schedule-section">
+            <div class="schedule-header">
+                <div class="schedule-controls">
+                    <label for="scheduleStartDate">Schedule showing EMI payments starting from</label>
+                    <input type="month" id="scheduleStartDate" value="2025-06" class="schedule-date-input">
+                    <select id="scheduleType" class="schedule-type-select">
+                        <option value="calendar">Calendar Year wise</option>
+                        <option value="financial">Financial Year wise</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Payment Schedule Chart -->
+            <div class="schedule-chart-section">
+                <canvas id="paymentScheduleChart"></canvas>
+            </div>
+
+            <!-- Payment Schedule Table -->
+            <div class="schedule-table-section">
+                <table class="payment-schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th class="principal-header">Principal<br>(A)</th>
+                            <th class="interest-header">Interest<br>(B)</th>
+                            <th>Total Payment<br>(A + B)</th>
+                            <th class="balance-header">Balance</th>
+                            <th>Loan Paid<br>To Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentScheduleTableBody">
+                        <!-- Table rows will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Download/Share Section -->
+            <div class="download-section">
+                <p>Want to download OR share a custom link to your EMI calculation (with all your numbers pre-filled)?</p>
+                <div class="download-buttons">
+                    <button class="download-btn pdf-btn">📄 Download PDF</button>
+                    <button class="download-btn excel-btn">📊 Download Excel</button>
+                    <button class="download-btn share-btn">🔗 Share</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Information Section -->
+        <div class="info-section">
+            <h3>About Loan Amount Calculator</h3>
+            <p>This calculator helps you determine the maximum loan amount you can get based on your EMI capacity, interest rate, and loan tenure. Choose between EMI in Advance or EMI in Arrears to see how it affects your loan amount.</p>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4>EMI in Advance</h4>
+                    <p>First EMI is paid at the time of loan disbursement. This results in a slightly higher loan amount for the same EMI.</p>
+                </div>
+                <div class="info-item">
+                    <h4>EMI in Arrears</h4>
+                    <p>EMI payments start one month after loan disbursement. This is the most common EMI payment method.</p>
+                </div>
+                <div class="info-item">
+                    <h4>Loan APR</h4>
+                    <p>The Annual Percentage Rate includes the interest rate plus all fees and charges, giving you the true cost of the loan.</p>
+                </div>
+                <div class="info-item">
+                    <h4>Fees & Charges</h4>
+                    <p>Processing fees, documentation charges, and other one-time costs that reduce the effective loan amount you receive.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/loan_amount_script.js') }}"></script>
+</body>
+</html> 

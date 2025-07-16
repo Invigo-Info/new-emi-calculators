@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quarterly EMI Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/quarterly_emi_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Quarterly EMI Calculator</h1>
+            <p>Calculate your quarterly loan payments with precision</p>
+        </header>
+
+        <div class="calculator-wrapper">
+            <!-- Left Panel - Loan Details -->
+            <div class="loan-details-panel">
+                <div class="panel-card">
+                    <h2 class="panel-title">Loan Details</h2>
+                    
+                    <!-- Loan Amount -->
+                    <div class="input-section">
+                        <div class="input-header">
+                            <label class="input-label">Home Loan Amount</label>
+                            <div class="input-value-container">
+                                <input type="number" id="loanAmount" value="5000000" min="100000" max="20000000" step="1000">
+                                <span class="currency-symbol">₹</span>
+                            </div>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" id="loanAmountSlider" min="0" max="20000000" value="5000000" step="100000" class="range-slider">
+                            <div class="range-labels">
+                                <span>0</span>
+                                <span>25L</span>
+                                <span>50L</span>
+                                <span>75L</span>
+                                <span>100L</span>
+                                <span>125L</span>
+                                <span>150L</span>
+                                <span>175L</span>
+                                <span>200L</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interest Rate -->
+                    <div class="input-section">
+                        <div class="input-header">
+                            <label class="input-label">Interest Rate</label>
+                            <div class="input-value-container">
+                                <input type="number" id="interestRate" value="9" min="5" max="20" step="0.1">
+                                <span class="currency-symbol">%</span>
+                            </div>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" id="interestRateSlider" min="5" max="20" value="9" step="0.1" class="range-slider">
+                            <div class="range-labels">
+                                <span>5</span>
+                                <span>7.5</span>
+                                <span>10</span>
+                                <span>12.5</span>
+                                <span>15</span>
+                                <span>17.5</span>
+                                <span>20</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loan Tenure -->
+                    <div class="input-section">
+                        <div class="input-header">
+                            <label class="input-label">Loan Tenure</label>
+                            <div class="tenure-container">
+                                <input type="number" id="loanTenure" value="80" min="1" max="360" step="1">
+                                <div class="tenure-toggle">
+                                    <button type="button" class="tenure-btn" id="yearBtn" data-type="year">Yr</button>
+                                    <button type="button" class="tenure-btn active" id="quarterBtn" data-type="quarter">Qtr</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" id="tenureSlider" min="1" max="120" value="80" step="1" class="range-slider">
+                            <div class="range-labels">
+                                <span>0</span>
+                                <span>20</span>
+                                <span>40</span>
+                                <span>60</span>
+                                <span>80</span>
+                                <span>100</span>
+                                <span>120</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Calculation Results -->
+            <div class="results-panel">
+                <div class="panel-card">
+                    <h2 class="panel-title">Calculation Results</h2>
+                    
+                    <!-- Quarterly EMI -->
+                    <div class="result-highlight">
+                        <div class="result-label">Quarterly EMI</div>
+                        <div class="result-value" id="quarterlyEmiResult">₹1,35,319</div>
+                    </div>
+
+                    <!-- Other Results -->
+                    <div class="result-item">
+                        <div class="result-label">Total Interest Payable</div>
+                        <div class="result-value-secondary" id="totalInterestResult">₹58,25,504</div>
+                    </div>
+
+                    <div class="result-item">
+                        <div class="result-label">Total Payment<br><span class="result-sublabel">(Principal + Interest)</span></div>
+                        <div class="result-value-secondary" id="totalPaymentResult">₹1,08,25,504</div>
+                    </div>
+
+                    <!-- Pie Chart -->
+                    <div class="chart-container">
+                        <canvas id="paymentChart"></canvas>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color principal-color"></div>
+                                <span class="legend-text">Principal (<span id="principalAmount">₹50,00,000</span>)</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color interest-color"></div>
+                                <span class="legend-text">Interest (<span id="interestAmount">₹58,25,504</span>)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amortization Schedule -->
+        <div class="schedule-section">
+            <div class="panel-card">
+                <h3 class="schedule-title">Quarterly Payment Schedule</h3>
+                <div class="table-container">
+                    <table class="schedule-table" id="scheduleTable">
+                        <thead>
+                            <tr>
+                                <th>Quarter</th>
+                                <th>Principal</th>
+                                <th>Interest</th>
+                                <th>Quarterly Payment</th>
+                                <th>Remaining Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/quarterly_emi_script.js') }}"></script>
+</body>
+</html> 

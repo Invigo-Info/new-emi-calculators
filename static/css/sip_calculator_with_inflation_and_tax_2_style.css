@@ -1,0 +1,773 @@
+/* Goal-Based SIP Calculator with Inflation and Tax Styling */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+header {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 20px 0;
+    margin-bottom: 30px;
+    border-radius: 0 0 20px 20px;
+}
+
+header h1 {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.home-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.home-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Mega Menu Styles */
+.mega-menu {
+    position: relative;
+}
+
+.mega-menu-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 12px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mega-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.dropdown-arrow {
+    transition: transform 0.3s ease;
+}
+
+.mega-menu-content {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    margin-top: 10px;
+}
+
+.mega-menu-content.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mega-menu-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding: 30px;
+    min-width: 800px;
+}
+
+.mega-menu-section {
+    padding: 20px;
+    border-radius: 10px;
+    background: #f8f9fa;
+}
+
+.mega-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mega-link {
+    display: block;
+    color: #666;
+    text-decoration: none;
+    padding: 8px 0;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+.mega-link:hover {
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.1);
+    padding-left: 10px;
+}
+
+.mega-link.active {
+    color: #667eea;
+    font-weight: 600;
+    background: rgba(102, 126, 234, 0.1);
+    padding-left: 10px;
+}
+
+/* Calculator Container */
+.calculator-container {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+/* Input Section */
+.section h2 {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.input-grid {
+    display: grid;
+    gap: 25px;
+}
+
+.input-group {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #e9ecef;
+}
+
+.input-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.input-label {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.input-field-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-field-container input[type="number"] {
+    width: 120px;
+    padding: 10px 35px 10px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.input-field-container input[type="number"]:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.input-suffix {
+    position: absolute;
+    right: 15px;
+    color: #666;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.frequency-select {
+    width: 150px;
+    padding: 10px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.frequency-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Slider Styles */
+.slider-container {
+    position: relative;
+    margin-top: 10px;
+}
+
+.custom-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: #e9ecef;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.custom-slider::-webkit-slider-thumb:hover {
+    background: #5a6fd8;
+    transform: scale(1.1);
+}
+
+.custom-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.custom-slider::-moz-range-thumb:hover {
+    background: #5a6fd8;
+    transform: scale(1.1);
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/* Results Section */
+.results-section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.results-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.result-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+    position: relative;
+    z-index: 1;
+}
+
+.card-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.card-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.2;
+}
+
+/* Specific Result Card Colors */
+.inflation-goal-card::before {
+    background: linear-gradient(90deg, #ff9500, #ff6b35);
+}
+
+.net-return-card::before {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.monthly-sip-card::before {
+    background: linear-gradient(90deg, #43e97b, #38d9a9);
+}
+
+.invested-amount-card::before {
+    background: linear-gradient(90deg, #4facfe, #00d4ff);
+}
+
+.maturity-card::before {
+    background: linear-gradient(90deg, #43e97b, #38d9a9);
+}
+
+.gain-card::before {
+    background: linear-gradient(90deg, #fa709a, #fee140);
+}
+
+/* Chart Section */
+.chart-section {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid #e9ecef;
+}
+
+.chart-header {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+.chart-summary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.color-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.color-indicator.invested-amount {
+    background: #4facfe;
+}
+
+.color-indicator.wealth-generated {
+    background: #43e97b;
+}
+
+.summary-label {
+    font-size: 0.9rem;
+    color: #666;
+    flex-grow: 1;
+}
+
+.summary-amount {
+    font-weight: 600;
+    color: #333;
+    font-size: 1rem;
+}
+
+/* Table Section */
+.amortization-section {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+.amortization-section h2 {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.amortization-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.amortization-table th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border: none;
+}
+
+.amortization-table td {
+    padding: 15px;
+    border-bottom: 1px solid #e9ecef;
+    color: #333;
+}
+
+.amortization-table tr:hover {
+    background: #f8f9fa;
+}
+
+.amortization-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Download Section */
+.download-section {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.download-section h2 {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.download-section p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+.download-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.download-btn.pdf-btn {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.download-btn.excel-btn {
+    background: linear-gradient(135deg, #43e97b 0%, #38d9a9 100%);
+}
+
+.download-btn.share-btn {
+    background: linear-gradient(135deg, #4facfe 0%, #00d4ff 100%);
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .calculator-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 30px;
+    }
+    
+    .mega-menu-container {
+        grid-template-columns: repeat(3, 1fr);
+        min-width: 600px;
+    }
+    
+    .results-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .chart-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .mega-menu-container {
+        grid-template-columns: repeat(2, 1fr);
+        min-width: 400px;
+        padding: 20px;
+    }
+    
+    .calculator-container {
+        padding: 25px;
+    }
+    
+    .results-card-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .input-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .input-field-container input[type="number"] {
+        width: 100%;
+    }
+    
+    .frequency-select {
+        width: 100%;
+    }
+    
+    .download-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .download-btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+    
+    .table-container {
+        font-size: 0.8rem;
+    }
+    
+    .amortization-table th,
+    .amortization-table td {
+        padding: 10px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .mega-menu-container {
+        grid-template-columns: 1fr;
+        min-width: 300px;
+    }
+    
+    .calculator-container {
+        padding: 20px;
+    }
+    
+    .amortization-section {
+        padding: 25px;
+    }
+    
+    .download-section {
+        padding: 25px;
+    }
+    
+    .card-value {
+        font-size: 1.5rem;
+    }
+    
+    .chart-container {
+        height: 250px;
+    }
+}
+
+/* Animation Classes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Loading State */
+.loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #667eea;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus States */
+button:focus,
+input:focus,
+select:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .mega-menu,
+    .download-section {
+        display: none;
+    }
+    
+    .calculator-container {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+} 

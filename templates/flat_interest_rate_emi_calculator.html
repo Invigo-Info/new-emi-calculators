@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flat Interest Rate EMI Calculator | Calculate EMI with Simple Interest</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flat_interest_rate_emi_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Flat Interest Rate EMI Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/emi-calculator-with-part-payment/" class="mega-link">EMI with Part Payment</a>
+                                <a href="/flat-interest-rate-emi-calculator/" class="mega-link active">Flat Interest Rate EMI</a>
+                                <a href="/no-cost-emi-calculator/" class="mega-link">No Cost EMI</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/sip-calculator-with-expense-ratio/" class="mega-link">SIP with Expense Ratio</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Flat Interest Rate EMI Calculation Section -->
+                <div class="section">
+                    <h2>Calculate EMI with Simple Interest Method</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="loanAmount" value="500000" min="1000" max="50000000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="loanAmountSlider" min="1000" max="50000000" value="500000" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹1K</span>
+                                    <span>₹5Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Flat Interest Rate (Annual %)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="interestRate" value="12.0" min="0.1" max="36" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="interestRateSlider" min="0.1" max="36" value="12.0" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0.1%</span>
+                                    <span>36%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Tenure (Years)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="tenureYears" value="5" min="1" max="30" step="1">
+                                    <span class="input-suffix">Yrs</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="tenureYearsSlider" min="1" max="30" value="5" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>1yr</span>
+                                    <span>30yrs</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card flat-emi-card">
+                        <div class="card-content">
+                            <div class="card-icon">💰</div>
+                            <div class="card-label">Flat Interest EMI</div>
+                            <div class="card-value" id="flatEmiResult">₹13,333</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card total-interest-card">
+                        <div class="card-content">
+                            <div class="card-icon">📊</div>
+                            <div class="card-label">Total Interest</div>
+                            <div class="card-value" id="totalInterestResult">₹3,00,000</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card total-amount-card">
+                        <div class="card-content">
+                            <div class="card-icon">💳</div>
+                            <div class="card-label">Total Amount</div>
+                            <div class="card-value" id="totalAmountResult">₹8,00,000</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card effective-rate-card">
+                        <div class="card-content">
+                            <div class="card-icon">📈</div>
+                            <div class="card-label">Effective Interest Rate</div>
+                            <div class="card-value" id="effectiveRateResult">22.0%</div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">
+                        <h3>Payment Breakdown</h3>
+                    </div>
+                    <div class="pie-chart-container">
+                        <canvas id="flatEmiChart" width="300" height="300"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator principal-amount"></div>
+                            <span class="summary-label">Principal Amount:</span>
+                            <span class="summary-amount" id="principalDisplay">₹5,00,000</span>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest-amount"></div>
+                            <span class="summary-label">Interest Amount:</span>
+                            <span class="summary-amount" id="interestDisplay">₹3,00,000</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amortization Table Section -->
+        <div class="amortization-section">
+            <h2>Year-wise Payment Schedule</h2>
+            <p class="table-description">Click on any year to view monthly breakdown</p>
+            <div class="table-container">
+                <table class="amortization-table" id="amortizationTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Total Payment</th>
+                            <th>Principal</th>
+                            <th>Interest</th>
+                            <th>Outstanding Balance</th>
+                            <th>Loan Paid</th>
+                        </tr>
+                    </thead>
+                    <tbody id="amortizationTableBody">
+                        <!-- Table rows will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="download-section">
+            <h2>Download & Share</h2>
+            <p>Download the payment schedule or share your calculation</p>
+            <div class="download-buttons">
+                <button class="download-btn pdf-btn" onclick="downloadPDF()">
+                    <span class="btn-icon">📄</span> Download PDF
+                </button>
+                <button class="download-btn excel-btn" onclick="downloadExcel()">
+                    <span class="btn-icon">📊</span> Download Excel
+                </button>
+                <button class="download-btn share-btn" onclick="shareLink()">
+                    <span class="btn-icon">🔗</span> Share Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/flat_interest_rate_emi_script.js') }}"></script>
+</body>
+</html> 

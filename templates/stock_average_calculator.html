@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Average Calculator | Calculate Stock Average Price & Returns</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stock_average_calculator_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Stock Average Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/lump-sum-or-one-time-sip-calculator/" class="mega-link">Lump Sum SIP Calculator</a>
+                                <a href="/sip-calculator-with-expense-ratio/" class="mega-link">SIP with Expense Ratio</a>
+                                <a href="/sip-exit-load-calculator/" class="mega-link">SIP Exit Load Calculator</a>
+                                <a href="/stock-average-calculator/" class="mega-link active">Stock Average Calculator</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Stock Purchase Details Section -->
+                <div class="section">
+                    <h2>Stock Purchase Details</h2>
+                    
+                    <div class="purchase-container">
+                        <div class="purchase-header">
+                            <h3>Stock Purchases</h3>
+                            <button id="addPurchaseBtn" class="add-purchase-btn">+ Add Purchase</button>
+                        </div>
+                        
+                        <div id="purchasesContainer" class="purchases-container">
+                            <!-- Purchase rows will be dynamically added here -->
+                        </div>
+                    </div>
+
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Current Market Price</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="currentMarketPrice" value="150.00" min="0.01" step="0.01">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="currentMarketPriceSlider" min="1" max="5000" value="150" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹1</span>
+                                    <span>₹5000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card total-shares-card">
+                        <div class="card-content">
+                            <div class="card-icon">📊</div>
+                            <div class="card-label">Total Shares</div>
+                            <div class="card-value" id="totalSharesResult">0</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card total-investment-card">
+                        <div class="card-content">
+                            <div class="card-icon">💰</div>
+                            <div class="card-label">Total Investment</div>
+                            <div class="card-value" id="totalInvestmentResult">₹0</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card average-price-card">
+                        <div class="card-content">
+                            <div class="card-icon">📈</div>
+                            <div class="card-label">Average Price</div>
+                            <div class="card-value" id="averagePriceResult">₹0</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card current-value-card">
+                        <div class="card-content">
+                            <div class="card-icon">💎</div>
+                            <div class="card-label">Current Value</div>
+                            <div class="card-value" id="currentValueResult">₹0</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card profit-loss-card">
+                        <div class="card-content">
+                            <div class="card-icon">🎯</div>
+                            <div class="card-label">Profit/Loss</div>
+                            <div class="card-value" id="profitLossResult">₹0</div>
+                            <div class="card-percentage" id="profitLossPercentageResult">0%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Investment Breakdown</div>
+                    <div class="pie-chart-container">
+                        <canvas id="stockBreakdownChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator total-investment"></div>
+                            <span class="summary-label">Total Investment:</span>
+                            <span class="summary-amount" id="totalInvestmentDisplay">₹0</span>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator profit-loss-amount"></div>
+                            <span class="summary-label">Profit/Loss:</span>
+                            <span class="summary-amount" id="profitLossDisplay">₹0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Purchase Breakdown Table -->
+                <div class="breakdown-section">
+                    <h2>Purchase Breakdown</h2>
+                    <div class="table-container">
+                        <table class="breakdown-table">
+                            <thead>
+                                <tr>
+                                    <th>Purchase</th>
+                                    <th>Shares</th>
+                                    <th>Price/Share</th>
+                                    <th>Investment</th>
+                                    <th>Current Value</th>
+                                    <th>Profit/Loss</th>
+                                    <th>Returns %</th>
+                                </tr>
+                            </thead>
+                            <tbody id="breakdownTableBody">
+                                <!-- Table rows will be populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Download Section -->
+                <div class="download-section">
+                    <h2>Download & Share</h2>
+                    <p>Download your stock average calculation results or share the calculation link.</p>
+                    <div class="download-buttons">
+                        <button class="download-btn pdf-btn" id="downloadPdfBtn">
+                            <span class="btn-icon">📄</span>
+                            Download PDF
+                        </button>
+                        <button class="download-btn excel-btn" id="downloadExcelBtn">
+                            <span class="btn-icon">📊</span>
+                            Download Excel
+                        </button>
+                        <button class="download-btn share-btn" id="shareBtn">
+                            <span class="btn-icon">🔗</span>
+                            Share Link
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/stock_average_calculator_script.js') }}"></script>
+</body>
+</html> 

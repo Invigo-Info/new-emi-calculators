@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Loan Refinance Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_loan_refinance_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Home Loan Refinance Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="mega-menu-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🏠</span>
+                                        Home Loans
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI Calculator</a></li>
+                                        <li><a href="/home-loan-eligibility-calculator/" class="mega-link">Home Loan Eligibility</a></li>
+                                        <li><a href="/home-loan-affordability-calculator/" class="mega-link">Home Loan Affordability</a></li>
+                                        <li><a href="/home-loan-refinance-calculator/" class="mega-link active">Home Loan Refinance</a></li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🔧</span>
+                                        Loan Tools
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/" class="mega-link">Simple EMI Calculator</a></li>
+                                        <li><a href="/loan-amount-calculator/" class="mega-link">Loan Amount Calculator</a></li>
+                                        <li><a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure Calculator</a></li>
+                                        <li><a href="/interest-rate-calculator/" class="mega-link">Interest Rate Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🚗</span>
+                                        Vehicle Loans
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI Calculator</a></li>
+                                        <li><a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler Loan EMI</a></li>
+                                        <li><a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🏢</span>
+                                        Property & Real Estate
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI Calculator</a></li>
+                                        <li><a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property Loan</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">💼</span>
+                                        Personal Finance
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a></li>
+                                        <li><a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a></li>
+                                        <li><a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">📱</span>
+                                        Consumer Finance
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI with GST</a></li>
+                                        <li><a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a></li>
+                                        <li><a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <p>Calculate your Equated Monthly Installment (EMI) for different types of loans</p>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Existing Loan Section -->
+                <div class="section">
+                    <h3 class="section-title">Existing Loan</h3>
+                    <div class="input-grid">
+                        <div class="input-group full-width">
+                            <label for="existingPrincipal">Principal Outstanding</label>
+                            <div class="slider-container">
+                                <input type="range" id="existingPrincipalSlider" min="100000" max="10000000" value="2500000" step="50000">
+                                <div class="slider-labels">
+                                    <span>₹1 Lac</span>
+                                    <span>₹10 Cr</span>
+                                </div>
+                            </div>
+                            <div class="input-container">
+                                <input type="number" id="existingPrincipal" value="2500000" min="100000" max="10000000">
+                                <span class="currency">₹</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label for="existingTenureYears">Tenure (Years)</label>
+                            <div class="slider-container">
+                                <input type="range" id="existingTenureSlider" min="1" max="30" value="20" step="1">
+                                <div class="slider-labels">
+                                    <span>1</span>
+                                    <span>30</span>
+                                </div>
+                            </div>
+                            <div class="input-container">
+                                <input type="number" id="existingTenureYears" value="20" min="1" max="30">
+                                <span class="unit">Years</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label for="existingInterestRate">Interest Rate (% P.A.)</label>
+                            <div class="slider-container">
+                                <input type="range" id="existingInterestSlider" min="0.5" max="15" value="9.03" step="0.01">
+                                <div class="slider-labels">
+                                    <span>0.5</span>
+                                    <span>15</span>
+                                </div>
+                            </div>
+                            <div class="input-container">
+                                <input type="number" id="existingInterestRate" value="9.03" min="0.5" max="15" step="0.01">
+                                <span class="unit">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New Loan Section -->
+                <div class="section">
+                    <h3 class="section-title">Proposed New Loan</h3>
+                    <div class="input-grid">
+                        <div class="input-group full-width">
+                            <label for="newTenureYears">Tenure (Years)</label>
+                            <div class="slider-container">
+                                <input type="range" id="newTenureSlider" min="1" max="30" value="20" step="1">
+                                <div class="slider-labels">
+                                    <span>1</span>
+                                    <span>30</span>
+                                </div>
+                            </div>
+                            <div class="input-container">
+                                <input type="number" id="newTenureYears" value="20" min="1" max="30">
+                                <span class="unit">Years</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label for="newInterestRate">Interest Rate (% P.A.)</label>
+                            <div class="slider-container">
+                                <input type="range" id="newInterestSlider" min="0.5" max="15" value="8.45" step="0.01">
+                                <div class="slider-labels">
+                                    <span>0.5</span>
+                                    <span>15</span>
+                                </div>
+                            </div>
+                            <div class="input-container">
+                                <input type="number" id="newInterestRate" value="8.45" min="0.5" max="15" step="0.01">
+                                <span class="unit">%</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label for="processingFeePercent">Processing Fee (%)</label>
+                            <div class="input-container">
+                                <input type="number" id="processingFeePercent" value="0.5" min="0" max="2" step="0.1">
+                                <span class="unit">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-grid">
+                    <div class="result-item highlight">
+                        <div class="result-label">Total Saving in Cash Outflow</div>
+                        <div class="result-value large" id="totalSavings">₹2,21,970</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Existing EMI</div>
+                        <div class="result-value" id="existingEmi">₹22,541</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Proposed EMI</div>
+                        <div class="result-value" id="newEmi">₹21,617</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Saving in EMI</div>
+                        <div class="result-value" id="emiSavings">₹925</div>
+                    </div>
+
+                    <div class="result-item">
+                        <div class="result-label">Interest Savings</div>
+                        <div class="result-value" id="interestSavings">₹1,50,000</div>
+                    </div>
+
+                    <div class="result-item">
+                        <div class="result-label">Processing Fee</div>
+                        <div class="result-value" id="processingFee">₹12,500</div>
+                    </div>
+
+                    <div class="result-item" style="display: none;">
+                        <div class="result-label">Breakeven Period</div>
+                        <div class="result-value" id="breakevenPeriod">14 months</div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <h3>Payment Comparison</h3>
+                <canvas id="comparisonChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3>Interest Savings Breakdown</h3>
+                <canvas id="savingsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Payment Schedule Section -->
+        <div class="schedule-section">
+            <h3>Payment Schedule Comparison</h3>
+            <div class="schedule-tabs">
+                <button class="tab-btn active" data-tab="existing">Existing Loan</button>
+                <button class="tab-btn" data-tab="new">Refinanced Loan</button>
+                <button class="tab-btn" data-tab="comparison">Side by Side</button>
+            </div>
+            
+            <div class="table-container">
+                <table class="payment-table" id="paymentTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th class="principal-col">Principal (₹)</th>
+                            <th class="interest-col">Interest (₹)</th>
+                            <th class="total-col">Total Payment (₹)</th>
+                            <th class="balance-col">Balance (₹)</th>
+                            <th class="loan-paid-col">Loan Paid (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentTableBody">
+                        <!-- Table rows will be generated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="download-section">
+            <div class="download-prompt">
+                <h3>Download or Share This Calculation</h3>
+                <p>Save your refinance calculation for future reference or share it with your financial advisor.</p>
+            </div>
+            <div class="download-buttons">
+                <button class="download-btn pdf-btn" id="downloadPDF">
+                    <span class="btn-icon">📄</span>
+                    Download PDF
+                </button>
+                <button class="download-btn excel-btn" id="downloadExcel">
+                    <span class="btn-icon">📊</span>
+                    Download Excel
+                </button>
+                <button class="download-btn share-btn" id="shareCalculation">
+                    <span class="btn-icon">🔗</span>
+                    Share Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/home_loan_refinance_script.js') }}"></script>
+</body>
+</html> 

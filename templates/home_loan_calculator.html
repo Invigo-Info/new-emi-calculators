@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Loan EMI Calculator with Prepayments, Taxes & Insurance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_loan_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Home Loan EMI Calculator with Prepayments, Taxes & Insurance</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="mega-menu-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🏠</span>
+                                        Home Loans
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/home-loan-emi-calculator/" class="mega-link active">Home Loan EMI Calculator</a></li>
+                                        <li><a href="/home-loan-eligibility-calculator/" class="mega-link">Home Loan Eligibility</a></li>
+                                        <li><a href="/home-loan-affordability-calculator/" class="mega-link">Home Loan Affordability</a></li>
+                                        <li><a href="/home-loan-refinance-calculator/" class="mega-link">Home Loan Refinance</a></li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🔧</span>
+                                        Loan Tools
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/" class="mega-link">Simple EMI Calculator</a></li>
+                                        <li><a href="/loan-amount-calculator/" class="mega-link">Loan Amount Calculator</a></li>
+                                        <li><a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure Calculator</a></li>
+                                        <li><a href="/interest-rate-calculator/" class="mega-link">Interest Rate Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🚗</span>
+                                        Vehicle Loans
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI Calculator</a></li>
+                                        <li><a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler Loan EMI</a></li>
+                                        <li><a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🏢</span>
+                                        Property & Real Estate
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI Calculator</a></li>
+                                        <li><a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property Loan</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">💼</span>
+                                        Personal Finance
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a></li>
+                                        <li><a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a></li>
+                                        <li><a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a></li>
+                                        <li><a href="/gold-loan-emi-calculator/" class="mega-link">Gold Loan EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">📱</span>
+                                        Consumer Finance
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI with GST</a></li>
+                                        <li><a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a></li>
+                                        <li><a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <p>Calculate your Equated Monthly Installment (EMI) for different types of loans</p>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Home Loan Details Section -->
+                <div class="section">
+                    <h3 class="section-title">Home Loan Details</h3>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="homeValue">Home Value (HV)</label>
+                            <div class="input-container">
+                                <input type="number" id="homeValue" value="5000000" min="100000">
+                                <span class="currency">₹</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="downPayment">Margin OR Down Payment (DP)</label>
+                            <div class="input-container">
+                                <input type="number" id="downPaymentPercent" value="20" min="0" max="100">
+                                <span class="unit">%</span>
+                                <input type="number" id="downPaymentAmount" value="1000000" min="0">
+                                <span class="currency">₹</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="loanInsurance">Loan Insurance (LI)</label>
+                            <div class="input-container">
+                                <input type="number" id="loanInsurance" value="0" min="0">
+                                <span class="currency">₹</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="loanAmount">Loan Amount (HV + LI - DP)</label>
+                            <div class="input-container readonly">
+                                <input type="number" id="loanAmount" value="4000000" readonly>
+                                <span class="currency">₹</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="interestRate">Interest Rate</label>
+                            <div class="input-container">
+                                <input type="number" id="interestRate" value="9" min="1" max="30" step="0.1">
+                                <span class="unit">%</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="loanTenure">Loan Tenure</label>
+                            <div class="input-container">
+                                <input type="number" id="tenureYears" value="20" min="1" max="30">
+                                <span class="unit">Yr</span>
+                                <input type="number" id="tenureMonths" value="0" min="0" max="11">
+                                <span class="unit">Mo</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="loanFees">Loan Fees & Charges</label>
+                            <div class="input-container">
+                                <input type="number" id="loanFeesPercent" value="0.25" min="0" max="5" step="0.01">
+                                <span class="unit">%</span>
+                                <input type="number" id="loanFeesAmount" value="10000" min="0">
+                                <span class="currency">₹</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="startDate">Start Month & Year</label>
+                            <div class="input-container">
+                                <input type="month" id="startDate" value="2025-06">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Homeowner Expenses Section -->
+                <div class="section">
+                    <h3 class="section-title">Homeowner Expenses</h3>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="oneTimeExpenses">One-time Expenses</label>
+                            <div class="input-container">
+                                <input type="number" id="oneTimeExpensesPercent" value="10" min="0" max="20" step="0.1">
+                                <span class="unit">%</span>
+                                <input type="number" id="oneTimeExpensesAmount" value="500000" min="0">
+                                <span class="currency">₹</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="propertyTaxes">Property Taxes / year</label>
+                            <div class="input-container">
+                                <input type="number" id="propertyTaxesPercent" value="0.25" min="0" max="3" step="0.01">
+                                <span class="unit">%</span>
+                                <input type="number" id="propertyTaxesAmount" value="12500" min="0">
+                                <span class="currency">₹</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="homeInsurance">Home Insurance / year</label>
+                            <div class="input-container">
+                                <input type="number" id="homeInsurancePercent" value="0.05" min="0" max="1" step="0.01">
+                                <span class="unit">%</span>
+                                <input type="number" id="homeInsuranceAmount" value="2500" min="0">
+                                <span class="currency">₹</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="maintenanceExpenses">Maintenance Expenses / month</label>
+                            <div class="input-container">
+                                <input type="number" id="maintenanceExpenses" value="2500" min="0">
+                                <span class="currency">₹</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prepayments-section">
+                        <button type="button" class="add-prepayments-btn" id="addPrepaymentsBtn">
+                            <span class="plus-icon">+</span> Add Prepayments
+                        </button>
+                        <div class="prepayments-container" id="prepaymentsContainer" style="display: none;">
+                            <h4>Partial Prepayments — Amount and Start Date</h4>
+                            <div class="prepayment-grid-four">
+                                <div class="prepayment-column">
+                                    <div class="prepayment-header">Monthly</div>
+                                    <div class="prepayment-input-group">
+                                        <input type="number" id="monthlyPrepayment" value="0" min="0" placeholder="0">
+                                        <span class="currency-symbol">₹</span>
+                                    </div>
+                                    <div class="prepayment-date-label">starting from</div>
+                                    <div class="prepayment-date-group">
+                                        <input type="month" id="monthlyPrepaymentStart" value="2025-06">
+                                    </div>
+                                </div>
+                                
+                                <div class="prepayment-column">
+                                    <div class="prepayment-header">Yearly</div>
+                                    <div class="prepayment-input-group">
+                                        <input type="number" id="yearlyPrepayment" value="0" min="0" placeholder="0">
+                                        <span class="currency-symbol">₹</span>
+                                    </div>
+                                    <div class="prepayment-date-label">starting from</div>
+                                    <div class="prepayment-date-group">
+                                        <input type="month" id="yearlyPrepaymentStart" value="2025-06">
+                                    </div>
+                                </div>
+                                
+                                <div class="prepayment-column">
+                                    <div class="prepayment-header">Quarterly</div>
+                                    <div class="prepayment-input-group">
+                                        <input type="number" id="quarterlyPrepayment" value="0" min="0" placeholder="0">
+                                        <span class="currency-symbol">₹</span>
+                                    </div>
+                                    <div class="prepayment-date-label">starting from</div>
+                                    <div class="prepayment-date-group">
+                                        <input type="month" id="quarterlyPrepaymentStart" value="2025-06">
+                                    </div>
+                                </div>
+                                
+                                <div class="prepayment-column">
+                                    <div class="prepayment-header">One-time only</div>
+                                    <div class="prepayment-input-group">
+                                        <input type="number" id="onetimePrepayment" value="0" min="0" placeholder="0">
+                                        <span class="currency-symbol">₹</span>
+                                    </div>
+                                    <div class="prepayment-date-label">in the month of</div>
+                                    <div class="prepayment-date-group">
+                                        <input type="month" id="onetimePrepaymentMonth" value="2025-06">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-grid">
+                    <div class="result-item">
+                        <span class="result-label">Principal & Interest (EMI)</span>
+                        <span class="result-value" id="emiAmount">₹35,989</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Monthly Extra Payment</span>
+                        <span class="result-value" id="extraPayment">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Property Taxes</span>
+                        <span class="result-value" id="monthlyPropertyTax">₹1,042</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Home Insurance</span>
+                        <span class="result-value" id="monthlyHomeInsurance">₹208</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Maintenance Expenses</span>
+                        <span class="result-value" id="monthlyMaintenance">₹2,500</span>
+                    </div>
+                    <div class="result-item total">
+                        <span class="result-label">Total Monthly Payment</span>
+                        <span class="result-value" id="totalMonthlyPayment">₹39,739</span>
+                    </div>
+                </div>
+
+                <!-- Pie Chart Section -->
+                <div class="chart-section">
+                    <div class="pie-chart-container">
+                        <canvas id="paymentBreakupChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <span class="color-indicator down-payment"></span>
+                            <span class="summary-label">Down Payment, Fees & One-time Expenses</span>
+                            <span class="summary-value" id="totalDownPayment">₹15,10,000</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="color-indicator principal"></span>
+                            <span class="summary-label">Principal</span>
+                            <span class="summary-value" id="totalPrincipal">₹40,00,000</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="color-indicator prepayments"></span>
+                            <span class="summary-label">Prepayments</span>
+                            <span class="summary-value" id="totalPrepayments">₹0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="color-indicator interest"></span>
+                            <span class="summary-label">Interest</span>
+                            <span class="summary-value" id="totalInterest">₹46,37,369</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="color-indicator taxes"></span>
+                            <span class="summary-label">Taxes, Home Insurance & Maintenance</span>
+                            <span class="summary-value" id="totalTaxes">₹9,00,000</span>
+                        </div>
+                        <div class="summary-item total">
+                            <span class="summary-label">Total of all Payments</span>
+                            <span class="summary-value" id="grandTotal">₹1,10,47,369</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Schedule Chart -->
+        <div class="schedule-section">
+            <h3>Home Loan Payment Schedule</h3>
+            <div class="chart-container">
+                <canvas id="paymentScheduleChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Payment Schedule Table -->
+        <div class="table-section">
+            <div class="table-container">
+                <table class="payment-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th class="principal-col">Principal<br><span class="sub-header">(A)</span></th>
+                            <th class="interest-col">Interest<br><span class="sub-header">(B)</span></th>
+                            <th class="taxes-col">Taxes, Home Insurance &<br>Maintenance (C)</th>
+                            <th class="total-col">Total Payment<br><span class="sub-header">(A + B + C)</span></th>
+                            <th class="balance-col">Balance</th>
+                            <th class="loan-paid-col">Loan Paid<br><span class="sub-header">To Date</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentTableBody">
+                        <!-- Table rows will be generated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="download-section">
+                <p class="download-prompt">Want to download OR share a custom link to your EMI calculation (with all your numbers pre-filled)?</p>
+                <div class="download-buttons">
+                    <button class="download-btn pdf-btn" id="downloadPDF">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        Download PDF
+                    </button>
+                    <button class="download-btn excel-btn" id="downloadExcel">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        Download Excel
+                    </button>
+                    <button class="download-btn share-btn" id="shareCalculation">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.6 20.92,19A2.92,2.92 0 0,0 18,16.08Z"/>
+                        </svg>
+                        Share
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/home_loan_script.js') }}"></script>
+</body>
+</html> 

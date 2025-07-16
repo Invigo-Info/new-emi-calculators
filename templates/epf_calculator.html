@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPF Calculator | Employee Provident Fund Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/epf_calculator_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>EPF Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/daily-sip-calculator/" class="mega-link">Daily SIP Calculator</a>
+                                <a href="/monthly-sip-calculator/" class="mega-link">Monthly SIP Calculator</a>
+                                <a href="/cagr-sip-calculator/" class="mega-link">CAGR Calculator</a>
+                                <a href="/roi-calculator/" class="mega-link">ROI Calculator</a>
+                                <a href="/fd-calculator/" class="mega-link">FD Calculator</a>
+                                <a href="/rd-calculator/" class="mega-link">RD Calculator</a>
+                                <a href="/compound-interest-calculator/" class="mega-link">Compound Interest Calculator</a>
+                                <a href="/elss-sip-calculator/" class="mega-link">ELSS SIP Calculator</a>
+                                <a href="/epf-calculator/" class="mega-link active">EPF Calculator</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <div class="section">
+                    <h2 id="calculationTitle">Calculate EPF Returns</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Monthly Basic Salary</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="basicSalary" value="0" min="0" max="500000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="basicSalarySlider" min="0" max="500000" value="0" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹5L</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Employee Contribution</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="employeeContribution" value="0" min="0" max="20" step="0.5">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="employeeContributionSlider" min="0" max="20" value="0" step="0.5" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0%</span>
+                                    <span>20%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Employer Contribution</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="employerContribution" value="0" min="0" max="20" step="0.5">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="employerContributionSlider" min="0" max="20" value="0" step="0.5" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0%</span>
+                                    <span>20%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Expected Interest Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="interestRate" value="8.15" min="0" max="20" step="0.25">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="interestRateSlider" min="0" max="20" value="8.15" step="0.25" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0%</span>
+                                    <span>20%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Years of Service</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="yearsOfService" value="0" min="0" max="60" step="1">
+                                    <span class="input-suffix">Yrs</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="yearsOfServiceSlider" min="0" max="60" value="0" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>60</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Annual Salary Increase</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="salaryIncrease" value="0" min="0" max="15" step="0.5">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="salaryIncreaseSlider" min="0" max="15" value="0" step="0.5" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0%</span>
+                                    <span>15%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card final-amount-card">
+                        <div class="card-content">
+                            <div class="card-label bold-title">Total EPF Corpus</div>
+                            <div class="card-value" id="finalCorpusResult">₹0</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card total-contribution-card">
+                        <div class="card-content">
+                            <div class="card-label bold-title">Total Contribution</div>
+                            <div class="card-value" id="totalContributionResult">₹0</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card interest-earned-card">
+                        <div class="card-content">
+                            <div class="card-label bold-title">Interest Earned</div>
+                            <div class="card-value" id="interestEarnedResult">₹0</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card total-invested-card">
+                        <div class="card-content">
+                            <div class="card-label">Employee Contribution</div>
+                            <div class="card-value" id="employeeContributionResult">₹0</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card employer-contribution-card">
+                        <div class="card-content">
+                            <div class="card-label">Employer Contribution</div>
+                            <div class="card-value" id="employerContributionResult">₹0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">EPF Investment Breakdown</div>
+                    <div class="pie-chart-container">
+                        <canvas id="epfChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator employee-contribution"></div>
+                            <div class="summary-details">
+                                <div class="summary-label">Employee Contribution</div>
+                                <div class="summary-amount" id="employeeContributionDisplay">₹0</div>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator employer-contribution"></div>
+                            <div class="summary-details">
+                                <div class="summary-label">Employer Contribution</div>
+                                <div class="summary-amount" id="employerContributionDisplay">₹0</div>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest-earned"></div>
+                            <div class="summary-details">
+                                <div class="summary-label">Interest Earned</div>
+                                <div class="summary-amount" id="interestEarnedDisplay">₹0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Year-wise EPF Growth Section -->
+        <div class="breakdown-chart-section">
+            <div class="breakdown-chart-header">Year-wise EPF Growth</div>
+            <div class="breakdown-bar-chart-container">
+                <canvas id="yearwiseChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Yearly EPF Breakdown Section -->
+        <div class="breakdown-section">
+            <div class="breakdown-header">Yearly EPF Breakdown</div>
+            <div class="breakdown-table-container">
+                <table class="breakdown-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Basic Salary</th>
+                            <th>Employee Contribution</th>
+                            <th>Employer Contribution</th>
+                            <th>Interest Earned</th>
+                            <th>Total Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="breakdownTableBody">
+                        <!-- Yearly breakdown will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/epf_calculator_script.js') }}"></script>
+</body>
+</html> 

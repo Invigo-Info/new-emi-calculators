@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Vikas Patra Calculator | KVP Investment Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/kisan_vikas_patra_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Kisan Vikas Patra Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/reverse-sip-calculator/" class="mega-link">Reverse SIP Calculator</a>
+                                <a href="/goal-sip-calculator/" class="mega-link">Goal SIP Calculator</a>
+                                <a href="/inflation-calculator/" class="mega-link">Inflation Calculator</a>
+                                <a href="/kisan-vikas-patra-calculator/" class="mega-link active">KVP Calculator</a>
+                                <a href="/daily-sip-calculator/" class="mega-link">Daily SIP Calculator</a>
+                                <a href="/monthly-sip-calculator/" class="mega-link">Monthly SIP Calculator</a>
+                                <a href="/cagr-sip-calculator/" class="mega-link">CAGR Calculator</a>
+                                <a href="/roi-calculator/" class="mega-link">ROI Calculator</a>
+                                <a href="/fd-calculator/" class="mega-link">FD Calculator</a>
+                                <a href="/rd-calculator/" class="mega-link">RD Calculator</a>
+                                <a href="/compound-interest-calculator/" class="mega-link">Compound Interest Calculator</a>
+                                <a href="/senior-citizen-savings-scheme-calculator/" class="mega-link">SCSS Calculator</a>
+                                <a href="/sukanya-samriddhi-yojana-calculator/" class="mega-link">SSY Calculator</a>
+                                <a href="/atal-pension-yojana-calculator/" class="mega-link">APY Calculator</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- KVP Calculation Section -->
+                <div class="section">
+                    <h2>Calculate KVP Returns</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Investment Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="investmentAmount" value="50000" min="1000" max="10000000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="investmentAmountSlider" min="1000" max="10000000" value="50000" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹1K</span>
+                                    <span>₹1Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Annual Interest Rate (Fixed)</label>
+                                <div class="input-field-container fixed-field">
+                                    <input type="text" id="interestRate" value="7.5" readonly>
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Lock-in Period (Fixed)</label>
+                                <div class="input-field-container fixed-field">
+                                    <input type="text" id="lockInPeriod" value="2.5" readonly>
+                                    <span class="input-suffix">Years</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Maturity Period (Fixed)</label>
+                                <div class="input-field-container fixed-field">
+                                    <input type="text" id="maturityYears" value="9.5" readonly>
+                                    <span class="input-suffix">Years</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card maturity-amount-card">
+                        <div class="card-content">
+                            <div class="card-label bold-title">Maturity Amount</div>
+                            <div class="card-value" id="maturityAmountResult">₹1,00,000</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card investment-amount-card">
+                        <div class="card-content">
+                            <div class="card-label">Investment Amount</div>
+                            <div class="card-value" id="investmentAmountResult">₹50,000</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card interest-earned-card">
+                        <div class="card-content">
+                            <div class="card-label">Total Interest Earned</div>
+                            <div class="card-value" id="interestEarnedResult">₹50,000</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card maturity-date-card">
+                        <div class="card-content">
+                            <div class="card-label">Maturity Date</div>
+                            <div class="card-value" id="maturityDateResult">Dec 2034</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">KVP Investment Growth Analysis</div>
+                    <div class="pie-chart-container">
+                        <canvas id="kvpChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator investment-value"></div>
+                            <div class="summary-label">Investment Amount</div>
+                            <div class="summary-amount" id="investmentValueDisplay">₹50,000</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest-gain"></div>
+                            <div class="summary-label">Interest Earned</div>
+                            <div class="summary-amount" id="interestGainDisplay">₹50,000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-btn download-btn" onclick="downloadPDF()">
+                        <span class="btn-icon">📄</span>
+                        Download PDF
+                    </button>
+                    <button class="action-btn table-btn" onclick="toggleTable()">
+                        <span class="btn-icon">📊</span>
+                        View Details
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-section hidden" id="tableSection">
+            <div class="table-header">
+                <h2>KVP Growth Analysis Table</h2>
+                <div class="table-toggle">
+                    <button class="toggle-btn active" onclick="showYearlyTable()">Yearly</button>
+                    <button class="toggle-btn" onclick="showMonthlyTable()">Monthly</button>
+                </div>
+            </div>
+            
+            <div class="table-container" id="yearlyTable">
+                <div class="table-wrapper">
+                    <table class="amortization-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Amount</th>
+                                <th>Interest Earned</th>
+                                <th>Interest Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="yearlyTableBody">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-container hidden" id="monthlyTable">
+                <div class="table-wrapper">
+                    <table class="amortization-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Amount</th>
+                                <th>Interest Earned</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthlyTableBody">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/kisan_vikas_patra_script.js') }}"></script>
+</body>
+</html> 

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop EMI Calculator | Calculate Laptop EMI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/laptop_emi_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Laptop EMI Calculator</h1>
+                        <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="mega-menu-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🏠</span>
+                                        Home Loans
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI Calculator</a></li>
+                                        <li><a href="/home-loan-eligibility-calculator/" class="mega-link">Home Loan Eligibility</a></li>
+                                        <li><a href="/home-loan-affordability-calculator/" class="mega-link">Home Loan Affordability</a></li>
+                                        <li><a href="/home-loan-refinance-calculator/" class="mega-link">Home Loan Refinance</a></li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🔧</span>
+                                        Loan Tools
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/" class="mega-link">Simple EMI Calculator</a></li>
+                                        <li><a href="/loan-amount-calculator/" class="mega-link">Loan Amount Calculator</a></li>
+                                        <li><a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure Calculator</a></li>
+                                        <li><a href="/interest-rate-calculator/" class="mega-link">Interest Rate Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🚗</span>
+                                        Vehicle Loans
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI Calculator</a></li>
+                                        <li><a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler Loan EMI</a></li>
+                                        <li><a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">🏢</span>
+                                        Property & Real Estate
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI Calculator</a></li>
+                                        <li><a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property Loan</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mega-menu-column">
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">💼</span>
+                                        Personal Finance
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a></li>
+                                        <li><a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a></li>
+                                        <li><a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="mega-menu-category">
+                                    <h3 class="category-title">
+                                        <span class="category-icon">📱</span>
+                                        Consumer Finance
+                                    </h3>
+                                    <ul class="category-links">
+                                        <li><a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI with GST</a></li>
+                                        <li><a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a></li>
+                                        <li><a href="/laptop-emi-calculator/" class="mega-link active">Laptop EMI Calculator</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Laptop EMI Calculation Section -->
+                <div class="section">
+                    <h2>Estimate your Laptop EMIs</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Price of Laptop</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="laptopPrice" value="80000" min="10000" max="300000" step="5000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="laptopPriceSlider" min="10000" max="300000" value="80000" step="5000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹10000</span>
+                                    <span>₹300000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Your Down Payment Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="downPayment" value="20000" min="0" max="80000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="downPaymentSlider" min="0" max="80000" value="20000" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹80000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Interest Rate (In %)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="interestRate" value="18" min="12" max="42" step="0.25">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="interestRateSlider" min="12" max="42" value="18" step="0.25" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>12</span>
+                                    <span>19.5</span>
+                                    <span>27</span>
+                                    <span>34.5</span>
+                                    <span>42</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Tenure (In Months)</label>
+                                <div class="tenure-input-container">
+                                    <input type="number" id="tenureValue" value="12" min="3" max="60" step="1">
+                                    <div class="tenure-buttons">
+                                        <button type="button" class="tenure-btn active" id="tenureMoBtn" data-unit="months">Mo</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="tenureSlider" min="3" max="60" value="12" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels" id="tenureSliderLabels">
+                                    <span>3</span>
+                                    <span>15</span>
+                                    <span>27</span>
+                                    <span>39</span>
+                                    <span>51</span>
+                                    <span>60</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-label">Laptop Price</div>
+                        <div class="result-value" id="laptopPriceResult">₹80,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Down Payment</div>
+                        <div class="result-value" id="downPaymentResult">₹20,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Loan Amount</div>
+                        <div class="result-value" id="loanAmountResult">₹60,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Monthly EMI</div>
+                        <div class="result-value" id="monthlyEmi">₹5,338</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Total Interest Payable</div>
+                        <div class="result-value" id="totalInterestResult">₹4,056</div>
+                    </div>
+                    <div class="result-item total">
+                        <div class="result-label">Total of all Payments</div>
+                        <div class="result-value" id="totalPayment">₹84,056</div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Break-up of Total Payment</div>
+                    <div class="pie-chart-container">
+                        <canvas id="paymentBreakupChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator down-payment"></div>
+                            <div class="summary-label">Down Payment</div>
+                            <div class="summary-amount" id="downPaymentDisplay">₹20,000</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator loan-amount"></div>
+                            <div class="summary-label">Loan Amount</div>
+                            <div class="summary-amount" id="loanAmountDisplay">₹60,000</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest-amount"></div>
+                            <div class="summary-label">Interest Amount</div>
+                            <div class="summary-amount" id="interestAmountDisplay">₹4,056</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amortization Table Section -->
+        <div class="amortization-section">
+            <h2>Amortization Schedule</h2>
+            <div class="table-container">
+                <table class="amortization-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Principal<br>(A)</th>
+                            <th>Interest<br>(B)</th>
+                            <th>Total Payment<br>(A+B)</th>
+                            <th>Balance</th>
+                            <th>Loan Paid<br>To Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="amortizationTableBody">
+                        <!-- Table rows will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Download/Share Section -->
+            <div class="download-section">
+                <p>Download or share your EMI calculation results:</p>
+                <div class="download-buttons">
+                    <button class="download-btn pdf-btn" onclick="downloadPDF()">
+                        <span class="btn-icon">📄</span>
+                        Download PDF
+                    </button>
+                    <button class="download-btn excel-btn" onclick="downloadExcel()">
+                        <span class="btn-icon">📊</span>
+                        Download Excel
+                    </button>
+                    <button class="download-btn share-btn" onclick="shareLink()">
+                        <span class="btn-icon">🔗</span>
+                        Share Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/laptop_emi_script.js') }}"></script>
+</body>
+</html> 

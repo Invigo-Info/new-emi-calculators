@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Office Monthly Income Scheme Calculator | Calculate Monthly Returns & Maturity Value</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/post_office_monthly_income_scheme_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Post Office Monthly Income Scheme Calculator</h1>
+            <nav>
+                <a href="/" class="home-btn">Home</a>
+                <div class="mega-menu">
+                    <button class="mega-menu-btn">
+                        EMI LOAN CALCULATORS
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mega-menu-content">
+                        <div class="mega-menu-container">
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏠 Home Loans</h3>
+                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
+                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🏢 Business & Property</h3>
+                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">💳 Personal & Others</h3>
+                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-section">
+                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
+                                <a href="/" class="mega-link">Simple EMI Calculator</a>
+                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
+                                <a href="/daily-sip-calculator/" class="mega-link">Daily SIP Calculator</a>
+                                <a href="/monthly-sip-calculator/" class="mega-link">Monthly SIP Calculator</a>
+                                <a href="/cagr-sip-calculator/" class="mega-link">CAGR Calculator</a>
+                                <a href="/roi-calculator/" class="mega-link">ROI Calculator</a>
+                                <a href="/fd-calculator/" class="mega-link">FD Calculator</a>
+                                <a href="/rd-calculator/" class="mega-link">RD Calculator</a>
+                                <a href="/compound-interest-calculator/" class="mega-link">Compound Interest Calculator</a>
+                                <a href="/post-office-monthly-income-scheme-calculator/" class="mega-link active">Post Office Monthly Income Scheme</a>
+                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
+                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
+                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Post Office Monthly Income Scheme Calculation Section -->
+                <div class="section">
+                    <h2>Calculate Post Office Monthly Income Scheme Returns</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Yearly Investment</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="yearlyInvestment" value="20000" min="1000" max="900000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="yearlyInvestmentSlider" min="1000" max="900000" value="20000" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹1K</span>
+                                    <span>₹9L</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Time Period (In Years)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="timePeriod" value="5" min="5" max="5" step="1">
+                                    <span class="input-suffix">Yr</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="timePeriodSlider" min="5" max="5" value="5" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>5 Years</span>
+                                    <span>Fixed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Rate of Interest</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="interestRate" value="7.4" min="7.4" max="7.4" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="interestRateSlider" min="7.4" max="7.4" value="7.4" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>7.4%</span>
+                                    <span>Fixed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card monthly-interest-card">
+                        <div class="card-icon">💰</div>
+                        <div class="card-content">
+                            <div class="card-label bold-title">Monthly Interest</div>
+                            <div class="card-value" id="monthlyInterestResult">₹123</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card total-interest-card">
+                        <div class="card-icon">📈</div>
+                        <div class="card-content">
+                            <div class="card-label bold-title">Total Interest</div>
+                            <div class="card-value" id="totalInterestResult">₹7,400</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card maturity-value-card">
+                        <div class="card-icon">🏆</div>
+                        <div class="card-content">
+                            <div class="card-label bold-title">Maturity Value</div>
+                            <div class="card-value" id="maturityValueResult">₹27,400</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card invested-amount-card">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-content">
+                            <div class="card-label">Invested Amount</div>
+                            <div class="card-value" id="investedAmountResult">₹20,000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Investment Breakdown</div>
+                    <div class="pie-chart-container">
+                        <canvas id="pomisChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator invested-amount"></div>
+                            <div class="summary-label">Invested Amount</div>
+                            <div class="summary-amount" id="investedAmountDisplay">₹20,000</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator total-interest"></div>
+                            <div class="summary-label">Total Interest</div>
+                            <div class="summary-amount" id="totalInterestDisplay">₹7,400</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>About Post Office Monthly Income Scheme (POMIS)</h3>
+            <div class="info-content">
+                <div class="info-item">
+                    <h4>🎯 Investment Range</h4>
+                    <p>Minimum: ₹1,000 | Maximum: ₹9,00,000 (Single Account) | ₹15,00,000 (Joint Account)</p>
+                </div>
+                <div class="info-item">
+                    <h4>⏰ Tenure</h4>
+                    <p>Fixed 5 years maturity period</p>
+                </div>
+                <div class="info-item">
+                    <h4>💵 Interest Rate</h4>
+                    <p>Currently 7.4% per annum (as per Government of India rates)</p>
+                </div>
+                <div class="info-item">
+                    <h4>📅 Interest Payment</h4>
+                    <p>Monthly interest payouts on the 1st of every month</p>
+                </div>
+                <div class="info-item">
+                    <h4>🏦 Tax Benefits</h4>
+                    <p>Interest earned is taxable. TDS applicable if interest exceeds ₹40,000 per year</p>
+                </div>
+                <div class="info-item">
+                    <h4>⚡ Premature Closure</h4>
+                    <p>Allowed after 1 year with penalty: 2% of principal amount</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/post_office_monthly_income_scheme_script.js') }}"></script>
+</body>
+</html> 

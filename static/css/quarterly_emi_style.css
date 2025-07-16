@@ -1,0 +1,443 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+    color: #334155;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.header p {
+    font-size: 1.1rem;
+    color: #64748b;
+    font-weight: 400;
+}
+
+/* Main Calculator Layout */
+.calculator-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+/* Panel Cards */
+.panel-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.panel-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 32px;
+}
+
+/* Input Sections */
+.input-section {
+    margin-bottom: 40px;
+}
+
+.input-section:last-child {
+    margin-bottom: 0;
+}
+
+.input-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.input-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.input-value-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.input-value-container input {
+    width: 120px;
+    padding: 8px 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: right;
+    background: white;
+    transition: border-color 0.2s ease;
+}
+
+.input-value-container input:focus {
+    outline: none;
+    border-color: #f97316;
+}
+
+.currency-symbol {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+/* Tenure Container */
+.tenure-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tenure-container input {
+    width: 80px;
+    padding: 8px 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    background: white;
+    transition: border-color 0.2s ease;
+}
+
+.tenure-container input:focus {
+    outline: none;
+    border-color: #f97316;
+}
+
+/* Tenure Toggle */
+.tenure-toggle {
+    display: flex;
+    background: #f1f5f9;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.tenure-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tenure-btn.active {
+    background: #f97316;
+    color: white;
+}
+
+.tenure-btn:hover:not(.active) {
+    background: #e2e8f0;
+}
+
+/* Sliders */
+.slider-wrapper {
+    margin-top: 20px;
+}
+
+.range-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    outline: none;
+    appearance: none;
+    position: relative;
+}
+
+.range-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #f97316;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+}
+
+.range-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #f97316;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+/* Results Panel */
+.result-highlight {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.result-highlight .result-label {
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.result-highlight .result-value {
+    color: white;
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.result-item {
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.result-item:last-of-type {
+    border-bottom: none;
+}
+
+.result-item .result-label {
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.result-sublabel {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+.result-value-secondary {
+    color: #1f2937;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Chart Container */
+.chart-container {
+    margin-top: 32px;
+    text-align: center;
+}
+
+.chart-container canvas {
+    max-width: 200px;
+    max-height: 200px;
+    margin: 0 auto 20px;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.principal-color {
+    background: #22c55e;
+}
+
+.interest-color {
+    background: #f97316;
+}
+
+.legend-text {
+    font-size: 0.875rem;
+    color: #4b5563;
+    font-weight: 500;
+}
+
+/* Schedule Section */
+.schedule-section {
+    margin-top: 50px;
+}
+
+.schedule-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 24px;
+}
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.schedule-table th {
+    background: #f8fafc;
+    padding: 16px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.schedule-table td {
+    padding: 16px 12px;
+    font-size: 0.875rem;
+    color: #4b5563;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.schedule-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.schedule-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .calculator-wrapper {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .panel-card {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 15px;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .header p {
+        font-size: 1rem;
+    }
+    
+    .panel-card {
+        padding: 20px;
+    }
+    
+    .panel-title {
+        font-size: 1.25rem;
+        margin-bottom: 24px;
+    }
+    
+    .input-section {
+        margin-bottom: 32px;
+    }
+    
+    .input-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .input-value-container {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    
+    .tenure-container {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .chart-legend {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .result-highlight .result-value {
+        font-size: 1.875rem;
+    }
+    
+    .result-value-secondary {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .range-labels {
+        font-size: 0.625rem;
+    }
+    
+    .schedule-table th,
+    .schedule-table td {
+        padding: 12px 8px;
+        font-size: 0.75rem;
+    }
+    
+    .tenure-btn {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+} 
