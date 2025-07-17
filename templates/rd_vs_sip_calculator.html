@@ -106,7 +106,6 @@
                                 <h4>Investment Comparisons</h4>
                                 <a href="/lumpsum-vs-sip-calculator/" class="mega-menu-link">Lumpsum vs SIP</a>
                                 <a href="/rd-vs-sip-calculator/" class="mega-menu-link active">RD vs SIP</a>
-                                <a href="/fd-vs-sip-calculator/" class="mega-menu-link">FD vs SIP</a>
                                 <a href="/lump-sum-or-one-time-sip-calculator/" class="mega-menu-link">One Time SIP</a>
                                 <a href="/stock-average-calculator/" class="mega-menu-link">Stock Average Calculator</a>
                             </div>
@@ -124,7 +123,6 @@
                                 <h4>Fixed Deposit Calculators</h4>
                                 <a href="/fd-calculator/" class="mega-menu-link">Fixed Deposit Calculator</a>
                                 <a href="/rd-calculator/" class="mega-menu-link">Recurring Deposit Calculator</a>
-                                <a href="/ppf-calculator/" class="mega-menu-link">PPF Calculator</a>
                                 <a href="/nsc-calculator/" class="mega-menu-link">NSC Calculator</a>
                                 <a href="/kisan-vikas-patra-calculator/" class="mega-menu-link">Kisan Vikas Patra</a>
                             </div>
@@ -134,24 +132,12 @@
                                 <a href="/nps-calculator/" class="mega-menu-link">NPS Calculator</a>
                                 <a href="/epf-calculator/" class="mega-menu-link">EPF Calculator</a>
                                 <a href="/gratuity-calculator/" class="mega-menu-link">Gratuity Calculator</a>
-                                <a href="/pension-calculator/" class="mega-menu-link">Pension Calculator</a>
-                                <a href="/retirement-corpus-calculator/" class="mega-menu-link">Retirement Corpus</a>
-                            </div>
-                            
-                            <div class="mega-menu-column">
-                                <h4>Tax & Insurance</h4>
-                                <a href="/income-tax-calculator/" class="mega-menu-link">Income Tax Calculator</a>
-                                <a href="/capital-gains-calculator/" class="mega-menu-link">Capital Gains Calculator</a>
-                                <a href="/term-insurance-calculator/" class="mega-menu-link">Term Insurance Calculator</a>
-                                <a href="/ulip-calculator/" class="mega-menu-link">ULIP Calculator</a>
-                                <a href="/hra-calculator/" class="mega-menu-link">HRA Calculator</a>
                             </div>
                             
                             <div class="mega-menu-column">
                                 <h4>Other Calculators</h4>
                                 <a href="/inflation-calculator/" class="mega-menu-link">Inflation Calculator</a>
                                 <a href="/compound-interest-calculator/" class="mega-menu-link">Compound Interest</a>
-                                <a href="/simple-interest-calculator/" class="mega-menu-link">Simple Interest</a>
                                 <a href="/gold-sip-calculator/" class="mega-menu-link">Gold SIP Calculator</a>
                                 <a href="/sukanya-samriddhi-calculator/" class="mega-menu-link">Sukanya Samriddhi</a>
                             </div>
@@ -163,6 +149,7 @@
         </header>
 
         <div class="calculator-container">
+            <!-- Left Side: Input Sections -->
             <div class="input-sections">
                 <!-- RD Input Section -->
                 <div class="section rd-section">
@@ -292,78 +279,81 @@
                 </div>
             </div>
 
-            <!-- Results Section -->
-            <div class="results-section">
-                <div class="comparison-header">
-                    <h3>RD vs SIP Investment Comparison</h3>
-                    <p>Compare returns between Recurring Deposit and Systematic Investment Plan</p>
-                </div>
-
+            <!-- Right Side: Results Sections -->
+            <div class="results-sections">
+                <!-- RD vs SIP Investment Comparison -->
                 <div class="results-comparison-grid">
-                    <!-- RD Results Column -->
-                    <div class="results-column rd-results-column">
-                        <div class="column-header">
-                            <h4>🏦 Recurring Deposit (RD)</h4>
-                            <p>Safe & Guaranteed Returns</p>
-                        </div>
-                        <div class="column-results">
-                            <div class="result-card rd-invested-card">
-                                <div class="card-content">
-                                    <div class="card-icon">💰</div>
-                                    <div class="card-label">Total Invested</div>
-                                    <div class="card-value" id="rdInvestedResult">₹3,00,000</div>
-                                </div>
-                            </div>
-                            <div class="result-card rd-maturity-card">
-                                <div class="card-content">
-                                    <div class="card-icon">🎯</div>
-                                    <div class="card-label">Maturity Value</div>
-                                    <div class="card-value" id="rdMaturityResult">₹3,55,000</div>
-                                </div>
-                            </div>
-                            <div class="result-card rd-interest-card">
-                                <div class="card-content">
-                                    <div class="card-icon">📊</div>
-                                    <div class="card-label">Interest Earned</div>
-                                    <div class="card-value" id="rdInterestResult">₹55,000</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="comparison-header">
+                        <h3>RD vs SIP Investment Comparison</h3>
+                        <p>Compare returns between Recurring Deposit and Systematic Investment Plan</p>
                     </div>
-
-                    <!-- SIP Results Column -->
-                    <div class="results-column sip-results-column">
-                        <div class="column-header">
-                            <h4>📈 Systematic Investment Plan (SIP)</h4>
-                            <p>Market-linked Returns</p>
+                    
+                    <div class="results-comparison-columns">
+                        <!-- RD Results Column -->
+                        <div class="results-column rd-results-column">
+                            <div class="column-header">
+                                <h4>🏦 Recurring Deposit (RD)</h4>
+                                <p>Safe & Guaranteed Returns</p>
+                            </div>
+                            <div class="column-results">
+                                <div class="result-card rd-invested-card">
+                                    <div class="card-content">
+                                        <div class="card-icon">💰</div>
+                                        <div class="card-label">Total Invested</div>
+                                        <div class="card-value" id="rdInvestedResult">₹3,00,000</div>
+                                    </div>
+                                </div>
+                                <div class="result-card rd-maturity-card">
+                                    <div class="card-content">
+                                        <div class="card-icon">🎯</div>
+                                        <div class="card-label">Maturity Value</div>
+                                        <div class="card-value" id="rdMaturityResult">₹3,55,000</div>
+                                    </div>
+                                </div>
+                                <div class="result-card rd-interest-card">
+                                    <div class="card-content">
+                                        <div class="card-icon">📊</div>
+                                        <div class="card-label">Interest Earned</div>
+                                        <div class="card-value" id="rdInterestResult">₹55,000</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="column-results">
-                            <div class="result-card sip-invested-card">
-                                <div class="card-content">
-                                    <div class="card-icon">💰</div>
-                                    <div class="card-label">Total Invested</div>
-                                    <div class="card-value" id="sipInvestedResult">₹3,00,000</div>
-                                </div>
+
+                        <!-- SIP Results Column -->
+                        <div class="results-column sip-results-column">
+                            <div class="column-header">
+                                <h4>📈 Systematic Investment Plan (SIP)</h4>
+                                <p>Market-linked Returns</p>
                             </div>
-                            <div class="result-card sip-maturity-card">
-                                <div class="card-content">
-                                    <div class="card-icon">🚀</div>
-                                    <div class="card-label">Maturity Value</div>
-                                    <div class="card-value" id="sipMaturityResult">₹4,95,000</div>
+                            <div class="column-results">
+                                <div class="result-card sip-invested-card">
+                                    <div class="card-content">
+                                        <div class="card-icon">💰</div>
+                                        <div class="card-label">Total Invested</div>
+                                        <div class="card-value" id="sipInvestedResult">₹3,00,000</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="result-card sip-gains-card">
-                                <div class="card-content">
-                                    <div class="card-icon">📈</div>
-                                    <div class="card-label">Wealth Gain</div>
-                                    <div class="card-value" id="sipGainsResult">₹1,95,000</div>
+                                <div class="result-card sip-maturity-card">
+                                    <div class="card-content">
+                                        <div class="card-icon">🚀</div>
+                                        <div class="card-label">Maturity Value</div>
+                                        <div class="card-value" id="sipMaturityResult">₹4,95,000</div>
+                                    </div>
+                                </div>
+                                <div class="result-card sip-gains-card">
+                                    <div class="card-content">
+                                        <div class="card-icon">📈</div>
+                                        <div class="card-label">Wealth Gain</div>
+                                        <div class="card-value" id="sipGainsResult">₹1,95,000</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Comparison Summary Section -->
+                <!-- Investment Comparison Summary -->
                 <div class="comparison-summary-section">
                     <div class="summary-header">
                         <h4>Investment Comparison Summary</h4>
@@ -390,7 +380,7 @@
                     </div>
                 </div>
 
-                <!-- Chart Section -->
+                <!-- Investment Returns Comparison -->
                 <div class="chart-section">
                     <div class="chart-header">
                         <h3>Investment Returns Comparison</h3>
@@ -399,28 +389,30 @@
                         <canvas id="comparisonChart" width="400" height="200"></canvas>
                     </div>
                 </div>
+
+                <!-- Download & Share -->
+                <div class="download-section">
+                    <h2>Download & Share</h2>
+                    <p>Download your RD vs SIP comparison results or share with others</p>
+                    <div class="download-buttons">
+                        <button onclick="downloadPDF()" class="download-btn pdf-btn">
+                            <span class="btn-icon">📄</span>
+                            Download PDF
+                        </button>
+                        <button onclick="downloadExcel()" class="download-btn excel-btn">
+                            <span class="btn-icon">📊</span>
+                            Download Excel
+                        </button>
+                        <button onclick="shareResults()" class="download-btn share-btn">
+                            <span class="btn-icon">🔗</span>
+                            Share Results
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Download Section -->
-        <div class="download-section">
-            <h2>Download & Share</h2>
-            <p>Download your RD vs SIP comparison results or share with others</p>
-            <div class="download-buttons">
-                <button onclick="downloadPDF()" class="download-btn pdf-btn">
-                    <span class="btn-icon">📄</span>
-                    Download PDF
-                </button>
-                <button onclick="downloadExcel()" class="download-btn excel-btn">
-                    <span class="btn-icon">📊</span>
-                    Download Excel
-                </button>
-                <button onclick="shareResults()" class="download-btn share-btn">
-                    <span class="btn-icon">🔗</span>
-                    Share Results
-                </button>
-            </div>
-        </div>
+
 
         <!-- Notification -->
         <div id="notification" class="notification hidden">
