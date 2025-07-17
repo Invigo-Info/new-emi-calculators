@@ -8886,6 +8886,144 @@ def calculate_floating_interest_rate_emi_route():
         return jsonify({'status': 'success', **result})
     except Exception as e:
         return jsonify({'status': 'error', 'error': str(e)}), 400
+    
+
+# Add this route to your existing app.py file
+
+@app.route('/rd-vs-sip-calculator/')
+def rd_vs_sip_calculator():
+    return render_template('rd_vs_sip_calculator.html')
+
+def calculate_rd_returns(monthly_amount, duration_years, annual_rate, compounding_frequency):
+    """
+    Calculate RD (Recurring Deposit) maturity returns
+    Formula: A = P × [(1 + r/n)^(nt) - 1] / (r/n) × (1 + r/n)
+    """
+    months = duration_years * 12
+    
+    # Compounding frequency mapping
+    frequency_map = {
+        'monthly': 12,
+        'quarterly': 4,
+        'annually': 1
+    }
+    
+    n = frequency_map.get(compounding_frequency, 12)
+    r = annual_rate / 100
+    
+    if r == 0:
+        maturity_value = monthly_amount * months
+        total_invested = monthly_amount * months
+        interest_earned = 0
+    else:
+        # RD calculation with compound interest
+        rate_per_period = r / n
+        total_periods = duration_years * n
+        
+        # Calculate maturity value using RD formula
+        compound_factor = ((1 + rate_per_period) ** total_periods - 1) / rate_per_period
+        maturity_value = monthly_amount * (12 / n) * compound_factor * (1 + rate_per_period)
+        
+        total_invested = monthly_amount * months
+        interest_earned = maturity_value - total_invested
+    
+    return {
+        'maturity_value': round(maturity_value, 2),
+        'total_invested': round(total_invested, 2),
+        'interest_earned': round(interest_earned, 2)
+    }
+
+def calculate_sip_returns(monthly_amount, duration_years, expected_return):
+    """
+    Calculate SIP (Systematic Investment Plan) returns
+    Formula: FV = P × [((1 + r)^n - 1) / r] × (1 + r)
+    """
+    months = duration_years * 12
+    monthly_rate = expected_return / (12 * 100)
+    
+    if monthly_rate == 0:
+        maturity_value = monthly_amount * months
+        total_invested = monthly_amount * months
+        gains_earned = 0
+    else:
+        # SIP calculation
+        maturity_value = monthly_amount * (((1 + monthly_rate) ** months - 1) / monthly_rate) * (1 + monthly_rate)
+        total_invested = monthly_amount * months
+        gains_earned = maturity_value - total_invested
+    
+    return {
+        'maturity_value': round(maturity_value, 2),
+        'total_invested': round(total_invested, 2),
+        'gains_earned': round(gains_earned, 2)
+    }
+
+@app.route('/calculate-rd-vs-sip', methods=['POST'])
+def calculate_rd_vs_sip():
+    try:
+        data = request.get_json()
+        
+        # RD inputs
+        rd_amount = float(data.get('rdAmount', 5000))
+        rd_duration = int(data.get('rdDuration', 5))
+        rd_rate = float(data.get('rdRate', 6.5))
+        rd_compounding = data.get('rdCompounding', 'quarterly')
+        
+        # SIP inputs
+        sip_amount = float(data.get('sipAmount', 5000))
+        sip_duration = int(data.get('sipDuration', 5))
+        sip_return = float(data.get('sipReturn', 12))
+        
+        # Validate inputs
+        if rd_amount < 100 or rd_amount > 1000000:
+            return jsonify({'error': 'RD amount must be between ₹100 and ₹10,00,000'}), 400
+        if sip_amount < 100 or sip_amount > 1000000:
+            return jsonify({'error': 'SIP amount must be between ₹100 and ₹10,00,000'}), 400
+        if rd_duration < 1 or rd_duration > 30:
+            return jsonify({'error': 'Duration must be between 1 and 30 years'}), 400
+        if sip_duration < 1 or sip_duration > 30:
+            return jsonify({'error': 'Duration must be between 1 and 30 years'}), 400
+        if rd_rate < 1 or rd_rate > 20:
+            return jsonify({'error': 'RD interest rate must be between 1% and 20%'}), 400
+        if sip_return < 1 or sip_return > 30:
+            return jsonify({'error': 'SIP expected return must be between 1% and 30%'}), 400
+        
+        # Calculate returns
+        rd_results = calculate_rd_returns(rd_amount, rd_duration, rd_rate, rd_compounding)
+        sip_results = calculate_sip_returns(sip_amount, sip_duration, sip_return)
+        
+        # Calculate comparison metrics
+        rd_invested = rd_results['total_invested']
+        sip_invested = sip_results['total_invested']
+        rd_maturity = rd_results['maturity_value']
+        sip_maturity = sip_results['maturity_value']
+        
+        difference_amount = sip_maturity - rd_maturity
+        if rd_maturity > 0:
+            percentage_gain = ((sip_maturity - rd_maturity) / rd_maturity) * 100
+        else:
+            percentage_gain = 0
+        
+        return jsonify({
+            'status': 'success',
+            'rd': rd_results,
+            'sip': sip_results,
+            'comparison': {
+                'difference_amount': round(difference_amount, 2),
+                'percentage_gain': round(percentage_gain, 2),
+                'better_option': 'SIP' if sip_maturity > rd_maturity else 'RD'
+            }
+        })
+    
+    except Exception as e:
+        return jsonify({'status': 'error', 'error': str(e)}), 400
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True) 
