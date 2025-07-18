@@ -9485,5 +9485,151 @@ def calculate_fd_vs_sip():
 
 
 
+# Add this route to your app.py file
+
+@app.route('/sip-calculator-vs-interest-calculator/')
+def sip_calculator_vs_interest_calculator():
+    return render_template('sip_calculator_vs_interest_calculator.html')
+
+# Add this calculation function to your app.py file
+def calculate_sip_vs_interest_comparison(sip_amount, sip_years, sip_return, principal_amount, interest_years, interest_rate, compounding_frequency):
+    """
+    Calculate SIP vs Interest Calculator comparison
+    """
+    try:
+        # SIP Calculations
+        monthly_rate = sip_return / (12 * 100)
+        total_months = sip_years * 12
+        
+        # SIP Future Value using standard SIP formula
+        if monthly_rate > 0:
+            sip_maturity = sip_amount * (((1 + monthly_rate) ** total_months - 1) / monthly_rate) * (1 + monthly_rate)
+        else:
+            sip_maturity = sip_amount * total_months
+        
+        sip_invested = sip_amount * total_months
+        sip_gain = sip_maturity - sip_invested
+        
+        # Interest/FD Calculations
+        annual_rate = interest_rate / 100
+        interest_years_actual = interest_years
+        
+        # Compounding frequency mapping
+        frequency_map = {
+            'monthly': 12,
+            'quarterly': 4,
+            'annually': 1
+        }
+        
+        frequency = frequency_map.get(compounding_frequency, 4)
+        
+        # Compound Interest Formula: A = P(1 + r/n)^(nt)
+        interest_maturity = principal_amount * ((1 + annual_rate / frequency) ** (frequency * interest_years_actual))
+        interest_earned = interest_maturity - principal_amount
+        
+        # Comparison Analysis
+        better_option = "SIP" if sip_maturity > interest_maturity else "Interest Calculator"
+        return_difference = abs(sip_maturity - interest_maturity)
+        
+        # Calculate year-wise breakdown for chart
+        yearly_breakdown = []
+        for year in range(1, max(sip_years, interest_years) + 1):
+            # SIP yearly calculation
+            if year <= sip_years:
+                months_completed = year * 12
+                if monthly_rate > 0:
+                    sip_year_value = sip_amount * (((1 + monthly_rate) ** months_completed - 1) / monthly_rate) * (1 + monthly_rate)
+                else:
+                    sip_year_value = sip_amount * months_completed
+                sip_year_invested = sip_amount * months_completed
+            else:
+                sip_year_value = sip_maturity
+                sip_year_invested = sip_invested
+            
+            # Interest yearly calculation
+            if year <= interest_years:
+                interest_year_value = principal_amount * ((1 + annual_rate / frequency) ** (frequency * year))
+            else:
+                interest_year_value = interest_maturity
+            
+            yearly_breakdown.append({
+                'year': year,
+                'sip_invested': round(sip_year_invested, 2),
+                'sip_value': round(sip_year_value, 2),
+                'interest_principal': principal_amount,
+                'interest_value': round(interest_year_value, 2)
+            })
+        
+        return {
+            'sip_amount': sip_amount,
+            'sip_years': sip_years,
+            'sip_return': sip_return,
+            'sip_invested': round(sip_invested, 2),
+            'sip_maturity': round(sip_maturity, 2),
+            'sip_gain': round(sip_gain, 2),
+            'principal_amount': principal_amount,
+            'interest_years': interest_years,
+            'interest_rate': interest_rate,
+            'compounding_frequency': compounding_frequency,
+            'interest_maturity': round(interest_maturity, 2),
+            'interest_earned': round(interest_earned, 2),
+            'better_option': better_option,
+            'return_difference': round(return_difference, 2),
+            'yearly_breakdown': yearly_breakdown
+        }
+    
+    except Exception as e:
+        return {
+            'error': str(e)
+        }
+
+@app.route('/calculate-sip-vs-interest', methods=['POST'])
+def calculate_sip_vs_interest():
+    try:
+        data = request.get_json()
+        
+        # SIP inputs
+        sip_amount = float(data.get('sipAmount', 5000))
+        sip_years = int(data.get('sipYears', 5))
+        sip_return = float(data.get('sipReturn', 12))
+        
+        # Interest inputs
+        principal_amount = float(data.get('principalAmount', 300000))
+        interest_years = int(data.get('interestYears', 5))
+        interest_rate = float(data.get('interestRate', 6.5))
+        compounding_frequency = data.get('compoundingFrequency', 'quarterly')
+        
+        # Validation
+        if sip_amount <= 0 or sip_amount > 1000000:
+            return jsonify({'error': 'SIP amount must be between ₹1 and ₹10,00,000'}), 400
+        if sip_years <= 0 or sip_years > 50:
+            return jsonify({'error': 'SIP duration must be between 1 and 50 years'}), 400
+        if sip_return < 1 or sip_return > 30:
+            return jsonify({'error': 'SIP return must be between 1% and 30%'}), 400
+        if principal_amount <= 0 or principal_amount > 100000000:
+            return jsonify({'error': 'Principal amount must be between ₹1 and ₹10 Crores'}), 400
+        if interest_years <= 0 or interest_years > 50:
+            return jsonify({'error': 'Interest duration must be between 1 and 50 years'}), 400
+        if interest_rate < 0.1 or interest_rate > 20:
+            return jsonify({'error': 'Interest rate must be between 0.1% and 20%'}), 400
+        if compounding_frequency not in ['monthly', 'quarterly', 'annually']:
+            return jsonify({'error': 'Invalid compounding frequency'}), 400
+        
+        # Calculate comparison
+        result = calculate_sip_vs_interest_comparison(
+            sip_amount, sip_years, sip_return, 
+            principal_amount, interest_years, interest_rate, compounding_frequency
+        )
+        
+        if 'error' in result:
+            return jsonify({'status': 'error', 'error': result['error']}), 400
+        
+        return jsonify({'status': 'success', **result})
+    
+    except Exception as e:
+        return jsonify({'status': 'error', 'error': str(e)}), 400
+
+
+
 if __name__ == '__main__':
     app.run(debug=True) 
