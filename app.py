@@ -9019,7 +9019,305 @@ def calculate_rd_vs_sip():
 
 
 
+# PPF vs SIP Calculator Flask Routes
+# Add these routes and functions to your app.py file
 
+
+@app.route('/ppf-vs-sip-calculator/')
+def ppf_vs_sip_calculator():
+    return render_template('ppf_vs_sip_calculator.html')
+
+@app.route('/calculate-ppf-vs-sip-comparison', methods=['POST'])
+def calculate_ppf_vs_sip_comparison():
+    try:
+        data = request.get_json()
+        
+        # Extract input parameters
+        ppf_annual_amount = float(data.get('ppfAnnualAmount', 150000))
+        ppf_interest_rate = float(data.get('ppfInterestRate', 7.1))
+        sip_monthly_amount = float(data.get('sipMonthlyAmount', 12500))
+        sip_return_rate = float(data.get('sipReturnRate', 12.0))
+        duration_years = int(data.get('duration', 15))
+        
+        # Calculate PPF returns
+        ppf_result = calculate_ppf_returns_backend(ppf_annual_amount, ppf_interest_rate, duration_years)
+        
+        # Calculate SIP returns
+        sip_result = calculate_sip_returns_backend(sip_monthly_amount, sip_return_rate, duration_years)
+        
+        # Compare results
+        comparison = compare_ppf_sip_results(ppf_result, sip_result, duration_years)
+        
+        return jsonify({
+            'status': 'success',
+            'ppf': ppf_result,
+            'sip': sip_result,
+            'comparison': comparison
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        }), 400
+
+def calculate_ppf_returns_backend(annual_amount, interest_rate, duration_years):
+    """
+    Calculate PPF returns with compound interest
+    PPF compounds annually and has a 15-year lock-in period
+    """
+    try:
+        annual_rate = interest_rate / 100
+        total_invested = 0
+        maturity_value = 0
+        yearly_breakdown = []
+        
+        for year in range(1, duration_years + 1):
+            total_invested += annual_amount
+            
+            # PPF compounds annually
+            if year == 1:
+                maturity_value = annual_amount * (1 + annual_rate)
+            else:
+                maturity_value = (maturity_value + annual_amount) * (1 + annual_rate)
+            
+            interest_earned = maturity_value - total_invested
+            
+            yearly_breakdown.append({
+                'year': year,
+                'invested': round(total_invested, 2),
+                'interest': round(interest_earned, 2),
+                'balance': round(maturity_value, 2)
+            })
+        
+        net_gain = maturity_value - total_invested
+        total_return = (net_gain / total_invested) * 100 if total_invested > 0 else 0
+        
+        return {
+            'totalInvested': round(total_invested, 2),
+            'maturityValue': round(maturity_value, 2),
+            'netGain': round(net_gain, 2),
+            'totalReturn': round(total_return, 2),
+            'annualReturn': interest_rate,
+            'yearlyBreakdown': yearly_breakdown,
+            'investmentType': 'PPF'
+        }
+        
+    except Exception as e:
+        raise Exception(f"Error calculating PPF returns: {str(e)}")
+
+def calculate_sip_returns_backend(monthly_amount, annual_return_rate, duration_years):
+    """
+    Calculate SIP returns using compound interest formula
+    Each monthly investment compounds for the remaining period
+    """
+    try:
+        monthly_rate = annual_return_rate / (12 * 100)
+        total_months = duration_years * 12
+        
+        total_invested = 0
+        maturity_value = 0
+        monthly_breakdown = []
+        yearly_breakdown = []
+        
+        # Calculate monthly SIP returns
+        for month in range(1, total_months + 1):
+            total_invested += monthly_amount
+            
+            # Each SIP installment compounds for remaining months
+            if month == 1:
+                maturity_value = monthly_amount
+            else:
+                maturity_value = (maturity_value * (1 + monthly_rate)) + monthly_amount
+            
+            monthly_breakdown.append({
+                'month': month,
+                'invested': round(total_invested, 2),
+                'balance': round(maturity_value, 2)
+            })
+            
+            # Create yearly breakdown
+            if month % 12 == 0:
+                year = month // 12
+                returns_earned = maturity_value - total_invested
+                
+                yearly_breakdown.append({
+                    'year': year,
+                    'invested': round(total_invested, 2),
+                    'returns': round(returns_earned, 2),
+                    'balance': round(maturity_value, 2)
+                })
+        
+        # Handle partial year if needed
+        if total_months % 12 != 0:
+            year = math.ceil(total_months / 12)
+            returns_earned = maturity_value - total_invested
+            
+            yearly_breakdown.append({
+                'year': year,
+                'invested': round(total_invested, 2),
+                'returns': round(returns_earned, 2),
+                'balance': round(maturity_value, 2)
+            })
+        
+        net_gain = maturity_value - total_invested
+        total_return = (net_gain / total_invested) * 100 if total_invested > 0 else 0
+        
+        return {
+            'totalInvested': round(total_invested, 2),
+            'maturityValue': round(maturity_value, 2),
+            'netGain': round(net_gain, 2),
+            'totalReturn': round(total_return, 2),
+            'annualReturn': annual_return_rate,
+            'yearlyBreakdown': yearly_breakdown,
+            'monthlyBreakdown': monthly_breakdown,
+            'investmentType': 'SIP'
+        }
+        
+    except Exception as e:
+        raise Exception(f"Error calculating SIP returns: {str(e)}")
+
+def compare_ppf_sip_results(ppf_result, sip_result, duration_years):
+    """
+    Compare PPF and SIP results and generate detailed comparison
+    """
+    try:
+        # Basic comparison metrics
+        maturity_difference = abs(sip_result['maturityValue'] - ppf_result['maturityValue'])
+        better_option = 'SIP' if sip_result['maturityValue'] > ppf_result['maturityValue'] else 'PPF'
+        
+        # Calculate advantage percentage
+        higher_value = max(sip_result['maturityValue'], ppf_result['maturityValue'])
+        lower_value = min(sip_result['maturityValue'], ppf_result['maturityValue'])
+        advantage_percentage = ((higher_value - lower_value) / lower_value) * 100 if lower_value > 0 else 0
+        
+        # Create year-wise comparison
+        yearly_breakdown = []
+        for year in range(1, duration_years + 1):
+            # Find PPF data for this year
+            ppf_data = next((item for item in ppf_result['yearlyBreakdown'] if item['year'] == year), {})
+            
+            # Find SIP data for this year
+            sip_data = next((item for item in sip_result['yearlyBreakdown'] if item['year'] == year), {})
+            
+            ppf_balance = ppf_data.get('balance', 0)
+            sip_balance = sip_data.get('balance', 0)
+            
+            year_better_option = 'SIP' if sip_balance > ppf_balance else 'PPF'
+            year_advantage = abs(sip_balance - ppf_balance)
+            
+            yearly_breakdown.append({
+                'year': year,
+                'ppf': {
+                    'invested': ppf_data.get('invested', 0),
+                    'interest': ppf_data.get('interest', 0),
+                    'balance': ppf_balance
+                },
+                'sip': {
+                    'invested': sip_data.get('invested', 0),
+                    'returns': sip_data.get('returns', 0),
+                    'balance': sip_balance
+                },
+                'betterOption': year_better_option,
+                'advantage': round(year_advantage, 2)
+            })
+        
+        # Calculate additional metrics
+        ppf_cagr = calculate_cagr(ppf_result['totalInvested'], ppf_result['maturityValue'], duration_years)
+        sip_cagr = calculate_cagr(sip_result['totalInvested'], sip_result['maturityValue'], duration_years)
+        
+        return {
+            'maturityDifference': round(maturity_difference, 2),
+            'betterOption': better_option,
+            'advantagePercentage': round(advantage_percentage, 2),
+            'yearlyBreakdown': yearly_breakdown,
+            'ppfCagr': round(ppf_cagr, 2),
+            'sipCagr': round(sip_cagr, 2),
+            'investmentComparison': {
+                'ppfTotalInvested': ppf_result['totalInvested'],
+                'sipTotalInvested': sip_result['totalInvested'],
+                'investmentDifference': abs(ppf_result['totalInvested'] - sip_result['totalInvested'])
+            }
+        }
+        
+    except Exception as e:
+        raise Exception(f"Error comparing results: {str(e)}")
+
+def calculate_cagr(initial_value, final_value, years):
+    """
+    Calculate Compound Annual Growth Rate (CAGR)
+    CAGR = (Final Value / Initial Value)^(1/years) - 1
+    """
+    try:
+        if initial_value <= 0 or final_value <= 0 or years <= 0:
+            return 0
+        
+        cagr = (pow(final_value / initial_value, 1 / years) - 1) * 100
+        return cagr
+        
+    except Exception as e:
+        return 0
+
+# Additional utility functions for PPF vs SIP calculations
+
+def calculate_ppf_extended_returns(annual_amount, interest_rate, duration_years, extension_years=0):
+    """
+    Calculate PPF returns with optional extension beyond 15 years
+    PPF can be extended in blocks of 5 years after initial 15-year period
+    """
+    try:
+        total_duration = duration_years + extension_years
+        
+        # Initial PPF calculation for base period
+        base_result = calculate_ppf_returns_backend(annual_amount, interest_rate, duration_years)
+        
+        if extension_years == 0:
+            return base_result
+        
+        # Extension period calculation (only interest compounds, no new investments)
+        extended_value = base_result['maturityValue']
+        annual_rate = interest_rate / 100
+        
+        for year in range(extension_years):
+            extended_value *= (1 + annual_rate)
+        
+        extended_result = base_result.copy()
+        extended_result['maturityValue'] = round(extended_value, 2)
+        extended_result['netGain'] = round(extended_value - base_result['totalInvested'], 2)
+        extended_result['totalReturn'] = round(((extended_value - base_result['totalInvested']) / base_result['totalInvested']) * 100, 2)
+        
+        return extended_result
+        
+    except Exception as e:
+        raise Exception(f"Error calculating extended PPF returns: {str(e)}")
+
+def calculate_tax_impact_comparison(ppf_result, sip_result, tax_rate=0):
+    """
+    Calculate tax impact on PPF vs SIP returns
+    PPF is tax-free (EEE status), SIP may have capital gains tax
+    """
+    try:
+        # PPF is completely tax-free
+        ppf_post_tax = ppf_result.copy()
+        
+        # SIP may have tax on gains (LTCG/STCG)
+        sip_post_tax = sip_result.copy()
+        
+        if tax_rate > 0:
+            # Apply tax on SIP gains
+            sip_tax_amount = sip_result['netGain'] * (tax_rate / 100)
+            sip_post_tax['netGain'] = round(sip_result['netGain'] - sip_tax_amount, 2)
+            sip_post_tax['maturityValue'] = round(sip_result['totalInvested'] + sip_post_tax['netGain'], 2)
+            sip_post_tax['totalReturn'] = round((sip_post_tax['netGain'] / sip_result['totalInvested']) * 100, 2)
+        
+        return {
+            'ppfPostTax': ppf_post_tax,
+            'sipPostTax': sip_post_tax,
+            'taxSavings': round((sip_result['netGain'] - sip_post_tax['netGain']), 2) if tax_rate > 0 else 0
+        }
+        
+    except Exception as e:
+        raise Exception(f"Error calculating tax impact: {str(e)}")
 
 
 
