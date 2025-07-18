@@ -9321,6 +9321,168 @@ def calculate_tax_impact_comparison(ppf_result, sip_result, tax_rate=0):
 
 
 
+# Add this route to your existing app.py file
+
+@app.route('/fd-vs-sip-calculator/')
+def fd_vs_sip_calculator():
+    return render_template('fd_vs_sip_calculator.html')
+
+def calculate_fd_returns(monthly_investment, duration_years, interest_rate, compounding_frequency):
+    """
+    Calculate Fixed Deposit returns with compound interest
+    """
+    try:
+        # Convert to monthly investment to total investment
+        total_investment = monthly_investment * 12 * duration_years
+        
+        # Determine compounding periods per year
+        if compounding_frequency == 'monthly':
+            n = 12
+        elif compounding_frequency == 'quarterly':
+            n = 4
+        elif compounding_frequency == 'annually':
+            n = 1
+        else:
+            n = 4  # default to quarterly
+        
+        # Convert annual rate to decimal
+        r = interest_rate / 100
+        
+        # Calculate compound interest: A = P(1 + r/n)^(nt)
+        maturity_value = total_investment * ((1 + r/n) ** (n * duration_years))
+        
+        # Calculate interest earned
+        interest_earned = maturity_value - total_investment
+        
+        return {
+            'total_invested': round(total_investment, 2),
+            'maturity_value': round(maturity_value, 2),
+            'interest_earned': round(interest_earned, 2),
+            'interest_rate': interest_rate,
+            'duration_years': duration_years,
+            'compounding_frequency': compounding_frequency
+        }
+    
+    except Exception as e:
+        return {
+            'error': str(e)
+        }
+
+def calculate_sip_returns_fd_comparison(monthly_sip, duration_years, expected_cagr):
+    """
+    Calculate SIP returns for FD comparison with monthly compounding
+    """
+    try:
+        # Convert annual CAGR to monthly rate
+        monthly_rate = (expected_cagr / 100) / 12
+        
+        # Total number of months
+        total_months = duration_years * 12
+        
+        # Calculate future value of SIP using FV formula
+        # FV = SIP * [((1 + r)^n - 1) / r] * (1 + r)
+        if monthly_rate == 0:
+            estimated_value = monthly_sip * total_months
+        else:
+            estimated_value = monthly_sip * (((1 + monthly_rate) ** total_months - 1) / monthly_rate) * (1 + monthly_rate)
+        
+        # Calculate total investment
+        total_invested = monthly_sip * total_months
+        
+        # Calculate gains
+        gain_from_sip = estimated_value - total_invested
+        
+        return {
+            'total_invested': round(total_invested, 2),
+            'estimated_value': round(estimated_value, 2),
+            'gain_from_sip': round(gain_from_sip, 2),
+            'expected_cagr': expected_cagr,
+            'duration_years': duration_years
+        }
+    
+    except Exception as e:
+        return {
+            'error': str(e)
+        }
+
+@app.route('/calculate-fd-vs-sip', methods=['POST'])
+def calculate_fd_vs_sip():
+    try:
+        data = request.get_json()
+        
+        # FD inputs
+        fd_monthly_investment = float(data.get('fdMonthlyInvestment', 5000))
+        fd_duration_years = int(data.get('fdDurationYears', 5))
+        fd_interest_rate = float(data.get('fdInterestRate', 6.5))
+        fd_compounding_frequency = data.get('fdCompoundingFrequency', 'quarterly')
+        
+        # SIP inputs
+        sip_monthly_amount = float(data.get('sipMonthlyAmount', 5000))
+        sip_duration_years = int(data.get('sipDurationYears', 5))
+        sip_expected_cagr = float(data.get('sipExpectedCagr', 12))
+        
+        # Validate inputs
+        if (fd_monthly_investment <= 0 or fd_duration_years <= 0 or fd_interest_rate < 0 or
+            sip_monthly_amount <= 0 or sip_duration_years <= 0 or sip_expected_cagr < 0):
+            return jsonify({
+                'status': 'error',
+                'error': 'Invalid input values. Please check all fields.'
+            })
+        
+        # Calculate FD returns
+        fd_results = calculate_fd_returns(
+            fd_monthly_investment, fd_duration_years, fd_interest_rate, fd_compounding_frequency
+        )
+        
+        # Calculate SIP returns
+        sip_results = calculate_sip_returns_fd_comparison(
+            sip_monthly_amount, sip_duration_years, sip_expected_cagr
+        )
+        
+        # Check for calculation errors
+        if 'error' in fd_results or 'error' in sip_results:
+            return jsonify({
+                'status': 'error',
+                'error': fd_results.get('error', sip_results.get('error', 'Calculation error'))
+            })
+        
+        # Compare results
+        fd_final_value = fd_results['maturity_value']
+        sip_final_value = sip_results['estimated_value']
+        
+        if fd_final_value > sip_final_value:
+            better_option = 'FD'
+            difference = fd_final_value - sip_final_value
+        elif sip_final_value > fd_final_value:
+            better_option = 'SIP'
+            difference = sip_final_value - fd_final_value
+        else:
+            better_option = 'Equal'
+            difference = 0
+        
+        # Calculate percentage difference
+        if fd_final_value > 0:
+            percentage_difference = (difference / min(fd_final_value, sip_final_value)) * 100
+        else:
+            percentage_difference = 0
+        
+        return jsonify({
+            'status': 'success',
+            'fd_results': fd_results,
+            'sip_results': sip_results,
+            'comparison': {
+                'better_option': better_option,
+                'difference': round(difference, 2),
+                'percentage_difference': round(percentage_difference, 2)
+            }
+        })
+    
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        })
+
 
 
 if __name__ == '__main__':
