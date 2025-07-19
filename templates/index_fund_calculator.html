@@ -3,15 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIP Calculator vs Interest Calculator | Compare SIP Returns vs Fixed Deposits</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/sip_calculator_vs_interest_calculator_style.css') }}">
+    <title>Index Fund Calculator - Calculate SIP & Lumpsum Returns | EMI Calculator</title>
+    <meta name="description" content="Calculate your index fund investment returns with our free calculator. Compare SIP vs Lumpsum investment options with detailed yearly breakdown and visual charts.">
+    <meta name="keywords" content="index fund calculator, SIP calculator, lumpsum calculator, investment calculator, mutual fund returns">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index_fund_calculator_style.css') }}">
+    
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>SIP Calculator vs Interest Calculator</h1>
+            <h1>Index Fund Calculator</h1>
             <nav class="main-nav">
                 <div class="nav-item">
                     <a href="/" class="nav-link">Home</a>
@@ -107,7 +123,7 @@
                                 <a href="/lumpsum-vs-sip-calculator/" class="mega-menu-link">Lumpsum vs SIP</a>
                                 <a href="/rd-vs-sip-calculator/" class="mega-menu-link">RD vs SIP</a>
                                 <a href="/ppf-vs-sip-calculator/" class="mega-menu-link">PPF vs SIP</a>
-                                <a href="/sip-calculator-vs-interest-calculator/" class="mega-menu-link active">SIP vs Interest Calculator</a>
+                                <a href="/sip-calculator-vs-interest-calculator/" class="mega-menu-link">SIP vs Interest Calculator</a>
                                 <a href="/stock-average-calculator/" class="mega-menu-link">Stock Average Calculator</a>
                             </div>
                         </div>
@@ -126,6 +142,7 @@
                                 <a href="/rd-calculator/" class="mega-menu-link">Recurring Deposit Calculator</a>
                                 <a href="/national-savings-certificate-calculator/" class="mega-menu-link">NSC Calculator</a>
                                 <a href="/kisan-vikas-patra-calculator/" class="mega-menu-link">Kisan Vikas Patra</a>
+                                <a href="/index-fund-calculator/" class="mega-menu-link active">Index Fund Calculator</a>
                             </div>
                             
                             <div class="mega-menu-column">
@@ -154,62 +171,70 @@
                     </div>
                 </div>
             </nav>
-            <p>Compare SIP and Fixed Deposit returns with our comprehensive calculator. Analyze investment amounts, maturity values, and choose the best option for your financial goals.</p>
+            <p>Calculate your index fund investment returns with our advanced calculator. Choose between SIP and Lumpsum investment options to plan your financial future.</p>
         </header>
 
         <div class="calculator-container">
             <div class="input-sections">
-                <!-- SIP Calculator Section -->
                 <div class="section">
-                    <h2>🚀 SIP Calculator</h2>
-                    <div class="input-grid">
+                    <h2>📈 Index Fund Investment Calculator</h2>
+                    
+                    <!-- Investment Type Toggle -->
+                    <div class="mb-6">
+                        <label class="text-sm font-medium text-gray-700 mb-3 block">Investment Type</label>
+                        <div class="flex bg-gray-100 rounded-lg p-1">
+                            <button id="sipToggle" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 bg-blue-600 text-white">
+                                SIP (Systematic Investment Plan)
+                            </button>
+                            <button id="lumpsumToggle" class="flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 text-gray-700 hover:text-gray-900">
+                                Lumpsum (One-time Investment)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SIP Investment Form -->
+                    <div id="sipForm" class="space-y-6">
+                        <!-- Monthly Investment Amount -->
                         <div class="input-group">
-                            <div class="input-row">
-                                <label class="input-label">Monthly SIP Amount</label>
-                                <div class="input-field-container">
-                                    <input type="number" id="sipAmount" value="5000" min="100" max="1000000" step="100">
-                                    <span class="input-suffix">₹</span>
-                                </div>
+                            <label class="input-label">Monthly Investment Amount</label>
+                            <div class="input-field-container">
+                                <input type="number" id="monthlyAmount" value="5000" min="500" max="1000000" step="500" class="input-field">
+                                <span class="input-suffix">₹</span>
                             </div>
                             <div class="slider-container">
-                                <input type="range" id="sipAmountSlider" min="100" max="1000000" value="5000" step="100" class="custom-slider">
-                                <div class="slider-track"></div>
+                                <input type="range" id="monthlyAmountSlider" min="500" max="100000" value="5000" step="500" class="custom-slider">
                                 <div class="slider-labels">
-                                    <span>₹100</span>
-                                    <span>₹10L</span>
+                                    <span>₹500</span>
+                                    <span>₹1L</span>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Investment Duration -->
                         <div class="input-group">
-                            <div class="input-row">
-                                <label class="input-label">Investment Duration (Years)</label>
-                                <div class="input-field-container">
-                                    <input type="number" id="sipYears" value="5" min="1" max="50" step="1">
-                                    <span class="input-suffix">Yrs</span>
-                                </div>
+                            <label class="input-label">Investment Duration</label>
+                            <div class="input-field-container">
+                                <input type="number" id="sipDuration" value="10" min="1" max="50" step="1" class="input-field">
+                                <span class="input-suffix">Years</span>
                             </div>
                             <div class="slider-container">
-                                <input type="range" id="sipYearsSlider" min="1" max="50" value="5" step="1" class="custom-slider">
-                                <div class="slider-track"></div>
+                                <input type="range" id="sipDurationSlider" min="1" max="50" value="10" step="1" class="custom-slider">
                                 <div class="slider-labels">
-                                    <span>1 Yr</span>
-                                    <span>50 Yrs</span>
+                                    <span>1 Year</span>
+                                    <span>50 Years</span>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Expected CAGR -->
                         <div class="input-group">
-                            <div class="input-row">
-                                <label class="input-label">Expected Annual Return (CAGR%)</label>
-                                <div class="input-field-container">
-                                    <input type="number" id="sipReturn" value="12" min="1" max="30" step="0.1">
-                                    <span class="input-suffix">%</span>
-                                </div>
+                            <label class="input-label">Expected CAGR (Annual Return)</label>
+                            <div class="input-field-container">
+                                <input type="number" id="sipCagr" value="12" min="1" max="30" step="0.5" class="input-field">
+                                <span class="input-suffix">%</span>
                             </div>
                             <div class="slider-container">
-                                <input type="range" id="sipReturnSlider" min="1" max="30" value="12" step="0.1" class="custom-slider">
-                                <div class="slider-track"></div>
+                                <input type="range" id="sipCagrSlider" min="1" max="30" value="12" step="0.5" class="custom-slider">
                                 <div class="slider-labels">
                                     <span>1%</span>
                                     <span>30%</span>
@@ -217,228 +242,113 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Interest Calculator Section -->
-                <div class="section">
-                    <h2>🏦 Interest Calculator</h2>
-                    <div class="input-grid">
+                    <!-- Lumpsum Investment Form -->
+                    <div id="lumpsumForm" class="space-y-6 hidden">
+                        <!-- One-time Investment Amount -->
                         <div class="input-group">
-                            <div class="input-row">
-                                <label class="input-label">Principal Amount</label>
-                                <div class="input-field-container">
-                                    <input type="number" id="principalAmount" value="300000" min="1000" max="100000000" step="1000">
-                                    <span class="input-suffix">₹</span>
-                                </div>
+                            <label class="input-label">One-Time Investment Amount</label>
+                            <div class="input-field-container">
+                                <input type="number" id="lumpsumAmount" value="100000" min="1000" max="50000000" step="1000" class="input-field">
+                                <span class="input-suffix">₹</span>
                             </div>
                             <div class="slider-container">
-                                <input type="range" id="principalAmountSlider" min="1000" max="100000000" value="300000" step="1000" class="custom-slider">
-                                <div class="slider-track"></div>
+                                <input type="range" id="lumpsumAmountSlider" min="1000" max="5000000" value="100000" step="1000" class="custom-slider">
                                 <div class="slider-labels">
                                     <span>₹1K</span>
-                                    <span>₹10Cr</span>
+                                    <span>₹50L</span>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Investment Duration -->
                         <div class="input-group">
-                            <div class="input-row">
-                                <label class="input-label">Investment Duration (Years)</label>
-                                <div class="input-field-container">
-                                    <input type="number" id="interestYears" value="5" min="1" max="50" step="1">
-                                    <span class="input-suffix">Yrs</span>
-                                </div>
+                            <label class="input-label">Investment Duration</label>
+                            <div class="input-field-container">
+                                <input type="number" id="lumpsumDuration" value="15" min="1" max="50" step="1" class="input-field">
+                                <span class="input-suffix">Years</span>
                             </div>
                             <div class="slider-container">
-                                <input type="range" id="interestYearsSlider" min="1" max="50" value="5" step="1" class="custom-slider">
-                                <div class="slider-track"></div>
+                                <input type="range" id="lumpsumDurationSlider" min="1" max="50" value="15" step="1" class="custom-slider">
                                 <div class="slider-labels">
-                                    <span>1 Yr</span>
-                                    <span>50 Yrs</span>
+                                    <span>1 Year</span>
+                                    <span>50 Years</span>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Expected CAGR -->
                         <div class="input-group">
-                            <div class="input-row">
-                                <label class="input-label">Interest Rate</label>
-                                <div class="input-field-container">
-                                    <input type="number" id="interestRate" value="6.5" min="0.1" max="20" step="0.1">
-                                    <span class="input-suffix">%</span>
-                                </div>
+                            <label class="input-label">Expected CAGR (Annual Return)</label>
+                            <div class="input-field-container">
+                                <input type="number" id="lumpsumCagr" value="10" min="1" max="30" step="0.5" class="input-field">
+                                <span class="input-suffix">%</span>
                             </div>
                             <div class="slider-container">
-                                <input type="range" id="interestRateSlider" min="0.1" max="20" value="6.5" step="0.1" class="custom-slider">
-                                <div class="slider-track"></div>
+                                <input type="range" id="lumpsumCagrSlider" min="1" max="30" value="10" step="0.5" class="custom-slider">
                                 <div class="slider-labels">
-                                    <span>0.1%</span>
-                                    <span>20%</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="input-group">
-                            <div class="input-row">
-                                <label class="input-label">Compounding Frequency</label>
-                                <div class="frequency-select-container">
-                                    <select id="compoundingFrequency" class="frequency-select">
-                                        <option value="monthly">Monthly</option>
-                                        <option value="quarterly" selected>Quarterly</option>
-                                        <option value="annually">Annually</option>
-                                    </select>
+                                    <span>1%</span>
+                                    <span>30%</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3 mt-8">
+                        <button id="calculateBtn" class="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                            Calculate Returns
+                        </button>
+                        <button id="resetBtn" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+                            Reset
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div class="results-section">
-                <!-- Results Cards -->
-                <div class="results-comparison-grid">
-                    <div class="results-column">
-                        <div class="column-header">
-                            <h3>📈 SIP Results</h3>
-                        </div>
-                        <div class="result-card sip-card">
-                            <div class="card-content">
-                                <div class="card-label">Total Invested</div>
-                                <div class="card-value" id="sipInvested">₹3,00,000</div>
+            <!-- Results Section -->
+            <div class="results-container">
+                <div class="results-section">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Investment Results</h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <!-- Total Invested -->
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+                                <div class="text-blue-600 text-sm font-medium mb-1">Total Invested</div>
+                                <div id="totalInvested" class="text-xl font-bold text-blue-800">₹0</div>
+                            </div>
+
+                            <!-- Maturity Amount -->
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                                <div class="text-green-600 text-sm font-medium mb-1">Maturity Amount</div>
+                                <div id="maturityAmount" class="text-xl font-bold text-green-800">₹0</div>
+                            </div>
+
+                            <!-- Total Gain -->
+                            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
+                                <div class="text-purple-600 text-sm font-medium mb-1">Total Gain</div>
+                                <div id="totalGain" class="text-xl font-bold text-purple-800">₹0</div>
                             </div>
                         </div>
-                        <div class="result-card sip-card">
-                            <div class="card-content">
-                                <div class="card-label">Maturity Amount</div>
-                                <div class="card-value" id="sipMaturity">₹5,27,628</div>
-                            </div>
-                        </div>
-                        <div class="result-card sip-card">
-                            <div class="card-content">
-                                <div class="card-label">Gain from SIP</div>
-                                <div class="card-value" id="sipGain">₹2,27,628</div>
-                            </div>
+
+                        <!-- CAGR Display -->
+                        <div class="mt-4 text-center">
+                            <div class="text-sm text-gray-600">Expected CAGR: <span id="resultCagr" class="font-semibold text-gray-800">12%</span></div>
                         </div>
                     </div>
 
-                    <div class="results-column">
-                        <div class="column-header">
-                            <h3>🏦 Interest Results</h3>
+                    <!-- Chart Section -->
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-6">Investment Growth Chart</h3>
+                        <div class="relative">
+                            <canvas id="growthChart" width="400" height="300"></canvas>
                         </div>
-                        <div class="result-card interest-card">
-                            <div class="card-content">
-                                <div class="card-label">Principal Invested</div>
-                                <div class="card-value" id="principalInvested">₹3,00,000</div>
-                            </div>
-                        </div>
-                        <div class="result-card interest-card">
-                            <div class="card-content">
-                                <div class="card-label">Maturity Amount</div>
-                                <div class="card-value" id="interestMaturity">₹4,12,751</div>
-                            </div>
-                        </div>
-                        <div class="result-card interest-card">
-                            <div class="card-content">
-                                <div class="card-label">Interest Earned</div>
-                                <div class="card-value" id="interestEarned">₹1,12,751</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Comparison Summary -->
-                <div class="comparison-summary-section">
-                    <div class="summary-header">
-                        <h3>🏆 Comparison Summary</h3>
-                    </div>
-                    <div class="summary-cards">
-                        <div class="summary-card better-option-card">
-                            <div class="summary-label">Better Option</div>
-                            <div class="summary-value" id="betterOption">SIP</div>
-                        </div>
-                        <div class="summary-card difference-card">
-                            <div class="summary-label">Return Difference</div>
-                            <div class="summary-value" id="returnDifference">₹1,14,877</div>
-                        </div>
-                    </div>
-                    <div class="risk-note">
-                        <p><strong>Note:</strong> SIP investments are market-linked and subject to market risks, while Fixed Deposits offer guaranteed returns with lower risk.</p>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Charts Section -->
-        <div class="chart-section">
-            <div class="chart-header">
-                <h3>📊 Growth Comparison Analysis</h3>
-            </div>
-            <div class="chart-container">
-                <div class="bar-chart-container">
-                    <h4>Growth Comparison Over Time</h4>
-                    <canvas id="growthComparisonChart"></canvas>
-                </div>
-                <div class="pie-chart-container">
-                    <h4>Investment Breakdown</h4>
-                    <canvas id="sipPieChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Detailed Comparison Table -->
-        <div class="table-section">
-            <div class="table-header">
-                <h3>📋 Year-wise Comparison Table</h3>
-            </div>
-            <div class="table-container">
-                <table class="comparison-table">
-                    <thead>
-                        <tr>
-                            <th class="year-header">Year</th>
-                            <th class="sip-header" colspan="3">SIP Details</th>
-                            <th class="interest-header" colspan="3">Interest Details</th>
-                            <th class="comparison-header" colspan="2">Comparison</th>
-                        </tr>
-                        <tr class="sub-header">
-                            <th></th>
-                            <th>Invested</th>
-                            <th>Returns</th>
-                            <th>Balance</th>
-                            <th>Principal</th>
-                            <th>Interest</th>
-                            <th>Balance</th>
-                            <th>Better Option</th>
-                            <th>Advantage</th>
-                        </tr>
-                    </thead>
-                    <tbody id="comparisonTableBody">
-                        <!-- Table rows will be populated by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Download and Share Section -->
-        <div class="download-section">
-            <h2>📥 Download & Share Results</h2>
-            <p>Save your SIP vs Interest Calculator comparison results for future reference</p>
-            <div class="download-buttons">
-                <button class="download-btn pdf-btn" onclick="downloadPDF()">
-                    <span class="btn-icon">📄</span>
-                    Download PDF
-                </button>
-                <button class="download-btn excel-btn" onclick="downloadExcel()">
-                    <span class="btn-icon">📊</span>
-                    Download Excel
-                </button>
-                <button class="download-btn share-btn" onclick="shareResults()">
-                    <span class="btn-icon">🔗</span>
-                    Share Results
-                </button>
-            </div>
-        </div>
-
     </div>
 
-    <script src="{{ url_for('static', filename='js/sip_calculator_vs_interest_calculator_script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/index_fund_calculator_script.js') }}"></script>
 </body>
 </html>

@@ -9631,5 +9631,376 @@ def calculate_sip_vs_interest():
 
 
 
+# Add these routes and functions to your existing app.py file
+
+@app.route('/index-fund-calculator/')
+def index_fund_calculator():
+    return render_template('index_fund_calculator.html')
+
+@app.route('/calculate-index-fund', methods=['POST'])
+def calculate_index_fund():
+    try:
+        data = request.get_json()
+        
+        investment_type = data.get('investmentType', 'sip')
+        expected_return = float(data.get('expectedReturn', 12))
+        investment_duration = int(data.get('investmentDuration', 10))
+        
+        if investment_type == 'sip':
+            monthly_amount = float(data.get('monthlyAmount', 5000))
+            if monthly_amount <= 0 or investment_duration <= 0:
+                return jsonify({
+                    'status': 'error',
+                    'error': 'Invalid input values'
+                })
+            
+            # Calculate SIP returns
+            results = calculate_index_fund_sip_returns(monthly_amount, expected_return, investment_duration)
+            
+        else:  # lumpsum
+            lumpsum_amount = float(data.get('lumpsumAmount', 100000))
+            if lumpsum_amount <= 0 or investment_duration <= 0:
+                return jsonify({
+                    'status': 'error',
+                    'error': 'Invalid input values'
+                })
+            
+            # Calculate Lumpsum returns
+            results = calculate_index_fund_lumpsum_returns(lumpsum_amount, expected_return, investment_duration)
+        
+        return jsonify({
+            'status': 'success',
+            'investmentType': investment_type,
+            'totalInvested': results['total_invested'],
+            'maturityAmount': results['maturity_amount'],
+            'totalGain': results['total_gain'],
+            'expectedReturn': expected_return,
+            'investmentDuration': investment_duration,
+            'yearlyBreakdown': results['yearly_breakdown']
+        })
+    
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        })
+
+def calculate_index_fund_sip_returns(monthly_amount, annual_return_rate, tenure_years):
+    """
+    Calculate SIP returns for index fund using future value of annuity formula
+    """
+    monthly_return_rate = annual_return_rate / (12 * 100)
+    total_months = tenure_years * 12
+    
+    # Future value of SIP
+    if monthly_return_rate > 0:
+        maturity_amount = monthly_amount * (((1 + monthly_return_rate) ** total_months - 1) / monthly_return_rate)
+    else:
+        maturity_amount = monthly_amount * total_months
+    
+    total_invested = monthly_amount * total_months
+    total_gain = maturity_amount - total_invested
+    
+    # Generate yearly breakdown
+    yearly_breakdown = []
+    current_value = 0
+    cumulative_invested = 0
+    
+    for year in range(1, tenure_years + 1):
+        year_invested = monthly_amount * 12
+        cumulative_invested += year_invested
+        
+        # Calculate value at end of year
+        months_completed = year * 12
+        if monthly_return_rate > 0:
+            year_end_value = monthly_amount * (((1 + monthly_return_rate) ** months_completed - 1) / monthly_return_rate)
+        else:
+            year_end_value = monthly_amount * months_completed
+        
+        year_gain = year_end_value - cumulative_invested
+        
+        yearly_breakdown.append({
+            'year': year,
+            'invested_this_year': year_invested,
+            'cumulative_invested': cumulative_invested,
+            'current_value': year_end_value,
+            'gain': year_gain
+        })
+    
+    return {
+        'total_invested': round(total_invested, 2),
+        'maturity_amount': round(maturity_amount, 2),
+        'total_gain': round(total_gain, 2),
+        'yearly_breakdown': yearly_breakdown
+    }
+
+def calculate_index_fund_lumpsum_returns(lumpsum_amount, annual_return_rate, tenure_years):
+    """
+    Calculate Lumpsum returns for index fund using compound interest formula
+    """
+    annual_return_decimal = annual_return_rate / 100
+    
+    # Compound interest calculation
+    maturity_amount = lumpsum_amount * ((1 + annual_return_decimal) ** tenure_years)
+    total_gain = maturity_amount - lumpsum_amount
+    
+    # Generate yearly breakdown
+    yearly_breakdown = []
+    current_value = lumpsum_amount
+    
+    for year in range(1, tenure_years + 1):
+        previous_value = current_value
+        current_value = lumpsum_amount * ((1 + annual_return_decimal) ** year)
+        year_gain = current_value - previous_value
+        total_gain_so_far = current_value - lumpsum_amount
+        
+        yearly_breakdown.append({
+            'year': year,
+            'invested_this_year': lumpsum_amount if year == 1 else 0,
+            'cumulative_invested': lumpsum_amount,
+            'current_value': current_value,
+            'gain': total_gain_so_far
+        })
+    
+    return {
+        'total_invested': round(lumpsum_amount, 2),
+        'maturity_amount': round(maturity_amount, 2),
+        'total_gain': round(total_gain, 2),
+        'yearly_breakdown': yearly_breakdown
+    }
+
+
+# Add this route to your existing app.py file
+
+@app.route('/stock-return-calculator/')
+def stock_return_calculator():
+    return render_template('stock_return_calculator.html')
+
+def calculate_stock_return_metrics(buy_price, sell_price, num_shares, holding_years, dividends=0):
+    """
+    Calculate stock return metrics including absolute return and CAGR
+    """
+    try:
+        # Input validation
+        if buy_price <= 0 or sell_price <= 0 or num_shares <= 0 or holding_years <= 0:
+            return {
+                'status': 'error',
+                'error': 'All values must be positive'
+            }
+        
+        # Calculate investment metrics
+        total_invested = buy_price * num_shares
+        total_value = (sell_price * num_shares) + dividends
+        net_profit = total_value - total_invested
+        
+        # Calculate absolute return percentage
+        absolute_return = (net_profit / total_invested) * 100
+        
+        # Calculate CAGR (Compound Annual Growth Rate)
+        cagr = 0
+        if holding_years > 0 and total_invested > 0:
+            cagr = (((total_value / total_invested) ** (1 / holding_years)) - 1) * 100
+        
+        # Determine if profit is positive for styling
+        is_profitable = net_profit > 0
+        
+        return {
+            'status': 'success',
+            'total_invested': round(total_invested, 2),
+            'total_value': round(total_value, 2),
+            'net_profit': round(net_profit, 2),
+            'absolute_return': round(absolute_return, 2),
+            'cagr': round(cagr, 2),
+            'is_profitable': is_profitable,
+            'buy_price': buy_price,
+            'sell_price': sell_price,
+            'num_shares': num_shares,
+            'holding_years': holding_years,
+            'dividends': dividends
+        }
+    
+    except Exception as e:
+        return {
+            'status': 'error',
+            'error': str(e)
+        }
+
+@app.route('/calculate-stock-return', methods=['POST'])
+def calculate_stock_return():
+    try:
+        data = request.get_json()
+        
+        buy_price = float(data.get('buyPrice', 0))
+        sell_price = float(data.get('sellPrice', 0))
+        num_shares = int(data.get('numShares', 0))
+        holding_years = float(data.get('holdingYears', 0))
+        dividends = float(data.get('dividends', 0))
+        
+        result = calculate_stock_return_metrics(buy_price, sell_price, num_shares, holding_years, dividends)
+        
+        return jsonify(result)
+    
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        }), 400
+
+
+# Add this to your existing app.py file
+
+# XIRR Calculator Route
+@app.route('/xirr-calculator/')
+def xirr_calculator():
+    return render_template('xirr_calculator.html')
+
+def calculate_xirr_iterative(cash_flows):
+    """
+    Calculate XIRR using Newton-Raphson method (similar to Excel's XIRR)
+    cash_flows: list of dictionaries with 'date' and 'amount' keys
+    """
+    if len(cash_flows) < 2:
+        return None
+    
+    # Sort cash flows by date
+    sorted_flows = sorted(cash_flows, key=lambda x: x['date'])
+    
+    # Check if there's at least one positive and one negative cash flow
+    has_positive = any(cf['amount'] > 0 for cf in sorted_flows)
+    has_negative = any(cf['amount'] < 0 for cf in sorted_flows)
+    
+    if not (has_positive and has_negative):
+        return None
+    
+    # Calculate days from first date
+    base_date = sorted_flows[0]['date']
+    
+    # Initial guess for XIRR (10%)
+    rate = 0.1
+    max_iterations = 100
+    tolerance = 1e-6
+    
+    for iteration in range(max_iterations):
+        npv = 0
+        dnpv = 0  # Derivative of NPV
+        
+        for cf in sorted_flows:
+            days_diff = (cf['date'] - base_date).days
+            years_diff = days_diff / 365.0
+            
+            if years_diff == 0:
+                npv += cf['amount']
+                continue
+            
+            # NPV calculation
+            factor = (1 + rate) ** years_diff
+            npv += cf['amount'] / factor
+            
+            # Derivative calculation
+            dnpv -= cf['amount'] * years_diff / (factor * (1 + rate))
+        
+        # Check convergence
+        if abs(npv) < tolerance:
+            return rate
+        
+        # Newton-Raphson update
+        if abs(dnpv) < 1e-10:  # Avoid division by zero
+            break
+        
+        new_rate = rate - npv / dnpv
+        
+        # Check for reasonable bounds
+        if new_rate < -0.99 or new_rate > 10:  # Limit between -99% and 1000%
+            break
+        
+        rate = new_rate
+    
+    return rate if abs(npv) < 0.01 else None
+
+def calculate_xirr_summary_data(cash_flows):
+    """
+    Calculate summary data for XIRR analysis
+    """
+    total_invested = sum(cf['amount'] for cf in cash_flows if cf['amount'] < 0)
+    total_withdrawn = sum(cf['amount'] for cf in cash_flows if cf['amount'] > 0)
+    net_gain_loss = total_withdrawn + total_invested  # invested is negative
+    
+    # Calculate XIRR
+    xirr_rate = calculate_xirr_iterative(cash_flows)
+    xirr_percentage = round(xirr_rate * 100, 2) if xirr_rate is not None else None
+    
+    # Calculate cumulative cash flows for chart
+    cumulative_flows = []
+    running_total = 0
+    
+    for cf in sorted(cash_flows, key=lambda x: x['date']):
+        running_total += cf['amount']
+        cumulative_flows.append({
+            'date': cf['date'].strftime('%Y-%m-%d'),
+            'amount': round(running_total, 2),
+            'label': cf['date'].strftime('%b %Y')
+        })
+    
+    return {
+        'total_invested': round(abs(total_invested), 2),
+        'total_withdrawn': round(total_withdrawn, 2),
+        'net_gain_loss': round(net_gain_loss, 2),
+        'xirr_percentage': xirr_percentage,
+        'cumulative_flows': cumulative_flows,
+        'cash_flow_count': len(cash_flows)
+    }
+
+@app.route('/calculate-xirr-analysis', methods=['POST'])
+def calculate_xirr_analysis():
+    try:
+        data = request.get_json()
+        cash_flows_data = data.get('cashFlows', [])
+        
+        if not cash_flows_data or len(cash_flows_data) < 2:
+            return jsonify({
+                'status': 'error',
+                'error': 'At least 2 cash flows are required for XIRR calculation'
+            })
+        
+        # Convert to proper format
+        cash_flows = []
+        for cf in cash_flows_data:
+            try:
+                date_obj = datetime.strptime(cf['date'], '%Y-%m-%d').date()
+                amount = float(cf['amount'])
+                
+                if amount == 0:
+                    continue  # Skip zero amounts
+                
+                cash_flows.append({
+                    'date': date_obj,
+                    'amount': amount
+                })
+            except (ValueError, KeyError) as e:
+                return jsonify({
+                    'status': 'error',
+                    'error': f'Invalid cash flow data: {str(e)}'
+                })
+        
+        if len(cash_flows) < 2:
+            return jsonify({
+                'status': 'error',
+                'error': 'At least 2 valid cash flows are required'
+            })
+        
+        # Calculate XIRR analysis
+        result = calculate_xirr_summary_data(cash_flows)
+        
+        return jsonify({
+            'status': 'success',
+            **result
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        }), 400
+
 if __name__ == '__main__':
     app.run(debug=True) 
