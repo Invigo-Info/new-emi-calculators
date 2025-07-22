@@ -1,0 +1,116 @@
+<!-- ===================================================
+     REUSABLE HEADER NAVIGATION COMPONENT
+     File: templates/header_nav_component.html
+     Usage: {% include 'header_nav_component.html' %}
+     ================================================== -->
+
+<div class="header-nav-container">
+    <div class="header-nav-wrapper">
+        <header class="header-nav">
+            <h1>{{ page_title | default('EMI Calculator') }}</h1>
+            <p>{{ page_description | default('Calculate your loan EMI easily and accurately') }}</p>
+            
+            <nav class="main-nav">
+                <div class="nav-item">
+                    <a href="/" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">Home</a>
+                </div>
+                
+                <div class="nav-item mega-menu-container">
+                    <a href="#" class="nav-link mega-menu-trigger" onclick="return false;">EMI Calculators <span class="dropdown-arrow">▼</span></a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-content">
+                            <div class="mega-menu-column">
+                                <h4>Home Loan Calculators</h4>
+                                <a href="/home-loan-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'home_loan_calculator' %}active{% endif %}">Home Loan EMI Calculator</a>
+                                <a href="/home-loan-eligibility-calculator/" class="mega-menu-link {% if request.endpoint == 'home_loan_eligibility_calculator' %}active{% endif %}">Home Loan Eligibility</a>
+                                <a href="/home-loan-affordability-calculator/" class="mega-menu-link {% if request.endpoint == 'home_loan_affordability_calculator' %}active{% endif %}">Home Loan Affordability</a>
+                                <a href="/home-loan-refinance-calculator/" class="mega-menu-link {% if request.endpoint == 'home_loan_refinance_calculator' %}active{% endif %}">Home Loan Refinance</a>
+                                <a href="/loan-against-property-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'loan_against_property_emi_calculator' %}active{% endif %}">Loan Against Property EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Vehicle Loan Calculators</h4>
+                                <a href="/car-loan-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'car_loan_emi_calculator' %}active{% endif %}">Car Loan EMI Calculator</a>
+                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'two_wheeler_loan_emi_calculator' %}active{% endif %}">Two Wheeler Loan EMI</a>
+                                <a href="/commercial-vehicle-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'commercial_vehicle_emi_calculator' %}active{% endif %}">Commercial Vehicle EMI</a>
+                                <a href="/tractor-loan-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'tractor_loan_emi_calculator' %}active{% endif %}">Tractor Loan EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Personal & Business Loans</h4>
+                                <a href="/personal-loan-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'personal_loan_emi_calculator' %}active{% endif %}">Personal Loan EMI</a>
+                                <a href="/business-loan-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'business_loan_emi_calculator' %}active{% endif %}">Business Loan EMI</a>
+                                <a href="/education-loan-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'education_loan_emi_calculator' %}active{% endif %}">Education Loan EMI</a>
+                                <a href="/gold-loan-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'gold_loan_emi_calculator' %}active{% endif %}">Gold Loan EMI</a>
+                                <a href="/credit-card-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'credit_card_emi_calculator' %}active{% endif %}">Credit Card EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Property & Equipment</h4>
+                                <a href="/commercial-property-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'commercial_property_emi_calculator' %}active{% endif %}">Commercial Property EMI</a>
+                                <a href="/land-loan-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'land_loan_emi_calculator' %}active{% endif %}">Land Loan EMI</a>
+                                <a href="/mobile-phone-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'mobile_phone_emi_calculator' %}active{% endif %}">Mobile Phone EMI</a>
+                                <a href="/laptop-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'laptop_emi_calculator' %}active{% endif %}">Laptop EMI</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>EMI Types & Features</h4>
+                                <a href="/monthly-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'monthly_emi_calculator' %}active{% endif %}">Monthly EMI Calculator</a>
+                                <a href="/quarterly-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'quarterly_emi_calculator' %}active{% endif %}">Quarterly EMI Calculator</a>
+                                <a href="/weekly-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'weekly_emi_calculator' %}active{% endif %}">Weekly EMI Calculator</a>
+                                <a href="/daily-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'daily_emi_calculator' %}active{% endif %}">Daily EMI Calculator</a>
+                                <a href="/bullet-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'bullet_emi_calculator' %}active{% endif %}">Bullet EMI Calculator</a>
+                                <a href="/step-up-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'step_up_emi_calculator' %}active{% endif %}">Step Up EMI Calculator</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Interest Rate Types</h4>
+                                <a href="/reducing-balance-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'reducing_balance_emi_calculator' %}active{% endif %}">Reducing Balance EMI</a>
+                                <a href="/reducing-rate-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'reducing_rate_emi_calculator' %}active{% endif %}">Reducing Rate EMI</a>
+                                <a href="/reducing-loan-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'reducing_loan_emi_calculator' %}active{% endif %}">Reducing Loan EMI</a>
+                                <a href="/flat-interest-rate-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'flat_interest_rate_emi_calculator' %}active{% endif %}">Flat Interest Rate EMI</a>
+                                <a href="/floating-interest-rate-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'floating_interest_rate_emi_calculator' %}active{% endif %}">Floating Interest Rate EMI</a>
+                                <a href="/flat-vs-reducing-rate-interest-calculator/" class="mega-menu-link {% if request.endpoint == 'flat_vs_reducing_rate_interest_calculator' %}active{% endif %}">Flat vs Reducing Rate</a>
+                                <a href="/no-cost-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'no_cost_emi_calculator' %}active{% endif %}">No Cost EMI Calculator</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Loan Analysis Tools</h4>
+                                <a href="/loan-amount-calculator/" class="mega-menu-link {% if request.endpoint == 'loan_amount_calculator' %}active{% endif %}">Loan Amount Calculator</a>
+                                <a href="/loan-tenure-calculator/" class="mega-menu-link {% if request.endpoint == 'loan_tenure_calculator' %}active{% endif %}">Loan Tenure Calculator</a>
+                                <a href="/interest-rate-calculator/" class="mega-menu-link {% if request.endpoint == 'interest_rate_calculator' %}active{% endif %}">Interest Rate Calculator</a>
+                                <a href="/reverse-emi-calculator/" class="mega-menu-link {% if request.endpoint == 'reverse_emi_calculator' %}active{% endif %}">Reverse EMI Calculator</a>
+                                <a href="/emi-calculator-with-part-payment/" class="mega-menu-link {% if request.endpoint == 'emi_calculator_with_part_payment' %}active{% endif %}">EMI with Part Payment</a>
+                                <a href="/emi-overdue-status-calculator/" class="mega-menu-link {% if request.endpoint == 'emi_overdue_status_calculator' %}active{% endif %}">EMI Overdue Status</a>
+                            </div>
+                            
+                            <div class="mega-menu-column">
+                                <h4>Investment Calculators</h4>
+                                <a href="/sip-calculator/" class="mega-menu-link {% if request.endpoint == 'sip_calculator' %}active{% endif %}">SIP Calculator</a>
+                                <a href="/sip-calculator-with-expense-ratio/" class="mega-menu-link {% if request.endpoint == 'sip_calculator_with_expense_ratio' %}active{% endif %}">SIP with Expense Ratio</a>
+                                <a href="/daily-sip-calculator/" class="mega-menu-link {% if request.endpoint == 'daily_sip_calculator' %}active{% endif %}">Daily SIP Calculator</a>
+                                <a href="/monthly-sip-calculator/" class="mega-menu-link {% if request.endpoint == 'monthly_sip_calculator' %}active{% endif %}">Monthly SIP Calculator</a>
+                                <a href="/reverse-sip-calculator/" class="mega-menu-link {% if request.endpoint == 'reverse_sip_calculator' %}active{% endif %}">Reverse SIP Calculator</a>
+                                <a href="/goal-sip-calculator/" class="mega-menu-link {% if request.endpoint == 'goal_sip_calculator' %}active{% endif %}">Goal SIP Calculator</a>
+                                <a href="/lumpsum-vs-sip-calculator/" class="mega-menu-link {% if request.endpoint == 'lumpsum_vs_sip_calculator' %}active{% endif %}">Lumpsum vs SIP</a>
+                                <a href="/cagr-sip-calculator/" class="mega-menu-link {% if request.endpoint == 'cagr_sip_calculator' %}active{% endif %}">CAGR Calculator</a>
+                                <a href="/roi-calculator/" class="mega-menu-link {% if request.endpoint == 'roi_calculator' %}active{% endif %}">ROI Calculator</a>
+                                <a href="/fd-calculator/" class="mega-menu-link {% if request.endpoint == 'fd_calculator' %}active{% endif %}">FD Calculator</a>
+                                <a href="/rd-calculator/" class="mega-menu-link {% if request.endpoint == 'rd_calculator' %}active{% endif %}">RD Calculator</a>
+                                <a href="/ppf-calculator/" class="mega-menu-link {% if request.endpoint == 'ppf_calculator' %}active{% endif %}">PPF Calculator</a>
+                                <a href="/nps-calculator/" class="mega-menu-link {% if request.endpoint == 'nps_calculator' %}active{% endif %}">NPS Calculator</a>
+                                <a href="/senior-citizen-savings-scheme-calculator/" class="mega-menu-link {% if request.endpoint == 'senior_citizen_savings_scheme_calculator' %}active{% endif %}">SCSS Calculator</a>
+                                <a href="/post-office-monthly-income-scheme-calculator/" class="mega-menu-link {% if request.endpoint == 'post_office_monthly_income_scheme_calculator' %}active{% endif %}">POMIS Calculator</a>
+                                <a href="/kisan-vikas-patra-calculator/" class="mega-menu-link {% if request.endpoint == 'kisan_vikas_patra_calculator' %}active{% endif %}">KVP Calculator</a>
+                                <a href="/national-savings-certificate-calculator/" class="mega-menu-link {% if request.endpoint == 'national_savings_certificate_calculator' %}active{% endif %}">NSC Calculator</a>
+                                <a href="/inflation-calculator/" class="mega-menu-link {% if request.endpoint == 'inflation_calculator' %}active{% endif %}">Inflation Calculator</a>
+                                <a href="/gratuity-calculator/" class="mega-menu-link {% if request.endpoint == 'gratuity_calculator' %}active{% endif %}">Gratuity Calculator</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+             
+            </nav>
+        </header>
+    </div>
+</div>
