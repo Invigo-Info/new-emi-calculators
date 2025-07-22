@@ -1,11 +1,3 @@
-/* ===================================================
-   REUSABLE HEADER NAVIGATION CSS - CONFLICT FREE
-   File: static/css/header_nav.css
-   
-   ⚠️ IMPORTANT: This CSS uses unique class names to avoid 
-   conflicts with existing page styles
-   ================================================== */
-
 /* Header Navigation Container - Unique naming */
 .emi-header-nav-wrapper {
     width: 100%;
