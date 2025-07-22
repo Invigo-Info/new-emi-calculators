@@ -2,8 +2,7 @@
     <div class="emi-header-nav-container">
         <header class="emi-header-nav">
             <h1 class="emi-title">{{ page_title | default('EMI Calculator') }}</h1>
-            <p class="emi-description">{{ page_description | default('Calculate your loan EMI easily and accurately') }}</p>
-            
+            <p class="emi-description">{{ page_description | default('Calculate your loan EMI easily and accurately') }}</p>            
             <nav class="emi-main-navigation">
                 <div class="emi-nav-item">
                     <a href="/" class="emi-nav-button {% if request.endpoint == 'index' %}emi-active{% endif %}">Home</a>
