@@ -4,17 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quarterly EMI Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/quarterly_emi_style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    {% include 'header_nav_component.html' %}
     <div class="container">
-        <header class="header">
-            <h1>Quarterly EMI Calculator</h1>
-            <p>Calculate your quarterly loan payments with precision</p>
-        </header>
-
         <div class="calculator-wrapper">
             <!-- Left Panel - Loan Details -->
             <div class="loan-details-panel">
