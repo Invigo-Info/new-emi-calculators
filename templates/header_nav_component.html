@@ -1,8 +1,25 @@
 <div class="emi-header-nav-wrapper">
     <div class="emi-header-nav-container">
         <header class="emi-header-nav">
-            <h1 class="emi-title">{{ page_title | default('EMI Calculator') }}</h1>
-            <p class="emi-description">{{ page_description | default('Calculate your loan EMI easily and accurately') }}</p>            
+            <!-- Dynamic Page Title (extracted from HTML title tag) -->
+            <h1 class="emi-title" id="dynamicPageTitle">EMI Calculator</h1>
+            <p class="emi-description">{{ page_description | default('Calculate your loan EMI easily and accurately') }}</p>
+            
+            <!-- JavaScript to extract title from HTML title tag -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const titleElement = document.getElementById('dynamicPageTitle');
+                    const htmlTitle = document.title;
+                    
+                    if (htmlTitle && htmlTitle.includes('|')) {
+                        // Extract the part before the "|" symbol and trim whitespace
+                        const pageTitle = htmlTitle.split('|')[0].trim();
+                        titleElement.textContent = pageTitle;
+                    }
+                });
+            </script>
+            
+            <!-- Single Navigation Menu -->
             <nav class="emi-main-navigation">
                 <div class="emi-nav-item">
                     <a href="/" class="emi-nav-button {% if request.endpoint == 'index' %}emi-active{% endif %}">Home</a>
@@ -40,7 +57,7 @@
                             
                             <div class="emi-mega-menu-section">
                                 <h4 class="emi-section-title">Property & Equipment</h4>
-                                <a href="/commercial-property-emi-calculator/" class="emi-mega-menu-link {% if request.endpoint == 'commercial_property_emi_calculator' %}emi-active{% endif %}">Commercial Property EMI</a>
+                                <a href="/commercial-property-loan-emi-calculator/" class="emi-mega-menu-link {% if request.endpoint == 'commercial_property_emi_calculator' %}emi-active{% endif %}">Commercial Property EMI</a>
                                 <a href="/land-loan-emi-calculator/" class="emi-mega-menu-link {% if request.endpoint == 'land_loan_emi_calculator' %}emi-active{% endif %}">Land Loan EMI</a>
                                 <a href="/mobile-phone-emi-calculator/" class="emi-mega-menu-link {% if request.endpoint == 'mobile_phone_emi_calculator' %}emi-active{% endif %}">Mobile Phone EMI</a>
                                 <a href="/laptop-emi-calculator/" class="emi-mega-menu-link {% if request.endpoint == 'laptop_emi_calculator' %}emi-active{% endif %}">Laptop EMI</a>
@@ -101,8 +118,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                
+                </div>                
                 
             </nav>
         </header>
