@@ -4,113 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EMI Calculator for Home Loan, Car Loan & Personal Loan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    {% include 'header_nav_component.html' %}
     <div class="container">
-        <header>
-            <h1>EMI Calculator</h1>
-            <nav class="main-nav">
-                <div class="nav-item">
-                    <a href="/" class="nav-link active">Home</a>
-                </div>
-                
-                <div class="nav-item mega-menu-container">
-                    <a href="#" class="nav-link mega-menu-trigger">EMI Calculators <span class="dropdown-arrow">▼</span></a>
-                    <div class="mega-menu">
-                        <div class="mega-menu-content">
-                            <div class="mega-menu-column">
-                                <h4>Home Loan Calculators</h4>
-                                <a href="/home-loan-calculator/" class="mega-menu-link">Home Loan EMI Calculator</a>
-                                <a href="/home-loan-eligibility-calculator/" class="mega-menu-link">Home Loan Eligibility</a>
-                                <a href="/home-loan-affordability-calculator/" class="mega-menu-link">Home Loan Affordability</a>
-                                <a href="/home-loan-refinance-calculator/" class="mega-menu-link">Home Loan Refinance</a>
-                                <a href="/loan-against-property-emi-calculator/" class="mega-menu-link">Loan Against Property EMI</a>
-                            </div>
-                            
-                            <div class="mega-menu-column">
-                                <h4>Vehicle Loan Calculators</h4>
-                                <a href="/car-loan-emi-calculator/" class="mega-menu-link">Car Loan EMI Calculator</a>
-                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-menu-link">Two Wheeler Loan EMI</a>
-                                <a href="/commercial-vehicle-emi-calculator/" class="mega-menu-link">Commercial Vehicle EMI</a>
-                                <a href="/tractor-loan-emi-calculator/" class="mega-menu-link">Tractor Loan EMI</a>
-                            </div>
-                            
-                            <div class="mega-menu-column">
-                                <h4>Personal & Business Loans</h4>
-                                <a href="/personal-loan-emi-calculator/" class="mega-menu-link">Personal Loan EMI</a>
-                                <a href="/business-loan-emi-calculator/" class="mega-menu-link">Business Loan EMI</a>
-                                <a href="/education-loan-emi-calculator/" class="mega-menu-link">Education Loan EMI</a>
-                                <a href="/gold-loan-emi-calculator/" class="mega-menu-link">Gold Loan EMI</a>
-                                <a href="/credit-card-emi-calculator/" class="mega-menu-link">Credit Card EMI</a>
-                            </div>
-                            
-                            <div class="mega-menu-column">
-                                <h4>Property & Equipment</h4>
-                                <a href="/commercial-property-emi-calculator/" class="mega-menu-link">Commercial Property EMI</a>
-                                <a href="/land-loan-emi-calculator/" class="mega-menu-link">Land Loan EMI</a>
-                                <a href="/mobile-phone-emi-calculator/" class="mega-menu-link">Mobile Phone EMI</a>
-                                <a href="/laptop-emi-calculator/" class="mega-menu-link">Laptop EMI</a>
-                            </div>
-                            
-                            <div class="mega-menu-column">
-                                <h4>EMI Types & Features</h4>
-                                <a href="/monthly-emi-calculator/" class="mega-menu-link">Monthly EMI Calculator</a>
-                                <a href="/quarterly-emi-calculator/" class="mega-menu-link">Quarterly EMI Calculator</a>
-                                <a href="/weekly-emi-calculator/" class="mega-menu-link">Weekly EMI Calculator</a>
-                                <a href="/daily-emi-calculator/" class="mega-menu-link">Daily EMI Calculator</a>
-                                <a href="/bullet-emi-calculator/" class="mega-menu-link">Bullet EMI Calculator</a>
-                                <a href="/step-up-emi-calculator/" class="mega-menu-link">Step Up EMI Calculator</a>
-                            </div>
-                            
-                            <div class="mega-menu-column">
-                                <h4>Interest Rate Types</h4>
-                                <a href="/reducing-balance-emi-calculator/" class="mega-menu-link">Reducing Balance EMI</a>
-                                <a href="/reducing-rate-emi-calculator/" class="mega-menu-link">Reducing Rate EMI</a>
-                                <a href="/reducing-loan-emi-calculator/" class="mega-menu-link">Reducing Loan EMI</a>
-                                <a href="/flat-interest-rate-emi-calculator/" class="mega-menu-link">Flat Interest Rate EMI</a>
-                                <a href="/floating-interest-rate-emi-calculator/" class="mega-menu-link">Floating Interest Rate EMI</a>
-                                <a href="/flat-vs-reducing-rate-interest-calculator/" class="mega-menu-link">Flat vs Reducing Rate</a>
-                                <a href="/no-cost-emi-calculator/" class="mega-menu-link">No Cost EMI Calculator</a>
-                            </div>
-                            
-                            <div class="mega-menu-column">
-                                <h4>Loan Analysis Tools</h4>
-                                <a href="/loan-amount-calculator/" class="mega-menu-link">Loan Amount Calculator</a>
-                                <a href="/loan-tenure-calculator/" class="mega-menu-link">Loan Tenure Calculator</a>
-                                <a href="/interest-rate-calculator/" class="mega-menu-link">Interest Rate Calculator</a>
-                                <a href="/reverse-emi-calculator/" class="mega-menu-link">Reverse EMI Calculator</a>
-                                <a href="/emi-calculator-with-part-payment/" class="mega-menu-link">EMI with Part Payment</a>
-                                <a href="/emi-overdue-status-calculator/" class="mega-menu-link">EMI Overdue Status</a>
-                            </div>
-                            
-                            <div class="mega-menu-column">
-                                <h4>Investment Calculators</h4>
-                                <a href="/nps-calculator/" class="mega-menu-link">NPS Calculator</a>
-                                <a href="/inflation-calculator/" class="mega-menu-link">Inflation Calculator</a>
-                                <a href="/gratuity-calculator/" class="mega-menu-link">Gratuity Calculator</a>
-                            </div>
-                            
-                            <div class="mega-menu-column">
-                                <h4>Government Schemes</h4>
-                                <a href="/atal-pension-yojana-calculator/" class="mega-menu-link">Atal Pension Yojana</a>
-                                <a href="/sukanya-samriddhi-yojana-calculator/" class="mega-menu-link">Sukanya Samriddhi Yojana</a>
-                                <a href="/kisan-vikas-patra-calculator/" class="mega-menu-link">Kisan Vikas Patra</a>
-                                <a href="/national-savings-certificate-calculator/" class="mega-menu-link">National Savings Certificate</a>
-                                <a href="/post-office-monthly-income-scheme-calculator/" class="mega-menu-link">POMIS Calculator</a>
-                                <a href="/senior-citizen-savings-scheme-calculator/" class="mega-menu-link">SCSS Calculator</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-
-            </nav>
-            <p>Calculate your Equated Monthly Installment (EMI) for different types of loans</p>
-        </header>
-
         <div class="calculator-container">
             <!-- Loan Type Tabs -->
             <div class="loan-tabs">
