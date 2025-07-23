@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reverse EMI Calculator | Calculate Loan Amount from Target EMI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/reverse_emi_style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -14,68 +15,8 @@
     </script>
 </head>
 <body>
+    {% include 'header_nav_component.html' %}
     <div class="container">
-        <header>
-            <h1>Reverse EMI Calculator</h1>
-            <nav>
-                <a href="/" class="home-btn">Home</a>
-                <div class="mega-menu">
-                    <button class="mega-menu-btn">
-                        EMI LOAN CALCULATORS
-                        <span class="dropdown-arrow">▼</span>
-                    </button>
-                    <div class="mega-menu-content">
-                        <div class="mega-menu-container">
-                            <div class="mega-menu-section">
-                                <h3 class="mega-section-title">🏠 Home Loans</h3>
-                                <a href="/home-loan-emi-calculator/" class="mega-link">Home Loan EMI</a>
-                                <a href="/home-loan-eligibility-calculator/" class="mega-link">Loan Eligibility</a>
-                                <a href="/home-loan-affordability-calculator/" class="mega-link">Loan Affordability</a>
-                                <a href="/home-loan-refinance-calculator/" class="mega-link">Loan Refinance</a>
-                            </div>
-                            
-                            <div class="mega-menu-section">
-                                <h3 class="mega-section-title">🚗 Vehicle Loans</h3>
-                                <a href="/car-loan-emi-calculator/" class="mega-link">Car Loan EMI</a>
-                                <a href="/two-wheeler-loan-emi-calculator/" class="mega-link">Two Wheeler EMI</a>
-                                <a href="/tractor-loan-emi-calculator/" class="mega-link">Tractor Loan EMI</a>
-                            </div>
-                            
-                            <div class="mega-menu-section">
-                                <h3 class="mega-section-title">🏢 Business & Property</h3>
-                                <a href="/business-loan-emi-calculator/" class="mega-link">Business Loan EMI</a>
-                                <a href="/commercial-property-loan-emi-calculator/" class="mega-link">Commercial Property</a>
-                                <a href="/land-loan-emi-calculator/" class="mega-link">Land Loan EMI</a>
-                            </div>
-                            
-                            <div class="mega-menu-section">
-                                <h3 class="mega-section-title">💳 Personal & Others</h3>
-                                <a href="/personal-loan-emi-calculator/" class="mega-link">Personal Loan EMI</a>
-                                <a href="/education-loan-emi-calculator/" class="mega-link">Education Loan EMI</a>
-                                <a href="/credit-card-emi-calculator/" class="mega-link">Credit Card EMI</a>
-                                <a href="/mobile-phone-emi-calculator/" class="mega-link">Mobile Phone EMI</a>
-                                <a href="/laptop-emi-calculator/" class="mega-link">Laptop EMI</a>
-                            </div>
-                            
-                            <div class="mega-menu-section">
-                                <h3 class="mega-section-title">🧮 Calculator Tools</h3>
-                                <a href="/" class="mega-link">Simple EMI Calculator</a>
-                                <a href="/emi-calculator-with-part-payment/" class="mega-link">EMI with Part Payment</a>
-                                <a href="/flat-interest-rate-emi-calculator/" class="mega-link">Flat Interest Rate EMI</a>
-                                <a href="/no-cost-emi-calculator/" class="mega-link">No Cost EMI</a>
-                                <a href="/reverse-emi-calculator/" class="mega-link active">Reverse EMI Calculator</a>
-                                <a href="/sip-calculator/" class="mega-link">SIP Calculator</a>
-                                <a href="/sip-calculator-with-expense-ratio/" class="mega-link">SIP with Expense Ratio</a>
-                                <a href="/loan-amount-calculator/" class="mega-link">Loan Amount</a>
-                                <a href="/loan-tenure-calculator/" class="mega-link">Loan Tenure</a>
-                                <a href="/interest-rate-calculator/" class="mega-link">Interest Rate</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
         <div class="calculator-container">
             <div class="input-sections">
                 <!-- Reverse EMI Calculation Section -->
