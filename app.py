@@ -275,8 +275,8 @@ def tractor_loan_emi_calculator():
     return render_template('tractor_loan_emi_calculator.html')
 
 @app.route('/commercial-property-loan-emi-calculator/')
-def commercial_property_emi_calculator():
-    return render_template('commercial_property_emi_calculator.html')
+def commercial_property_loan_emi_calculator():
+    return render_template('commercial_property_loan_emi_calculator.html')
 
 @app.route('/commercial-vehicle-emi-calculator/')
 def commercial_vehicle_emi_calculator():
