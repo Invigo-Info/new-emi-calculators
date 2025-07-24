@@ -1,242 +1,520 @@
-// RD Calculator Script
-
-let chart = null;
-
-// Input elements
-const monthlyDepositInput = document.getElementById('monthlyDeposit');
-const monthlyDepositSlider = document.getElementById('monthlyDepositSlider');
-const interestRateInput = document.getElementById('interestRate');
-const interestRateSlider = document.getElementById('interestRateSlider');
-const tenureYearsInput = document.getElementById('tenureYears');
-const tenureYearsSlider = document.getElementById('tenureYearsSlider');
-const compoundingFrequencySelect = document.getElementById('compoundingFrequency');
-
-// Custom Chart.js plugin to display Total Return in center
-const centerTextPlugin = {
-    id: 'centerText',
-    beforeDraw: function(chart) {
-        if (chart.config.options.plugins.centerText && chart.config.options.plugins.centerText.display) {
-            const ctx = chart.ctx;
-            const centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
-            const centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
-            
-            ctx.save();
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            
-            // Draw Total Return value
-            ctx.font = 'bold 28px Inter, sans-serif';
-            ctx.fillStyle = '#1a202c';
-            ctx.fillText(chart.config.options.plugins.centerText.text, centerX, centerY - 10);
-            
-            // Draw "Total Return" label
-            ctx.font = '14px Inter, sans-serif';
-            ctx.fillStyle = '#6b7280';
-            ctx.fillText('Total Return', centerX, centerY + 15);
-            
-            ctx.restore();
-        }
-    }
-};
-
-// Register the plugin
-Chart.register(centerTextPlugin);
-
-// Initialize sliders and event listeners
+// RD Calculator JavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    setupSliders();
-    addEventListeners();
-    initialSyncValues(); // Add initial synchronization
-    calculateAndUpdateResults();
-    setupMegaMenu();
-});
+    // Global variables
+    let rdChart = null;
 
-function setupSliders() {
-    syncInputs(monthlyDepositInput, monthlyDepositSlider);
-    syncInputs(interestRateInput, interestRateSlider);
-    syncInputs(tenureYearsInput, tenureYearsSlider);
-}
+    // DOM Elements
+    const monthlyDepositInput = document.getElementById('monthlyDeposit');
+    const monthlyDepositSlider = document.getElementById('monthlyDepositSlider');
+    const interestRateInput = document.getElementById('interestRate');
+    const interestRateSlider = document.getElementById('interestRateSlider');
+    const tenureInput = document.getElementById('tenureYears');
+    const tenureSlider = document.getElementById('tenureSlider');
+    const compoundingFrequencySelect = document.getElementById('compoundingFrequency');
 
-function initialSyncValues() {
-    // Ensure initial values are properly synchronized
-    monthlyDepositSlider.value = monthlyDepositInput.value;
-    interestRateSlider.value = interestRateInput.value;
-    tenureYearsSlider.value = tenureYearsInput.value;
-}
+    // Result elements
+    const maturityAmountResult = document.getElementById('maturityAmountResult');
+    const interestEarnedResult = document.getElementById('interestEarnedResult');
+    const totalDepositsResult = document.getElementById('totalDepositsResult');
+    const totalReturnResult = document.getElementById('totalReturnResult');
+    const investmentTableBody = document.getElementById('investmentTableBody');
 
-function syncInputs(input, slider) {
-    // Sync input to slider
-    input.addEventListener('input', function() {
-        const value = parseFloat(this.value) || 0;
-        if (value >= parseFloat(slider.min) && value <= parseFloat(slider.max)) {
-            slider.value = value;
-        }
-        calculateAndUpdateResults();
-    });
+    // Initialize calculator
+    init();
 
-    // Sync slider to input
-    slider.addEventListener('input', function() {
-        input.value = this.value;
-        calculateAndUpdateResults();
-    });
+    function init() {
+        // Sync input fields with sliders
+        syncInputSlider(monthlyDepositInput, monthlyDepositSlider);
+        syncInputSlider(interestRateInput, interestRateSlider);
+        syncInputSlider(tenureInput, tenureSlider);
 
-    // Add change event for input field to handle direct typing
-    input.addEventListener('change', function() {
-        const value = parseFloat(this.value) || 0;
-        if (value >= parseFloat(slider.min) && value <= parseFloat(slider.max)) {
-            slider.value = value;
-        } else if (value < parseFloat(slider.min)) {
-            this.value = slider.min;
-            slider.value = slider.min;
-        } else if (value > parseFloat(slider.max)) {
-            this.value = slider.max;
-            slider.value = slider.max;
-        }
-        calculateAndUpdateResults();
-    });
-}
+        // Add event listeners
+        monthlyDepositInput.addEventListener('input', calculateAndUpdate);
+        monthlyDepositSlider.addEventListener('input', calculateAndUpdate);
+        interestRateInput.addEventListener('input', calculateAndUpdate);
+        interestRateSlider.addEventListener('input', calculateAndUpdate);
+        tenureInput.addEventListener('input', calculateAndUpdate);
+        tenureSlider.addEventListener('input', calculateAndUpdate);
+        compoundingFrequencySelect.addEventListener('change', calculateAndUpdate);
 
-function addEventListeners() {
-    // Add change listeners for all inputs
-    [monthlyDepositInput, interestRateInput, tenureYearsInput].forEach(input => {
-        input.addEventListener('change', calculateAndUpdateResults);
-        input.addEventListener('keyup', calculateAndUpdateResults);
-    });
+        // Initial calculation
+        calculateAndUpdate();
 
-    // Add input listeners for sliders
-    [monthlyDepositSlider, interestRateSlider, tenureYearsSlider].forEach(slider => {
-        slider.addEventListener('input', calculateAndUpdateResults);
-    });
-
-    // Add listener for compounding frequency
-    compoundingFrequencySelect.addEventListener('change', calculateAndUpdateResults);
-}
-
-function calculateAndUpdateResults() {
-    const data = {
-        monthly_deposit: parseFloat(monthlyDepositInput.value) || 0,
-        annual_interest_rate: parseFloat(interestRateInput.value) || 0,
-        tenure_years: parseInt(tenureYearsInput.value) || 0,
-        compounding_frequency: compoundingFrequencySelect.value
-    };
-
-    // Validate inputs
-    if (data.monthly_deposit <= 0 || data.annual_interest_rate <= 0 || data.tenure_years <= 0) {
-        return;
+        // Initialize navigation dropdown
+        initializeNavigation();
     }
 
-    // Send calculation request
-    fetch('/calculate-rd', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
+    function syncInputSlider(input, slider) {
+        input.addEventListener('input', () => {
+            slider.value = input.value;
+        });
+        
+        slider.addEventListener('input', () => {
+            input.value = slider.value;
+        });
+    }
+
+    function calculateAndUpdate() {
+        const monthlyDeposit = parseFloat(monthlyDepositInput.value) || 5000;
+        const annualInterestRate = parseFloat(interestRateInput.value) || 6.5;
+        const tenureYears = parseInt(tenureInput.value) || 5;
+        const compoundingFrequency = compoundingFrequencySelect.value || 'quarterly';
+
+        // Validate inputs
+        if (monthlyDeposit < 100 || monthlyDeposit > 100000) {
+            showNotification('Monthly deposit should be between ₹100 and ₹1,00,000', 'error');
+            return;
+        }
+        
+        if (annualInterestRate < 1 || annualInterestRate > 15) {
+            showNotification('Interest rate should be between 1% and 15%', 'error');
+            return;
+        }
+        
+        if (tenureYears < 1 || tenureYears > 30) {
+            showNotification('Tenure should be between 1 and 30 years', 'error');
+            return;
+        }
+
+        // Calculate RD returns
+        const result = calculateRDReturns(monthlyDeposit, annualInterestRate, tenureYears, compoundingFrequency);
+        
+        // Update results display
         updateResultsDisplay(result);
         updateChart(result);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-function updateResultsDisplay(result) {
-    document.getElementById('totalDepositsResult').textContent = formatCurrency(result.total_deposits);
-    document.getElementById('interestEarnedResult').textContent = formatCurrency(result.interest_earned);
-    document.getElementById('maturityAmountResult').textContent = formatCurrency(result.maturity_amount);
-    document.getElementById('totalReturnResult').textContent = `${result.total_return_percentage.toFixed(2)}%`;
-    
-    // Update chart summary
-    document.getElementById('totalDepositsDisplay').textContent = formatCurrency(result.total_deposits);
-    document.getElementById('interestAmountDisplay').textContent = formatCurrency(result.interest_earned);
-}
-
-function updateChart(result) {
-    const ctx = document.getElementById('rdBreakupChart').getContext('2d');
-    
-    if (chart) {
-        chart.destroy();
+        updateTable(result);
     }
 
-    chart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Total Deposits', 'Interest Earned'],
-            datasets: [{
-                data: [result.total_deposits, result.interest_earned],
-                backgroundColor: ['#10B981', '#F59E0B'],
-                borderWidth: 3,
-                borderColor: '#ffffff',
-                cutout: '75%',
-                hoverOffset: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                    titleColor: '#ffffff',
-                    bodyColor: '#ffffff',
-                    borderColor: '#ffffff',
-                    borderWidth: 1,
-                    cornerRadius: 8,
-                    padding: 12,
-                    displayColors: true,
-                    callbacks: {
-                        label: function(context) {
-                            const label = context.label || '';
-                            const value = formatCurrency(context.parsed);
-                            const percentage = ((context.parsed / (result.total_deposits + result.interest_earned)) * 100).toFixed(1);
-                            return `${label}: ${value} (${percentage}%)`;
+    function calculateRDReturns(monthlyDeposit, annualInterestRate, tenureYears, compoundingFrequency) {
+        try {
+            // Convert annual rate to monthly rate (decimal)
+            const monthlyRate = annualInterestRate / 12 / 100;
+            
+            // Total number of months
+            const totalMonths = tenureYears * 12;
+            
+            // Calculate total deposits
+            const totalDeposits = monthlyDeposit * totalMonths;
+            
+            let maturityAmount;
+            
+            if (monthlyRate === 0) {
+                // If interest rate is 0, maturity amount is just total deposits
+                maturityAmount = totalDeposits;
+            } else {
+                // RD compound interest formula
+                // M = R * [((1+i)^n - 1) / i] * (1+i)
+                // Where: M = Maturity Amount, R = Monthly deposit, i = Monthly interest rate, n = Number of months
+                maturityAmount = monthlyDeposit * (((1 + monthlyRate) ** totalMonths - 1) / monthlyRate) * (1 + monthlyRate);
+            }
+            
+            // Calculate interest earned
+            const interestEarned = maturityAmount - totalDeposits;
+            
+            // Calculate total return percentage
+            const totalReturnPercentage = totalDeposits > 0 ? (interestEarned / totalDeposits) * 100 : 0;
+            
+            // Generate yearly breakdown
+            const yearlyBreakdown = generateYearlyBreakdown(monthlyDeposit, monthlyRate, tenureYears);
+            
+            return {
+                monthlyDeposit: monthlyDeposit,
+                annualInterestRate: annualInterestRate,
+                tenureYears: tenureYears,
+                compoundingFrequency: compoundingFrequency,
+                totalDeposits: Math.round(totalDeposits),
+                maturityAmount: Math.round(maturityAmount),
+                interestEarned: Math.round(interestEarned),
+                totalReturnPercentage: Math.round(totalReturnPercentage * 100) / 100,
+                yearlyBreakdown: yearlyBreakdown
+            };
+        } catch (error) {
+            console.error('Calculation error:', error);
+            return {
+                monthlyDeposit: 0,
+                totalDeposits: 0,
+                maturityAmount: 0,
+                interestEarned: 0,
+                totalReturnPercentage: 0,
+                yearlyBreakdown: []
+            };
+        }
+    }
+
+    function generateYearlyBreakdown(monthlyDeposit, monthlyRate, tenureYears) {
+        const breakdown = [];
+        let cumulativeDeposits = 0;
+        let currentBalance = 0;
+        
+        for (let year = 1; year <= tenureYears; year++) {
+            const annualDeposits = monthlyDeposit * 12;
+            cumulativeDeposits += annualDeposits;
+            
+            // Calculate balance at end of year
+            for (let month = 1; month <= 12; month++) {
+                currentBalance = (currentBalance + monthlyDeposit) * (1 + monthlyRate);
+            }
+            
+            const interestEarned = currentBalance - cumulativeDeposits;
+            
+            breakdown.push({
+                year: year,
+                annualDeposits: annualDeposits,
+                cumulativeDeposits: cumulativeDeposits,
+                interestEarned: Math.round(interestEarned),
+                totalValue: Math.round(currentBalance)
+            });
+        }
+        
+        return breakdown;
+    }
+
+    function updateResultsDisplay(result) {
+        maturityAmountResult.textContent = formatCurrency(result.maturityAmount);
+        interestEarnedResult.textContent = formatCurrency(result.interestEarned);
+        totalDepositsResult.textContent = formatCurrency(result.totalDeposits);
+        totalReturnResult.textContent = result.totalReturnPercentage + '%';
+    }
+
+    function updateChart(result) {
+        const ctx = document.getElementById('rdChart').getContext('2d');
+        
+        if (rdChart) {
+            rdChart.destroy();
+        }
+        
+        rdChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Total Deposits', 'Interest Earned'],
+                datasets: [{
+                    data: [result.totalDeposits, result.interestEarned],
+                    backgroundColor: ['#3B82F6', '#10B981'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true,
+                            font: {
+                                size: 14,
+                                weight: 500
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + formatCurrency(context.raw);
+                            }
                         }
                     }
                 },
-                centerText: {
-                    display: true,
-                    text: `${result.total_return_percentage.toFixed(2)}%`
-                }
-            },
-            animation: {
-                animateScale: true,
-                animateRotate: true,
-                duration: 1200,
-                easing: 'easeOutCubic'
-            }
-        }
-    });
-}
-
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('en-IN', {
-        style: 'currency',
-        currency: 'INR',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    }).format(Math.round(amount));
-}
-
-function setupMegaMenu() {
-    const megaMenuBtn = document.querySelector('.mega-menu-btn');
-    const megaMenu = document.querySelector('.mega-menu');
-    
-    if (megaMenuBtn && megaMenu) {
-        megaMenuBtn.addEventListener('click', function() {
-            megaMenu.classList.toggle('open');
-        });
-
-        // Close mega menu when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!megaMenu.contains(event.target)) {
-                megaMenu.classList.remove('open');
+                cutout: '60%'
             }
         });
     }
-} 
+
+    function updateTable(result) {
+        let tableHTML = '';
+        
+        result.yearlyBreakdown.forEach(row => {
+            tableHTML += `
+                <tr>
+                    <td>${row.year}</td>
+                    <td>${formatCurrency(row.annualDeposits)}</td>
+                    <td>${formatCurrency(row.cumulativeDeposits)}</td>
+                    <td>${formatCurrency(row.interestEarned)}</td>
+                    <td>${formatCurrency(row.totalValue)}</td>
+                </tr>
+            `;
+        });
+        
+        if (investmentTableBody) {
+            investmentTableBody.innerHTML = tableHTML;
+        }
+    }
+
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(amount);
+    }
+
+    function showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.notification');
+        existingNotifications.forEach(notification => {
+            notification.remove();
+        });
+
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        // Remove notification after 3 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
+    }
+
+    function initializeNavigation() {
+        // Handle dropdown navigation
+        const dropdown = document.querySelector('.dropdown');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        
+        if (dropdown && dropdownToggle) {
+            let isOpen = false;
+            
+            dropdownToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                isOpen = !isOpen;
+                dropdown.classList.toggle('open', isOpen);
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!dropdown.contains(e.target)) {
+                    isOpen = false;
+                    dropdown.classList.remove('open');
+                }
+            });
+            
+            // Close dropdown when pressing Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isOpen) {
+                    isOpen = false;
+                    dropdown.classList.remove('open');
+                }
+            });
+        }
+    }
+
+    // Export functions for global access if needed
+    window.RDCalculator = {
+        calculateRDReturns,
+        formatCurrency,
+        showNotification
+    };
+
+    // Handle URL parameters if any
+    function loadFromUrlParameters() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        if (urlParams.get('monthlyDeposit')) {
+            monthlyDepositInput.value = urlParams.get('monthlyDeposit');
+            monthlyDepositSlider.value = urlParams.get('monthlyDeposit');
+        }
+        
+        if (urlParams.get('interestRate')) {
+            interestRateInput.value = urlParams.get('interestRate');
+            interestRateSlider.value = urlParams.get('interestRate');
+        }
+        
+        if (urlParams.get('tenure')) {
+            tenureInput.value = urlParams.get('tenure');
+            tenureSlider.value = urlParams.get('tenure');
+        }
+        
+        if (urlParams.get('compounding')) {
+            compoundingFrequencySelect.value = urlParams.get('compounding');
+        }
+        
+        // Recalculate with URL parameters
+        if (urlParams.toString()) {
+            calculateAndUpdate();
+        }
+    }
+
+    // Load URL parameters on initialization
+    loadFromUrlParameters();
+
+    // Print functionality
+    function generatePrintableContent() {
+        const monthlyDeposit = parseFloat(monthlyDepositInput.value) || 5000;
+        const interestRate = parseFloat(interestRateInput.value) || 6.5;
+        const tenure = parseInt(tenureInput.value) || 5;
+        const compounding = compoundingFrequencySelect.value || 'quarterly';
+        
+        const result = calculateRDReturns(monthlyDeposit, interestRate, tenure, compounding);
+        
+        return `
+            <div class="header">
+                <h1>RD Calculator Results</h1>
+                <p>Monthly Deposit: ${formatCurrency(monthlyDeposit)} | Interest Rate: ${interestRate}% | Tenure: ${tenure} years | Compounding: ${compounding}</p>
+            </div>
+            
+            <div class="results-grid">
+                <div class="result-item">
+                    <div class="result-label">Maturity Amount</div>
+                    <div class="result-value">${formatCurrency(result.maturityAmount)}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Interest Earned</div>
+                    <div class="result-value">${formatCurrency(result.interestEarned)}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Total Deposits</div>
+                    <div class="result-value">${formatCurrency(result.totalDeposits)}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Total Return</div>
+                    <div class="result-value">${result.totalReturnPercentage}%</div>
+                </div>
+            </div>
+            
+            <h3>Year-wise Investment Growth</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Annual Deposits</th>
+                        <th>Cumulative Deposits</th>
+                        <th>Interest Earned</th>
+                        <th>Total Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${result.yearlyBreakdown.map(row => `
+                        <tr>
+                            <td>${row.year}</td>
+                            <td>${formatCurrency(row.annualDeposits)}</td>
+                            <td>${formatCurrency(row.cumulativeDeposits)}</td>
+                            <td>${formatCurrency(row.interestEarned)}</td>
+                            <td>${formatCurrency(row.totalValue)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+
+    // Add print functionality
+    window.printResults = function() {
+        const printContent = generatePrintableContent();
+        const printWindow = window.open('', '_blank');
+        
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>RD Calculator - Results</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+                        .result-item { padding: 15px; border: 1px solid #ddd; border-radius: 8px; text-align: center; }
+                        .result-label { font-weight: bold; margin-bottom: 5px; }
+                        .result-value { font-size: 1.2em; color: #2563eb; font-weight: bold; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                        th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+                        th { background: #f5f5f5; font-weight: bold; }
+                        h3 { margin-top: 30px; }
+                        @media print { 
+                            body { margin: 0; }
+                            .no-print { display: none; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${printContent}
+                </body>
+            </html>
+        `);
+        
+        printWindow.document.close();
+        printWindow.focus();
+        
+        setTimeout(() => {
+            printWindow.print();
+            printWindow.close();
+        }, 250);
+    };
+
+    // Share functionality
+    window.shareResults = function() {
+        const monthlyDeposit = parseFloat(monthlyDepositInput.value) || 5000;
+        const interestRate = parseFloat(interestRateInput.value) || 6.5;
+        const tenure = parseInt(tenureInput.value) || 5;
+        const compounding = compoundingFrequencySelect.value || 'quarterly';
+        
+        const result = calculateRDReturns(monthlyDeposit, interestRate, tenure, compounding);
+        
+        const shareUrl = `${window.location.origin}${window.location.pathname}?monthlyDeposit=${monthlyDeposit}&interestRate=${interestRate}&tenure=${tenure}&compounding=${compounding}`;
+        
+        const shareText = `RD Calculator Results:
+Monthly Deposit: ${formatCurrency(monthlyDeposit)}
+Interest Rate: ${interestRate}%
+Tenure: ${tenure} years
+Maturity Amount: ${formatCurrency(result.maturityAmount)}
+Interest Earned: ${formatCurrency(result.interestEarned)}
+
+Calculate your RD returns: ${shareUrl}`;
+        
+        if (navigator.share) {
+            navigator.share({
+                title: 'RD Calculator Results',
+                text: shareText,
+                url: shareUrl
+            }).then(() => {
+                showNotification('Results shared successfully!', 'success');
+            }).catch(() => {
+                copyToClipboard(shareText);
+            });
+        } else {
+            copyToClipboard(shareText);
+        }
+    };
+
+    function copyToClipboard(text) {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Results copied to clipboard!', 'success');
+            }).catch(() => {
+                fallbackCopyToClipboard(text);
+            });
+        } else {
+            fallbackCopyToClipboard(text);
+        }
+    }
+
+    function fallbackCopyToClipboard(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            document.execCommand('copy');
+            showNotification('Results copied to clipboard!', 'success');
+        } catch (err) {
+            showNotification('Failed to copy results', 'error');
+        } finally {
+            document.body.removeChild(textArea);
+        }
+    }
+});
