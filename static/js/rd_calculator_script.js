@@ -55,24 +55,85 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function calculateAndUpdate() {
-        const monthlyDeposit = parseFloat(monthlyDepositInput.value) || 5000;
-        const annualInterestRate = parseFloat(interestRateInput.value) || 6.5;
-        const tenureYears = parseInt(tenureInput.value) || 5;
+        // Get actual input values without fallbacks
+        const monthlyDepositValue = monthlyDepositInput.value;
+        const interestRateValue = interestRateInput.value;
+        const tenureValue = tenureInput.value;
+        
+        const monthlyDeposit = parseFloat(monthlyDepositValue);
+        const annualInterestRate = parseFloat(interestRateValue);
+        const tenureYears = parseInt(tenureValue);
         const compoundingFrequency = compoundingFrequencySelect.value || 'quarterly';
 
-        // Validate inputs
+        // Check for empty or zero values
+        if (!monthlyDepositValue || monthlyDeposit === 0) {
+            const zeroResult = {
+                monthlyDeposit: 0,
+                annualInterestRate: annualInterestRate || 0,
+                tenureYears: tenureYears || 0,
+                compoundingFrequency: compoundingFrequency,
+                totalDeposits: 0,
+                maturityAmount: 0,
+                interestEarned: 0,
+                totalReturnPercentage: 0,
+                yearlyBreakdown: []
+            };
+            updateResultsDisplay(zeroResult);
+            updateChart(zeroResult);
+            updateTable(zeroResult);
+            return;
+        }
+
+        if (!interestRateValue || annualInterestRate === 0) {
+            const totalDeposits = monthlyDeposit * (tenureYears || 0) * 12;
+            const zeroInterestResult = {
+                monthlyDeposit: monthlyDeposit,
+                annualInterestRate: 0,
+                tenureYears: tenureYears || 0,
+                compoundingFrequency: compoundingFrequency,
+                totalDeposits: totalDeposits,
+                maturityAmount: totalDeposits,
+                interestEarned: 0,
+                totalReturnPercentage: 0,
+                yearlyBreakdown: generateYearlyBreakdown(monthlyDeposit, 0, tenureYears || 0)
+            };
+            updateResultsDisplay(zeroInterestResult);
+            updateChart(zeroInterestResult);
+            updateTable(zeroInterestResult);
+            return;
+        }
+
+        if (!tenureValue || tenureYears === 0) {
+            const zeroTenureResult = {
+                monthlyDeposit: monthlyDeposit,
+                annualInterestRate: annualInterestRate,
+                tenureYears: 0,
+                compoundingFrequency: compoundingFrequency,
+                totalDeposits: 0,
+                maturityAmount: 0,
+                interestEarned: 0,
+                totalReturnPercentage: 0,
+                yearlyBreakdown: []
+            };
+            updateResultsDisplay(zeroTenureResult);
+            updateChart(zeroTenureResult);
+            updateTable(zeroTenureResult);
+            return;
+        }
+
+        // Validate inputs (only show errors for invalid ranges, not zero values)
         if (monthlyDeposit < 100 || monthlyDeposit > 100000) {
             showNotification('Monthly deposit should be between ₹100 and ₹1,00,000', 'error');
             return;
         }
         
-        if (annualInterestRate < 1 || annualInterestRate > 15) {
-            showNotification('Interest rate should be between 1% and 15%', 'error');
+        if (annualInterestRate < 0 || annualInterestRate > 15) {
+            showNotification('Interest rate should be between 0% and 15%', 'error');
             return;
         }
         
-        if (tenureYears < 1 || tenureYears > 30) {
-            showNotification('Tenure should be between 1 and 30 years', 'error');
+        if (tenureYears < 0 || tenureYears > 30) {
+            showNotification('Tenure should be between 0 and 30 years', 'error');
             return;
         }
 
@@ -87,6 +148,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function calculateRDReturns(monthlyDeposit, annualInterestRate, tenureYears, compoundingFrequency) {
         try {
+            // Handle zero or invalid inputs
+            if (!monthlyDeposit || monthlyDeposit <= 0) {
+                return {
+                    monthlyDeposit: 0,
+                    annualInterestRate: annualInterestRate || 0,
+                    tenureYears: tenureYears || 0,
+                    compoundingFrequency: compoundingFrequency,
+                    totalDeposits: 0,
+                    maturityAmount: 0,
+                    interestEarned: 0,
+                    totalReturnPercentage: 0,
+                    yearlyBreakdown: []
+                };
+            }
+
+            if (!tenureYears || tenureYears <= 0) {
+                return {
+                    monthlyDeposit: monthlyDeposit,
+                    annualInterestRate: annualInterestRate || 0,
+                    tenureYears: 0,
+                    compoundingFrequency: compoundingFrequency,
+                    totalDeposits: 0,
+                    maturityAmount: 0,
+                    interestEarned: 0,
+                    totalReturnPercentage: 0,
+                    yearlyBreakdown: []
+                };
+            }
+
             // Convert annual rate to monthly rate (decimal)
             const monthlyRate = annualInterestRate / 12 / 100;
             
@@ -98,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             let maturityAmount;
             
-            if (monthlyRate === 0) {
+            if (!annualInterestRate || annualInterestRate <= 0 || monthlyRate === 0) {
                 // If interest rate is 0, maturity amount is just total deposits
                 maturityAmount = totalDeposits;
             } else {
@@ -119,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             return {
                 monthlyDeposit: monthlyDeposit,
-                annualInterestRate: annualInterestRate,
+                annualInterestRate: annualInterestRate || 0,
                 tenureYears: tenureYears,
                 compoundingFrequency: compoundingFrequency,
                 totalDeposits: Math.round(totalDeposits),
@@ -143,6 +233,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function generateYearlyBreakdown(monthlyDeposit, monthlyRate, tenureYears) {
         const breakdown = [];
+        
+        // Handle zero or invalid inputs
+        if (!monthlyDeposit || monthlyDeposit <= 0 || !tenureYears || tenureYears <= 0) {
+            return breakdown;
+        }
+        
         let cumulativeDeposits = 0;
         let currentBalance = 0;
         
@@ -151,8 +247,14 @@ document.addEventListener('DOMContentLoaded', function() {
             cumulativeDeposits += annualDeposits;
             
             // Calculate balance at end of year
-            for (let month = 1; month <= 12; month++) {
-                currentBalance = (currentBalance + monthlyDeposit) * (1 + monthlyRate);
+            if (!monthlyRate || monthlyRate <= 0) {
+                // No interest case
+                currentBalance = cumulativeDeposits;
+            } else {
+                // With interest case
+                for (let month = 1; month <= 12; month++) {
+                    currentBalance = (currentBalance + monthlyDeposit) * (1 + monthlyRate);
+                }
             }
             
             const interestEarned = currentBalance - cumulativeDeposits;
@@ -183,12 +285,46 @@ document.addEventListener('DOMContentLoaded', function() {
             rdChart.destroy();
         }
         
+        // Handle zero values in chart
+        const totalDeposits = result.totalDeposits || 0;
+        const interestEarned = result.interestEarned || 0;
+        
+        // If both values are zero, show a placeholder
+        if (totalDeposits === 0 && interestEarned === 0) {
+            rdChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['No Data'],
+                    datasets: [{
+                        data: [1],
+                        backgroundColor: ['#E5E7EB'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+            return;
+        }
+        
         rdChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['Total Deposits', 'Interest Earned'],
                 datasets: [{
-                    data: [result.totalDeposits, result.interestEarned],
+                    data: [totalDeposits, interestEarned],
                     backgroundColor: ['#3B82F6', '#10B981'],
                     borderWidth: 2,
                     borderColor: '#ffffff'
@@ -225,17 +361,28 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateTable(result) {
         let tableHTML = '';
         
-        result.yearlyBreakdown.forEach(row => {
-            tableHTML += `
+        // Handle empty breakdown
+        if (!result.yearlyBreakdown || result.yearlyBreakdown.length === 0) {
+            tableHTML = `
                 <tr>
-                    <td>${row.year}</td>
-                    <td>${formatCurrency(row.annualDeposits)}</td>
-                    <td>${formatCurrency(row.cumulativeDeposits)}</td>
-                    <td>${formatCurrency(row.interestEarned)}</td>
-                    <td>${formatCurrency(row.totalValue)}</td>
+                    <td colspan="5" style="text-align: center; color: #6b7280; font-style: italic; padding: 20px;">
+                        No data to display. Please enter valid input values.
+                    </td>
                 </tr>
             `;
-        });
+        } else {
+            result.yearlyBreakdown.forEach(row => {
+                tableHTML += `
+                    <tr>
+                        <td>${row.year}</td>
+                        <td>${formatCurrency(row.annualDeposits)}</td>
+                        <td>${formatCurrency(row.cumulativeDeposits)}</td>
+                        <td>${formatCurrency(row.interestEarned)}</td>
+                        <td>${formatCurrency(row.totalValue)}</td>
+                    </tr>
+                `;
+            });
+        }
         
         if (investmentTableBody) {
             investmentTableBody.innerHTML = tableHTML;
