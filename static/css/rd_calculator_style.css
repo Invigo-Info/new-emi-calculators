@@ -14,8 +14,11 @@ body {
 
 .page-wrapper {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    /* display: flex;
+    flex-direction: column; */
 }
 
 /* Header and Navigation */
