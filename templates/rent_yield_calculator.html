@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent Yield Calculator | Property Investment Analysis</title>
+    <meta name="description" content="Calculate rental yield, gross and net returns, payback period for property investment. Easy-to-use rent yield calculator with Indian currency formatting.">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/rent_yield_calculator_style.css') }}">    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="ryc-container">
+        <div class="ryc-calculator-container">
+            <!-- Left Column - Inputs -->
+            <div class="ryc-input-sections">
+                <!-- Property Investment Section -->
+                <div class="ryc-section">
+                    <h2>Property Investment Details</h2>
+                    <div class="ryc-input-grid">
+                        <div class="ryc-input-group">
+                            <div class="ryc-input-row">
+                                <label class="ryc-input-label" title="Total purchase price of the investment property">Purchase Price</label>
+                                <div class="ryc-input-field-container">
+                                    <input type="number" id="rycPurchasePrice" value="10000000" min="1000000" max="100000000" step="100000">
+                                    <span class="ryc-input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="ryc-slider-container">
+                                <input type="range" id="rycPurchasePriceSlider" min="1000000" max="100000000" value="10000000" step="100000" class="ryc-custom-slider">
+                                <div class="ryc-slider-labels">
+                                    <span>₹10L</span>
+                                    <span>₹10Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ryc-input-group">
+                            <div class="ryc-input-row">
+                                <label class="ryc-input-label" title="Expected monthly rental income from the property">Monthly Rental Income</label>
+                                <div class="ryc-input-field-container">
+                                    <input type="number" id="rycMonthlyRent" value="35000" min="1000" max="1000000" step="1000">
+                                    <span class="ryc-input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="ryc-slider-container">
+                                <input type="range" id="rycMonthlyRentSlider" min="1000" max="1000000" value="35000" step="1000" class="ryc-custom-slider">
+                                <div class="ryc-slider-labels">
+                                    <span>₹1K</span>
+                                    <span>₹10L</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ryc-input-group">
+                            <div class="ryc-input-row">
+                                <label class="ryc-input-label" title="Annual operational costs including maintenance, property management, repairs">Annual Operational Costs</label>
+                                <div class="ryc-input-field-container">
+                                    <input type="number" id="rycAnnualCosts" value="12000" min="0" max="1000000" step="1000">
+                                    <span class="ryc-input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="ryc-slider-container">
+                                <input type="range" id="rycAnnualCostsSlider" min="0" max="1000000" value="12000" step="1000" class="ryc-custom-slider">
+                                <div class="ryc-slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹10L</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ryc-input-group ryc-optional-field">
+                            <div class="ryc-input-row">
+                                <label class="ryc-input-label" title="Number of months per year the property might remain vacant (reduces effective rental income)">Vacancy Period <span class="ryc-optional-tag">(Optional)</span></label>
+                                <div class="ryc-input-field-container">
+                                    <input type="number" id="rycVacancyMonths" value="0" min="0" max="12" step="1">
+                                    <span class="ryc-input-suffix">months/year</span>
+                                </div>
+                            </div>
+                            <div class="ryc-slider-container">
+                                <input type="range" id="rycVacancyMonthsSlider" min="0" max="12" value="0" step="1" class="ryc-custom-slider">
+                                <div class="ryc-slider-labels">
+                                    <span>0</span>
+                                    <span>12</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculation Info Section -->
+                <div class="ryc-section ryc-info-section">
+                    <h2>Understanding Rental Yields</h2>
+                    <div class="ryc-info-content">
+                        <div class="ryc-info-item">
+                            <div class="ryc-info-icon">📊</div>
+                            <div class="ryc-info-text">
+                                <strong>Gross Yield:</strong> Annual rental income as % of purchase price
+                            </div>
+                        </div>
+                        <div class="ryc-info-item">
+                            <div class="ryc-info-icon">💰</div>
+                            <div class="ryc-info-text">
+                                <strong>Net Yield:</strong> Annual income after costs as % of purchase price
+                            </div>
+                        </div>
+                        <div class="ryc-info-item">
+                            <div class="ryc-info-icon">⏰</div>
+                            <div class="ryc-info-text">
+                                <strong>Payback Period:</strong> Years to recover investment through rental income
+                            </div>
+                        </div>
+                        <div class="ryc-info-item">
+                            <div class="ryc-info-icon">🏠</div>
+                            <div class="ryc-info-text">
+                                <strong>Vacancy Impact:</strong> Reduces effective annual rent proportionally
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Results -->
+            <div class="ryc-results-sections">
+                <!-- Key Metrics Section -->
+                <div class="ryc-results-section">
+                    <div class="ryc-key-metrics">
+                        <h3>Key Performance Metrics</h3>
+                        <div class="ryc-metrics-grid">
+                            <div class="ryc-metric-card ryc-primary-metric">
+                                <div class="ryc-metric-label">Gross Rental Yield</div>
+                                <div class="ryc-metric-value" id="rycGrossYield">4.20%</div>
+                            </div>
+                            <div class="ryc-metric-card ryc-primary-metric">
+                                <div class="ryc-metric-label">Net Rental Yield</div>
+                                <div class="ryc-metric-value" id="rycNetYield">4.06%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Income & Expenses Summary -->
+                <div class="ryc-results-section">
+                    <h4>Income & Expenses Summary</h4>
+                    <div class="ryc-summary-grid">
+                        <div class="ryc-result-item">
+                            <span class="ryc-result-label">Gross Annual Income:</span>
+                            <span class="ryc-result-value" id="rycGrossIncome">₹4,20,000</span>
+                        </div>
+                        <div class="ryc-result-item">
+                            <span class="ryc-result-label">Annual Operational Costs:</span>
+                            <span class="ryc-result-value ryc-expense" id="rycAnnualCostsDisplay">₹12,000</span>
+                        </div>
+                        <div class="ryc-result-item ryc-highlight">
+                            <span class="ryc-result-label">Net Annual Income:</span>
+                            <span class="ryc-result-value" id="rycNetIncome">₹4,08,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investment Analysis -->
+                <div class="ryc-results-section">
+                    <h4>Investment Analysis</h4>
+                    <div class="ryc-analysis-grid">
+                        <div class="ryc-analysis-item">
+                            <div class="ryc-analysis-label">Investment Amount</div>
+                            <div class="ryc-analysis-value" id="rycInvestmentAmount">₹1,00,00,000</div>
+                        </div>
+                        <div class="ryc-analysis-item">
+                            <div class="ryc-analysis-label">Monthly Rental Income</div>
+                            <div class="ryc-analysis-value" id="rycMonthlyIncomeDisplay">₹35,000</div>
+                        </div>
+                        <div class="ryc-analysis-item ryc-payback-item">
+                            <div class="ryc-analysis-label">Payback Period</div>
+                            <div class="ryc-analysis-value" id="rycPaybackPeriod">24.5 years</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yield Comparison Chart -->
+                <div class="ryc-results-section">
+                    <div class="ryc-chart-section">
+                        <h4 class="ryc-chart-title">Yield Comparison</h4>
+                        <div class="ryc-chart-container">
+                            <div class="ryc-yield-bars">
+                                <div class="ryc-yield-bar-item">
+                                    <div class="ryc-yield-bar-container">
+                                        <div class="ryc-yield-bar ryc-gross-bar" id="rycGrossBar" style="width: 70%;">
+                                            <span class="ryc-yield-bar-value" id="rycGrossBarValue">4.20%</span>
+                                        </div>
+                                    </div>
+                                    <div class="ryc-yield-bar-label">Gross Yield</div>
+                                </div>
+                                <div class="ryc-yield-bar-item">
+                                    <div class="ryc-yield-bar-container">
+                                        <div class="ryc-yield-bar ryc-net-bar" id="rycNetBar" style="width: 68%;">
+                                            <span class="ryc-yield-bar-value" id="rycNetBarValue">4.06%</span>
+                                        </div>
+                                    </div>
+                                    <div class="ryc-yield-bar-label">Net Yield</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vacancy Impact (shown only when vacancy > 0) -->
+                <div class="ryc-results-section" id="rycVacancySection" style="display: none;">
+                    <div class="ryc-vacancy-impact">
+                        <h4>Vacancy Impact</h4>
+                        <div class="ryc-vacancy-details">
+                            <div class="ryc-result-item">
+                                <span class="ryc-result-label">Gross Income (No Vacancy):</span>
+                                <span class="ryc-result-value" id="rycGrossIncomeNoVacancy">₹4,20,000</span>
+                            </div>
+                            <div class="ryc-result-item">
+                                <span class="ryc-result-label">Effective Income (With Vacancy):</span>
+                                <span class="ryc-result-value" id="rycEffectiveIncome">₹4,20,000</span>
+                            </div>
+                            <div class="ryc-result-item ryc-loss-item">
+                                <span class="ryc-result-label">Income Loss Due to Vacancy:</span>
+                                <span class="ryc-result-value" id="rycVacancyLoss">₹0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario Saver -->
+                <div class="ryc-results-section">
+                    <div class="ryc-scenario-section">
+                        <h4>Save Scenario</h4>
+                        <div class="ryc-scenario-controls">
+                            <input type="text" id="rycScenarioName" placeholder="Enter scenario name..." class="ryc-scenario-input">
+                            <div class="ryc-scenario-buttons">
+                                <button type="button" class="ryc-btn ryc-save-btn" onclick="saveScenario()">Save</button>
+                                <button type="button" class="ryc-btn ryc-compare-btn" onclick="showComparison()">Compare</button>
+                            </div>
+                        </div>
+                        <div id="rycSavedScenarios" class="ryc-saved-scenarios" style="display: none;">
+                            <!-- Saved scenarios will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="ryc-results-section">
+                    <div class="ryc-disclaimer">
+                        <p><strong>Important Note:</strong> This calculator provides illustrative estimates only. Actual rental yields may vary based on market conditions, vacancy rates, maintenance costs, and local regulations. Consult with real estate professionals and financial advisors for investment decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/rent_yield_calculator_script.js') }}"></script>
+</body>
+</html>

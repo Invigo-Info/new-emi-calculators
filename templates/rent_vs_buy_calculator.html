@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent vs Buy Calculator | Property Investment Analysis</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/rent_vs_buy_calculator_style.css') }}">    
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="rvb-container">
+        <div class="rvb-calculator-container">
+            <!-- Left Column - Inputs -->
+            <div class="rvb-input-sections">
+                <!-- Property & Loan Section -->
+                <div class="rvb-section">
+                    <h2>Property & Loan Details</h2>
+                    <div class="rvb-input-grid">
+                        <div class="rvb-input-group">
+                            <div class="rvb-input-row">
+                                <label class="rvb-input-label" title="Total cost of the property">Property Price</label>
+                                <div class="rvb-input-field-container">
+                                    <input type="number" id="rvbPropertyPrice" value="7500000" min="100000" max="100000000" step="100000">
+                                    <span class="rvb-input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="rvb-slider-container">
+                                <input type="range" id="rvbPropertyPriceSlider" min="100000" max="100000000" value="7500000" step="100000" class="rvb-custom-slider">
+                                <div class="rvb-slider-labels">
+                                    <span>₹1L</span>
+                                    <span>₹10Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rvb-input-group">
+                            <div class="rvb-input-row">
+                                <label class="rvb-input-label" title="Percentage of property price paid upfront">Down Payment</label>
+                                <div class="rvb-input-field-container">
+                                    <input type="number" id="rvbDownPayment" value="20" min="5" max="100" step="5">
+                                    <span class="rvb-input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="rvb-slider-container">
+                                <input type="range" id="rvbDownPaymentSlider" min="5" max="100" value="20" step="5" class="rvb-custom-slider">
+                                <div class="rvb-slider-labels">
+                                    <span>5%</span>
+                                    <span>100%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rvb-input-group">
+                            <div class="rvb-input-row">
+                                <label class="rvb-input-label" title="Annual interest rate on home loan">Home Loan Interest</label>
+                                <div class="rvb-input-field-container">
+                                    <input type="number" id="rvbLoanRate" value="8.5" min="5.0" max="20.0" step="0.1">
+                                    <span class="rvb-input-suffix">% p.a.</span>
+                                </div>
+                            </div>
+                            <div class="rvb-slider-container">
+                                <input type="range" id="rvbLoanRateSlider" min="5.0" max="20.0" value="8.5" step="0.1" class="rvb-custom-slider">
+                                <div class="rvb-slider-labels">
+                                    <span>5%</span>
+                                    <span>20%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rvb-input-group">
+                            <div class="rvb-input-row">
+                                <label class="rvb-input-label" title="Loan repayment period in years">Loan Tenure</label>
+                                <div class="rvb-input-field-container">
+                                    <input type="number" id="rvbLoanTenure" value="20" min="5" max="30" step="1">
+                                    <span class="rvb-input-suffix">years</span>
+                                </div>
+                            </div>
+                            <div class="rvb-slider-container">
+                                <input type="range" id="rvbLoanTenureSlider" min="5" max="30" value="20" step="1" class="rvb-custom-slider">
+                                <div class="rvb-slider-labels">
+                                    <span>5 yrs</span>
+                                    <span>30 yrs</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rvb-input-group">
+                            <div class="rvb-input-row">
+                                <label class="rvb-input-label" title="Stamp duty and registration charges">Stamp Duty & Registration</label>
+                                <div class="rvb-input-field-container">
+                                    <input type="number" id="rvbStampDuty" value="7" min="3" max="15" step="0.5">
+                                    <span class="rvb-input-suffix">% of price</span>
+                                </div>
+                            </div>
+                            <div class="rvb-slider-container">
+                                <input type="range" id="rvbStampDutySlider" min="3" max="15" value="7" step="0.5" class="rvb-custom-slider">
+                                <div class="rvb-slider-labels">
+                                    <span>3%</span>
+                                    <span>15%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rvb-input-group">
+                            <div class="rvb-input-row">
+                                <label class="rvb-input-label" title="Processing fees, legal charges, etc.">Processing/Legal/Other</label>
+                                <div class="rvb-input-field-container">
+                                    <input type="number" id="rvbProcessingFees" value="25000" min="0" max="200000" step="5000">
+                                    <span class="rvb-input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="rvb-slider-container">
+                                <input type="range" id="rvbProcessingFeesSlider" min="0" max="200000" value="25000" step="5000" class="rvb-custom-slider">
+                                <div class="rvb-slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹2L</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Owning Costs Section -->
+                <div class="rvb-section">
+                    <h2>Owning Costs (Recurring)</h2>
+                    <div class="rvb-input-grid">
+                        <div class="rvb-input-group">
+                            <div class="rvb-input-row">
+                                <label class="rvb-input-label" title="Annual maintenance as % of property value">Annual Maintenance</label>
+                                <div class="rvb-input-field-container">
+                                    <input type="number" id="rvbMaintenance" value="1.5" min="0.5" max="5.0" step="0.1">
+                                    <span class="rvb-input-suffix">% of property price</span>
+                                </div>
+                            </div>
+                            <div class="rvb-slider-container">
+                                <input type="range" id="rvbMaintenanceSlider" min="0.5" max="5.0" value="1.5" step="0.1" class="rvb-custom-slider">
+                                <div class="rvb-slider-labels">
+                                    <span>0.5%</span>
+                                    <span>5%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rvb-input-group">
+                            <div class="rvb-input-row">
+                                <label class="rvb-input-label" title="Annual property tax">Property Tax</label>
+                                <div class="rvb-input-field-container">
+                                    <input type="number" id="rvbPropertyTax" value="15000" min="0" max="100000" step="1000">
+                                    <span class="rvb-input-suffix">₹/year</span>
+                                </div>
+                            </div>
+                            <div class="rvb-slider-container">
+                                <input type="range" id="rvbPropertyTaxSlider" min="0" max="100000" value="15000" step="1000" class="rvb-custom-slider">
+                                <div class="rvb-slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹1L</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rvb-input-group">
+                            <div class="rvb-input-row">
+                                <label class="rvb-input-label" title="Annual home insurance premium">Home Insurance</label>
+                                <div class="rvb-input-field-container">
+                                    <input type="number" id="rvbHomeInsurance" value="5000" min="0" max="50000" step="500">
+                                    <span class="rvb-input-suffix">₹/year</span>
+                                </div>
+                            </div>
+                            <div class="rvb-slider-container">
+                                <input type="range" id="rvbHomeInsuranceSlider" min="0" max="50000" value="5000" step="500" class="rvb-custom-slider">
+                                <div class="rvb-slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹50K</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rvb-input-group">
+                            <div class="rvb-input-row">
+                                <label class="rvb-input-label" title="Expected annual property value growth">Property Appreciation</label>
+                                <div class="rvb-input-field-container">
+                                    <input type="number" id="rvbAppreciation" value="5" min="0" max="15" step="0.5">
+                                    <span class="rvb-input-suffix">% p.a.</span>
+                                </div>
+                            </div>
+                            <div class="rvb-slider-container">
+                                <input type="range" id="rvbAppreciationSlider" min="0" max="15" value="5" step="0.5" class="rvb-custom-slider">
+                                <div class="rvb-slider-labels">
+                                    <span>0%</span>
+                                    <span>15%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rvb-input-group">
+                            <div class="rvb-input-row">
+                                <label class="rvb-input-label" title="Brokerage and other selling costs">Selling Cost at Exit</label>
+                                <div class="rvb-input-field-container">
+                                    <input type="number" id="rvbSellingCost" value="2" min="0" max="10" step="0.5">
+                                    <span class="rvb-input-suffix">% of sale price</span>
+                                </div>
+                            </div>
+                            <div class="rvb-slider-container">
+                                <input type="range" id="rvbSellingCostSlider" min="0" max="10" value="2" step="0.5" class="rvb-custom-slider">
+                                <div class="rvb-slider-labels">
+                                    <span>0%</span>
+                                    <span>10%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Renting & Investment Section - Side by Side -->
+                <div class="rvb-section-row">
+                    <!-- Renting Section -->
+                    <div class="rvb-section rvb-section-half">
+                        <h2>Renting Details</h2>
+                        <div class="rvb-input-grid">
+                            <div class="rvb-input-group">
+                                <div class="rvb-input-row">
+                                    <label class="rvb-input-label" title="Current monthly rent">Current Monthly Rent</label>
+                                    <div class="rvb-input-field-container">
+                                        <input type="number" id="rvbMonthlyRent" value="25000" min="5000" max="500000" step="1000">
+                                        <span class="rvb-input-suffix">₹</span>
+                                    </div>
+                                </div>
+                                <div class="rvb-slider-container">
+                                    <input type="range" id="rvbMonthlyRentSlider" min="5000" max="500000" value="25000" step="1000" class="rvb-custom-slider">
+                                    <div class="rvb-slider-labels">
+                                        <span>₹5K</span>
+                                        <span>₹5L</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rvb-input-group">
+                                <div class="rvb-input-row">
+                                    <label class="rvb-input-label" title="Annual increase in rent">Annual Rent Increase</label>
+                                    <div class="rvb-input-field-container">
+                                        <input type="number" id="rvbRentIncrease" value="5" min="0" max="15" step="0.5">
+                                        <span class="rvb-input-suffix">% p.a.</span>
+                                    </div>
+                                </div>
+                                <div class="rvb-slider-container">
+                                    <input type="range" id="rvbRentIncreaseSlider" min="0" max="15" value="5" step="0.5" class="rvb-custom-slider">
+                                    <div class="rvb-slider-labels">
+                                        <span>0%</span>
+                                        <span>15%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rvb-input-group">
+                                <div class="rvb-input-row">
+                                    <label class="rvb-input-label" title="Security deposit in months of rent">Security Deposit</label>
+                                    <div class="rvb-input-field-container">
+                                        <input type="number" id="rvbSecurityDeposit" value="2" min="1" max="12" step="1">
+                                        <span class="rvb-input-suffix">months</span>
+                                    </div>
+                                </div>
+                                <div class="rvb-slider-container">
+                                    <input type="range" id="rvbSecurityDepositSlider" min="1" max="12" value="2" step="1" class="rvb-custom-slider">
+                                    <div class="rvb-slider-labels">
+                                        <span>1</span>
+                                        <span>12</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Investment & Analysis Section -->
+                    <div class="rvb-section rvb-section-half">
+                        <h2>Investment & Analysis</h2>
+                        <div class="rvb-input-grid">
+                            <div class="rvb-input-group">
+                                <div class="rvb-input-row">
+                                    <label class="rvb-input-label" title="Expected return on investment if renting">Investment Return if Renting</label>
+                                    <div class="rvb-input-field-container">
+                                        <input type="number" id="rvbInvestmentReturn" value="10" min="4" max="20" step="0.5">
+                                        <span class="rvb-input-suffix">% p.a.</span>
+                                    </div>
+                                </div>
+                                <div class="rvb-slider-container">
+                                    <input type="range" id="rvbInvestmentReturnSlider" min="4" max="20" value="10" step="0.5" class="rvb-custom-slider">
+                                    <div class="rvb-slider-labels">
+                                        <span>4%</span>
+                                        <span>20%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rvb-input-group">
+                                <div class="rvb-input-row">
+                                    <label class="rvb-input-label" title="Time period for analysis">Analysis Horizon</label>
+                                    <div class="rvb-input-field-container">
+                                        <input type="number" id="rvbAnalysisHorizon" value="10" min="1" max="30" step="1">
+                                        <span class="rvb-input-suffix">years</span>
+                                    </div>
+                                </div>
+                                <div class="rvb-slider-container">
+                                    <input type="range" id="rvbAnalysisHorizonSlider" min="1" max="30" value="10" step="1" class="rvb-custom-slider">
+                                    <div class="rvb-slider-labels">
+                                        <span>1 yr</span>
+                                        <span>30 yrs</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Results & Charts -->
+            <div class="rvb-results-sections">
+                <!-- Recommendation Section -->
+                <div class="rvb-results-section">
+                    <div class="rvb-recommendation-card">
+                        <h3>Recommendation</h3>
+                        <div class="rvb-recommendation-result">
+                            <div class="rvb-recommendation-choice" id="rvbRecommendation">BUY</div>
+                            <div class="rvb-advantage">
+                                <span class="rvb-advantage-label">Net Advantage:</span>
+                                <span class="rvb-advantage-amount" id="rvbAdvantageAmount">₹12,45,678</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Results -->
+                <div class="rvb-results-section">
+                    <div class="rvb-summary-grid">
+                        <div class="rvb-result-card rvb-buy-card">
+                            <h4>BUY Summary</h4>
+                            <div class="rvb-result-item">
+                                <span class="rvb-result-label">Total Cash Out:</span>
+                                <span class="rvb-result-value" id="rvbBuyTotalCashOut">₹45,25,000</span>
+                            </div>
+                            <div class="rvb-result-item">
+                                <span class="rvb-result-label">Interest Paid:</span>
+                                <span class="rvb-result-value" id="rvbBuyInterestPaid">₹32,50,000</span>
+                            </div>
+                            <div class="rvb-result-item">
+                                <span class="rvb-result-label">Maintenance/Taxes:</span>
+                                <span class="rvb-result-value" id="rvbBuyMaintenance">₹15,75,000</span>
+                            </div>
+                            <div class="rvb-result-item rvb-equity-item">
+                                <span class="rvb-result-label">Owner's Equity:</span>
+                                <span class="rvb-result-value" id="rvbOwnerEquity">₹1,25,45,000</span>
+                            </div>
+                        </div>
+
+                        <div class="rvb-result-card rvb-rent-card">
+                            <h4>RENT Summary</h4>
+                            <div class="rvb-result-item">
+                                <span class="rvb-result-label">Total Rent Paid:</span>
+                                <span class="rvb-result-value" id="rvbTotalRentPaid">₹35,67,000</span>
+                            </div>
+                            <div class="rvb-result-item rvb-corpus-item">
+                                <span class="rvb-result-label">Invested Corpus:</span>
+                                <span class="rvb-result-value" id="rvbInvestedCorpus">₹1,12,99,322</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Breakeven Analysis -->
+                <div class="rvb-results-section">
+                    <div class="rvb-breakeven-card">
+                        <h4>Breakeven Analysis</h4>
+                        <div class="rvb-breakeven-result">
+                            <span class="rvb-breakeven-label">Breakeven Year:</span>
+                            <span class="rvb-breakeven-value" id="rvbBreakevenYear">Year 7</span>
+                        </div>
+                        <p class="rvb-breakeven-desc">The earliest year when buying becomes more profitable than renting</p>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="rvb-results-section">
+                    <div class="rvb-chart-section">
+                        <h4 class="rvb-chart-title">Net Worth Comparison Over Time</h4>
+                        <div class="rvb-chart-container">
+                            <canvas id="rvbNetWorthChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rvb-results-section">
+                    <div class="rvb-chart-section">
+                        <h4 class="rvb-chart-title">Annual Cash Outflow</h4>
+                        <div class="rvb-chart-container">
+                            <canvas id="rvbCashFlowChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="rvb-results-section">
+                    <div class="rvb-disclaimer">
+                        <p><strong>Note:</strong> This analysis is illustrative only. Actual returns, costs, and market conditions may vary. Consider consulting a financial advisor for personalized advice.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/rent_vs_buy_calculator_script.js') }}"></script>
+</body>
+</html>
