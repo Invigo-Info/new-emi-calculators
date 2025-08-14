@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Linked Capital Subsidy Scheme (CLCSS) EMI Calculator | Calculate CLCSS Loan EMI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/clcss_loan_emi_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="container">
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- CLCSS Loan Details Section -->
+                <div class="section">
+                    <h2 style="color: #2d3748; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; text-align: center;">Calculate EMI for CLCSS Loan</h2>
+                    <div class="clcss-info-note">
+                        <p><strong>CLCSS:</strong> 15% up-front capital subsidy on institutional credit up to ₹1 crore (max ₹15 lakh). New machinery only; second-hand ineligible. Actual subsidy credit/EMI handling is as per PLI process. <em>DC MSME</em></p>
+                    </div>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="clcssLoanAmount" value="6000000" min="100000" max="100000000" step="100000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="clcssLoanAmountSlider" min="100000" max="100000000" value="6000000" step="100000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>1L</span>
+                                    <span>25L</span>
+                                    <span>50L</span>
+                                    <span>75L</span>
+                                    <span>1Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Annual Interest Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="clcssInterestRate" value="11" min="0" max="40" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="clcssInterestRateSlider" min="0" max="40" value="11" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>10</span>
+                                    <span>20</span>
+                                    <span>30</span>
+                                    <span>40</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Tenure</label>
+                                <div class="tenure-input-container">
+                                    <input type="number" id="clcssTenureValue" value="5" min="0.5" max="10" step="0.5">
+                                    <div class="tenure-buttons">
+                                        <button type="button" class="tenure-btn active" id="clcssTenureYrBtn" data-unit="years">Yr</button>
+                                        <button type="button" class="tenure-btn" id="clcssTenureMoBtn" data-unit="months">Mo</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="clcssTenureSlider" min="0.5" max="10" value="5" step="0.5" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels" id="clcssTenureSliderLabels">
+                                    <span>0.5</span>
+                                    <span>2.5</span>
+                                    <span>5</span>
+                                    <span>7.5</span>
+                                    <span>10</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="subsidy-toggle-container">
+                                <label class="toggle-label">
+                                    <input type="checkbox" id="clcssApplySubsidyUpfront" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-text">Apply Subsidy Upfront for Illustration</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <!-- Gross Results -->
+                <div class="results-panel">
+                    <h3 class="results-title">Gross EMI Details</h3>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <div class="result-label">EMI / Month</div>
+                            <div class="result-value" id="clcssGrossEmi">₹ 1,27,884</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Principal Amount</div>
+                            <div class="result-value" id="clcssGrossPrincipal">₹ 60,00,000</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Total Interest</div>
+                            <div class="result-value" id="clcssGrossTotalInterest">₹ 16,73,040</div>
+                        </div>
+                        <div class="result-item total">
+                            <div class="result-label">Total Payment</div>
+                            <div class="result-value" id="clcssGrossTotalPayment">₹ 76,73,040</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subsidy Information -->
+                <div class="subsidy-panel">
+                    <h3 class="subsidy-title">CLCSS Subsidy Details</h3>
+                    <div class="subsidy-info">
+                        <div class="subsidy-item">
+                            <span class="subsidy-label">Subsidy Amount:</span>
+                            <span class="subsidy-value" id="clcssSubsidyAmount">₹ 9,00,000</span>
+                        </div>
+                        <div class="subsidy-item">
+                            <span class="subsidy-label">Effective Principal:</span>
+                            <span class="subsidy-value" id="clcssEffectivePrincipal">₹ 51,00,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Illustrative Results (After Subsidy) -->
+                <div class="results-panel illustrative" id="clcssIllustrativePanel">
+                    <h3 class="results-title">Illustrative EMI (After Subsidy)</h3>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <div class="result-label">EMI / Month</div>
+                            <div class="result-value" id="clcssIllustrativeEmi">₹ 1,08,903</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Effective Principal</div>
+                            <div class="result-value" id="clcssIllustrativePrincipal">₹ 51,00,000</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Total Interest</div>
+                            <div class="result-value" id="clcssIllustrativeTotalInterest">₹ 14,34,180</div>
+                        </div>
+                        <div class="result-item total">
+                            <div class="result-label">Total Payment</div>
+                            <div class="result-value" id="clcssIllustrativeTotalPayment">₹ 65,34,180</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Savings Summary -->
+                <div class="savings-panel" id="clcssSavingsPanel">
+                    <h3 class="savings-title">Savings vs Gross</h3>
+                    <div class="savings-amount" id="clcssSavingsAmount">₹ 11,38,860</div>
+                    <div class="savings-description">Total payment savings with CLCSS subsidy</div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Break-up of Total Payment</div>
+                    <div class="chart-tabs">
+                        <button class="chart-tab active" id="clcssGrossChartTab">Gross</button>
+                        <button class="chart-tab" id="clcssIllustrativeChartTab">After Subsidy</button>
+                    </div>
+                    <div class="pie-chart-container">
+                        <canvas id="clcssPaymentBreakupChart"></canvas>
+                    </div>
+                    <div class="chart-summary" id="clcssChartSummary">
+                        <div class="summary-item">
+                            <div class="color-indicator principal"></div>
+                            <div class="summary-label">Principal Amount</div>
+                            <div class="summary-percentage" id="clcssPrincipalPercentage">78.2%</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest"></div>
+                            <div class="summary-label">Total Interest</div>
+                            <div class="summary-percentage" id="clcssInterestPercentage">21.8%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/clcss_loan_emi_script.js') }}"></script>
+</body>
+</html>

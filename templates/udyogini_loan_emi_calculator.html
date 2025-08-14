@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Udyogini Loan EMI Calculator | Calculate Udyogini Loan EMI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/udyogini_loan_emi_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="container">
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Udyogini Loan Details Section -->
+                <div class="section">
+                    <h2 style="color: #2d3748; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; text-align: center;">Calculate EMI for your Udyogini Loan</h2>
+                    
+                    <!-- Category Selection -->
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Category</label>
+                                <div class="category-input-container">
+                                    <select id="udyoginiCategory" class="category-select">
+                                        <option value="General/Special">General/Special</option>
+                                        <option value="SC/ST">SC/ST</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="subsidy-note">
+                                <small>Subsidy caps apply: ₹90,000 (30%), ₹1,50,000 (50%)</small>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="udyoginiLoanAmount" value="300000" min="100000" max="300000" step="10000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="udyoginiLoanAmountSlider" min="100000" max="300000" value="300000" step="10000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>1L</span>
+                                    <span>1.5L</span>
+                                    <span>2L</span>
+                                    <span>2.5L</span>
+                                    <span>3L</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Annual Interest Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="udyoginiInterestRate" value="12" min="5" max="20" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="udyoginiInterestRateSlider" min="5" max="20" value="12" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>5</span>
+                                    <span>8</span>
+                                    <span>12</span>
+                                    <span>16</span>
+                                    <span>20</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Tenure</label>
+                                <div class="tenure-input-container">
+                                    <input type="number" id="udyoginiTenureValue" value="5" min="1" max="7" step="1">
+                                    <div class="tenure-buttons">
+                                        <button type="button" class="tenure-btn active" id="udyoginiTenureYrBtn" data-unit="years">Yr</button>
+                                        <button type="button" class="tenure-btn" id="udyoginiTenureMoBtn" data-unit="months">Mo</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="udyoginiTenureSlider" min="1" max="7" value="5" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels" id="udyoginiTenureSliderLabels">
+                                    <span>1</span>
+                                    <span>2</span>
+                                    <span>3</span>
+                                    <span>4</span>
+                                    <span>5</span>
+                                    <span>6</span>
+                                    <span>7</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="subsidy-checkbox-container">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="udyoginiApplySubsidy" checked>
+                                    <span class="checkmark"></span>
+                                    Apply subsidy upfront (illustration)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <!-- Gross EMI Panel -->
+                <div class="results-panel">
+                    <div class="panel-header">Gross EMI (Without Subsidy)</div>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <div class="result-label">Monthly EMI</div>
+                            <div class="result-value" id="udyoginiGrossEmi">₹ 6,718</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Principal Amount</div>
+                            <div class="result-value" id="udyoginiGrossPrincipal">₹ 3,00,000</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Total Interest Payable</div>
+                            <div class="result-value" id="udyoginiGrossInterest">₹ 1,03,080</div>
+                        </div>
+                        <div class="result-item total">
+                            <div class="result-label">Total Payment<br>(Principal + Interest)</div>
+                            <div class="result-value" id="udyoginiGrossTotal">₹ 4,03,080</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Illustrative Effective EMI Panel -->
+                <div class="results-panel subsidy-panel">
+                    <div class="panel-header">Illustrative Effective (With Subsidy)</div>
+                    <div class="subsidy-info">
+                        <div class="subsidy-amount">Subsidy Amount: <span id="udyoginiSubsidyAmount">₹ 90,000</span></div>
+                        <div class="effective-principal">Effective Principal: <span id="udyoginiEffectivePrincipal">₹ 2,10,000</span></div>
+                    </div>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <div class="result-label">Monthly EMI</div>
+                            <div class="result-value" id="udyoginiEffectiveEmi">₹ 4,703</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Effective Principal</div>
+                            <div class="result-value" id="udyoginiEffectivePrincipalResult">₹ 2,10,000</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Total Interest Payable</div>
+                            <div class="result-value" id="udyoginiEffectiveInterest">₹ 72,156</div>
+                        </div>
+                        <div class="result-item total">
+                            <div class="result-label">Total Payment<br>(Effective Principal + Interest)</div>
+                            <div class="result-value" id="udyoginiEffectiveTotal">₹ 2,82,156</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Break-up of Total Payment (Gross)</div>
+                    <div class="pie-chart-container">
+                        <canvas id="udyoginiPaymentBreakupChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator principal"></div>
+                            <div class="summary-label">Principal Loan Amount</div>
+                            <div class="summary-percentage" id="udyoginiPrincipalPercentage">74.4%</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest"></div>
+                            <div class="summary-label">Total Interest</div>
+                            <div class="summary-percentage" id="udyoginiInterestPercentage">25.6%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="disclaimer">
+                    <small><strong>Disclaimer:</strong> Indicative results. Tenure/rate set by lender; subsidy is credited as per implementing agency's rules.</small>
+                </div>
+            </div>
+        </div>
+
+        
+        
+    </div>
+
+    <script src="{{ url_for('static', filename='js/udyogini_loan_emi_script.js') }}"></script>
+</body>
+</html>

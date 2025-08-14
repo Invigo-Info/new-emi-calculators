@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGTMSE Loan EMI Calculator | Credit Guarantee Fund Trust for Micro & Small Enterprises</title>
+    <meta name="description" content="Calculate CGTMSE loan EMI with AGF charges. Free online calculator for Credit Guarantee Fund Trust for Micro & Small Enterprises loans with detailed AGF schedule.">
+    <meta name="keywords" content="CGTMSE calculator, CGTMSE EMI, AGF calculator, micro small enterprise loan, credit guarantee fund">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cgtmse_loan_emi_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="container">
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- CGTMSE Loan Details Section -->
+                <div class="section">
+                    <h2 style="color: #2d3748; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; text-align: center;">Calculate EMI for your CGTMSE Loan</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="cgtmseLoanAmount" value="5000000" min="10000" max="100000000" step="10000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="cgtmseLoanAmountSlider" min="10000" max="100000000" value="5000000" step="10000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>10K</span>
+                                    <span>25L</span>
+                                    <span>50L</span>
+                                    <span>1Cr</span>
+                                    <span>5Cr</span>
+                                    <span>10Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Interest Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="cgtmseInterestRate" value="11" min="0" max="40" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="cgtmseInterestRateSlider" min="0" max="40" value="11" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>10</span>
+                                    <span>20</span>
+                                    <span>30</span>
+                                    <span>40</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Tenure</label>
+                                <div class="tenure-input-container">
+                                    <input type="number" id="cgtmseTenureValue" value="5" min="0.5" max="10" step="0.5">
+                                    <div class="tenure-buttons">
+                                        <button type="button" class="tenure-btn active" id="cgtmseTenureYrBtn" data-unit="years">Yr</button>
+                                        <button type="button" class="tenure-btn" id="cgtmseTenureMoBtn" data-unit="months">Mo</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="cgtmseTenureSlider" min="0.5" max="10" value="5" step="0.5" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels" id="cgtmseTenureSliderLabels">
+                                    <span>0.5</span>
+                                    <span>2</span>
+                                    <span>4</span>
+                                    <span>6</span>
+                                    <span>8</span>
+                                    <span>10</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional CGTMSE-specific inputs -->
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Special Category Concession</label>
+                                <div class="input-field-container">
+                                    <select id="cgtmseConcession" style="border: none; outline: none; font-size: 1rem; background: transparent; width: 100%; padding-right: 8px;">
+                                        <option value="0">No Concession (0%)</option>
+                                        <option value="10" selected>Single Category (10%)</option>
+                                        <option value="20">Two Categories (20%)</option>
+                                        <option value="30">Three Categories (30%)</option>
+                                    </select>
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">MLI Risk Premium on SR</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="cgtmseRiskPremium" value="0" min="0" max="70" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="cgtmseRiskPremiumSlider" min="0" max="70" value="0" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>20</span>
+                                    <span>40</span>
+                                    <span>60</span>
+                                    <span>70</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row" style="justify-content: center;">
+                                <label class="input-label" style="flex: none; margin-right: 15px;">Pass AGF to Borrower</label>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="checkbox" id="cgtmsePassAgf" checked style="width: 18px; height: 18px; accent-color: #3182ce;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-label">Monthly EMI</div>
+                        <div class="result-value" id="cgtmseMonthlyEmi">₹ 0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Principal Amount</div>
+                        <div class="result-value" id="cgtmsePrincipalAmount">₹ 50,00,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Total Interest Payable</div>
+                        <div class="result-value" id="cgtmseTotalInterest">₹ 0</div>
+                    </div>
+                    <div class="result-item total">
+                        <div class="result-label">Total Payment<br>(Principal + Interest)</div>
+                        <div class="result-value" id="cgtmseTotalPayment">₹ 0</div>
+                    </div>
+                    
+                    <!-- AGF Results (shown when Pass AGF is checked) -->
+                    <div class="result-item agf-result" id="cgtmseAgfResult" style="display: none;">
+                        <div class="result-label">Total AGF Charges</div>
+                        <div class="result-value" id="cgtmseAgfTotal">₹ 0</div>
+                    </div>
+                    
+                    <div class="result-item total agf-grand-total" id="cgtmseGrandTotalResult" style="display: none;">
+                        <div class="result-label">Grand Total Cost<br>(Payment + AGF)</div>
+                        <div class="result-value" id="cgtmseGrandTotal">₹ 0</div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Break-up of Total Payment</div>
+                    <div class="pie-chart-container">
+                        <canvas id="cgtmsePaymentBreakupChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator principal"></div>
+                            <div class="summary-label">Principal Loan Amount</div>
+                            <div class="summary-percentage" id="cgtmsePrincipalPercentage">81.2%</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest"></div>
+                            <div class="summary-label">Total Interest</div>
+                            <div class="summary-percentage" id="cgtmseInterestPercentage">18.8%</div>
+                        </div>
+                        <div class="summary-item agf-summary" id="cgtmseAgfSummary" style="display: none;">
+                            <div class="color-indicator agf"></div>
+                            <div class="summary-label">AGF Charges</div>
+                            <div class="summary-percentage" id="cgtmseAgfPercentage">0%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AGF Schedule Section (shown when Pass AGF is checked) -->
+                <div class="agf-schedule-section" id="cgtmseAgfScheduleSection" style="display: none;">
+                    <div class="chart-header">AGF Payment Schedule</div>
+                    <div class="agf-info">
+                        <div class="agf-rate-info">
+                            <span>Effective AGF Rate: </span>
+                            <span id="cgtmseEffectiveAgfRate">0.55%</span>
+                        </div>
+                    </div>
+                    <div class="agf-table-container">
+                        <table class="agf-table">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Opening Balance</th>
+                                    <th>Months</th>
+                                    <th>AGF Fee</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cgtmseAgfTableBody">
+                                <!-- AGF schedule will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Information Section -->
+        <div class="info-section" style="margin-top: 40px;">
+            <div class="section" style="background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <h3 style="color: #2d3748; font-size: 1.5rem; font-weight: 600; margin-bottom: 20px; text-align: center;">About CGTMSE & AGF</h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 20px;">
+                    <div>
+                        <h4 style="color: #4a5568; font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">AGF Slabs (w.e.f. 1-Apr-2025)</h4>
+                        <ul style="list-style: none; padding: 0; color: #666;">
+                            <li style="padding: 5px 0; border-bottom: 1px solid #f0f0f0;">₹0-10L: 0.37%</li>
+                            <li style="padding: 5px 0; border-bottom: 1px solid #f0f0f0;">₹10L-50L: 0.55%</li>
+                            <li style="padding: 5px 0; border-bottom: 1px solid #f0f0f0;">₹50L-1Cr: 0.60%</li>
+                            <li style="padding: 5px 0; border-bottom: 1px solid #f0f0f0;">₹1-2Cr: 0.85%</li>
+                            <li style="padding: 5px 0; border-bottom: 1px solid #f0f0f0;">₹2-5Cr: 1.00%</li>
+                            <li style="padding: 5px 0; border-bottom: 1px solid #f0f0f0;">₹5-8Cr: 1.10%</li>
+                            <li style="padding: 5px 0;">₹8-10Cr: 1.20%</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 style="color: #4a5568; font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">Special Category Concessions</h4>
+                        <p style="color: #666; line-height: 1.6; margin-bottom: 15px;">10% concession each for:</p>
+                        <ul style="list-style: disc; padding-left: 20px; color: #666;">
+                            <li>Women/SC/ST/PwD/Agniveers/Transgender</li>
+                            <li>NER/J&K/Ladakh/Aspirational/ICDD</li>
+                            <li>ZED certified enterprises</li>
+                        </ul>
+                        <p style="color: #666; line-height: 1.6; margin-top: 10px;"><strong>Note:</strong> Concessions are additive.</p>
+                    </div>
+                </div>
+                
+                <p style="color: #e74c3c; font-size: 0.9rem; text-align: center; font-style: italic; margin-top: 20px; padding: 15px; background: #fef2f2; border-radius: 8px;">
+                    <strong>Disclaimer:</strong> AGF slabs & concessions as per CGTMSE guidelines. Actual AGF depends on MLI risk premium/discount and whether MLI passes cost to borrower. This calculator provides indicative calculations only.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/cgtmse_loan_emi_script.js') }}"></script>
+</body>
+</html>

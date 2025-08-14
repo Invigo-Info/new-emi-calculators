@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working Capital Loan EMI Calculator | Calculate Working Capital Loan EMI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/working_capital_loan_emi_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.6.0/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="container">
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Working Capital Loan Details Section -->
+                <div class="section">
+                    <h2 style="color: #2d3748; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; text-align: center;">Calculate EMI for your Working Capital Loan</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="wcLoanAmount" value="1000000" min="10000" max="50000000" step="10000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="wcLoanAmountSlider" min="10000" max="50000000" value="1000000" step="10000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>10K</span>
+                                    <span>1Cr</span>
+                                    <span>2.5Cr</span>
+                                    <span>5Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Interest Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="wcInterestRate" value="15" min="0" max="40" step="0.1">
+                                    <span class="input-suffix">% p.a.</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="wcInterestRateSlider" min="0" max="40" value="15" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>10</span>
+                                    <span>20</span>
+                                    <span>30</span>
+                                    <span>40</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Tenure</label>
+                                <div class="tenure-input-container">
+                                    <input type="number" id="wcTenureValue" value="5" min="1" max="10" step="1">
+                                    <div class="tenure-buttons">
+                                        <button type="button" class="tenure-btn active" id="wcTenureYrBtn" data-unit="years">Yr</button>
+                                        <button type="button" class="tenure-btn" id="wcTenureMoBtn" data-unit="months">Mo</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="wcTenureSlider" min="1" max="10" value="5" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels" id="wcTenureSliderLabels">
+                                    <span>1</span>
+                                    <span>3</span>
+                                    <span>5</span>
+                                    <span>7</span>
+                                    <span>10</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optional Fees Section -->
+                <div class="section">
+                    <h3 style="color: #2d3748; font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; text-align: center;">Optional Fees</h3>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Processing Fee</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="wcProcessingFee" value="2" min="0" max="10" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="wcProcessingFeeSlider" min="0" max="10" value="2" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>2.5</span>
+                                    <span>5</span>
+                                    <span>7.5</span>
+                                    <span>10</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">GST on Fee</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="wcGstOnFee" value="18" min="0" max="30" step="0.1">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="wcGstOnFeeSlider" min="0" max="30" value="18" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>10</span>
+                                    <span>20</span>
+                                    <span>30</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-label">Monthly EMI</div>
+                        <div class="result-value" id="wcLoanEmi">₹ 23,790</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Principal Amount</div>
+                        <div class="result-value" id="wcPrincipalAmount">₹ 10,00,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Total Interest Payable</div>
+                        <div class="result-value" id="wcTotalInterest">₹ 4,27,407</div>
+                    </div>
+                    <div class="result-item total">
+                        <div class="result-label">Total Payment<br>(Principal + Interest)</div>
+                        <div class="result-value" id="wcTotalPayment">₹ 14,27,407</div>
+                    </div>
+                </div>
+
+                <!-- Fees Section (Initially Hidden) -->
+                <div class="fees-section" id="wcFeesSection" style="display: none;">
+                    <div class="fees-grid">
+                        <div class="result-item">
+                            <div class="result-label">Processing Fee</div>
+                            <div class="result-value" id="wcProcessingFeeAmount">₹ 20,000</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">GST on Fee</div>
+                            <div class="result-value" id="wcGstOnFeeAmount">₹ 3,600</div>
+                        </div>
+                        <div class="result-item fee-total">
+                            <div class="result-label">Net Disbursal Amount</div>
+                            <div class="result-value" id="wcNetDisbursal">₹ 9,76,400</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Break-up of Total Payment</div>
+                    <div class="pie-chart-container">
+                        <canvas id="wcPaymentBreakupChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator principal"></div>
+                            <div class="summary-label">Principal Loan Amount</div>
+                            <div class="summary-percentage" id="wcPrincipalPercentage">70.1%</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest"></div>
+                            <div class="summary-label">Total Interest</div>
+                            <div class="summary-percentage" id="wcInterestPercentage">29.9%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Amortization Table -->
+                <div class="amortization-section">
+                    <div class="section-header">
+                        <h3>Amortization Schedule</h3>
+                        <div class="download-buttons">
+                            <button class="download-btn" id="wcDownloadCSV">Download CSV</button>
+                            <button class="download-btn" id="wcDownloadPDF">Download PDF</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="wcAmortizationTable">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Principal</th>
+                                    <th>Interest</th>
+                                    <th>EMI</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="wcAmortizationBody">
+                                <!-- Amortization rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="disclaimer">
+                    <p><strong>Note:</strong> Indicative results. Actual terms depend on lender policy.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/working_capital_loan_emi_script.js') }}"></script>
+</body>
+</html>
