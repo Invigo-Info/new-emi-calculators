@@ -1,0 +1,646 @@
+/* Rent Yield Calculator Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.ryc-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Main Calculator Container */
+.ryc-calculator-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    min-height: 100vh;
+}
+
+/* Input Sections - Left Column */
+.ryc-input-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.ryc-section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.ryc-section h2 {
+    color: #2d3748;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid #3182ce;
+    padding-bottom: 10px;
+}
+
+.ryc-input-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.ryc-input-group {
+    margin-bottom: 10px;
+}
+
+.ryc-optional-field {
+    border-left: 3px solid #f6ad55;
+    padding-left: 15px;
+    background: linear-gradient(to right, rgba(246, 173, 85, 0.05), transparent);
+}
+
+.ryc-input-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ryc-input-label {
+    font-weight: 500;
+    color: #4a5568;
+    font-size: 0.95rem;
+    cursor: help;
+    flex: 1;
+}
+
+.ryc-optional-tag {
+    font-size: 0.8rem;
+    color: #f6ad55;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.ryc-input-field-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 180px;
+}
+
+.ryc-input-field-container input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: #fff;
+    transition: border-color 0.2s ease;
+    text-align: right;
+    padding-right: 50px;
+}
+
+.ryc-input-field-container input:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.ryc-input-suffix {
+    position: absolute;
+    right: 12px;
+    color: #718096;
+    font-size: 0.85rem;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+/* Slider Styles */
+.ryc-slider-container {
+    margin-top: 8px;
+}
+
+.ryc-custom-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, #3182ce, #63b3ed);
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.ryc-custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3182ce;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ryc-custom-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3182ce;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ryc-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 0.75rem;
+    color: #718096;
+}
+
+/* Info Section */
+.ryc-info-section {
+    background: linear-gradient(135deg, #f7fafc, #edf2f7);
+    border-left: 4px solid #3182ce;
+}
+
+.ryc-info-content {
+    display: grid;
+    gap: 15px;
+}
+
+.ryc-info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+}
+
+.ryc-info-icon {
+    font-size: 1.2rem;
+    width: 30px;
+    text-align: center;
+}
+
+.ryc-info-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Results Sections - Right Column */
+.ryc-results-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ryc-results-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.ryc-results-section h3,
+.ryc-results-section h4 {
+    color: #2d3748;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Key Metrics */
+.ryc-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.ryc-metric-card {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.ryc-metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+    pointer-events: none;
+}
+
+.ryc-primary-metric {
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+}
+
+.ryc-metric-label {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.ryc-metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Summary Grid */
+.ryc-summary-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.ryc-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #f7fafc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.ryc-result-item.ryc-highlight {
+    background: linear-gradient(135deg, #c6f6d5, #9ae6b4);
+    border: 1px solid #68d391;
+    font-weight: 600;
+}
+
+.ryc-result-label {
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.ryc-result-value {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.ryc-result-value.ryc-expense {
+    color: #e53e3e;
+}
+
+/* Analysis Grid */
+.ryc-analysis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.ryc-analysis-item {
+    text-align: center;
+    padding: 15px;
+    background: #f7fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.ryc-payback-item {
+    background: linear-gradient(135deg, #fed7e2, #fbb6ce);
+    border-color: #f687b3;
+}
+
+.ryc-analysis-label {
+    font-size: 0.85rem;
+    color: #718096;
+    margin-bottom: 8px;
+}
+
+.ryc-analysis-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+/* Yield Chart */
+.ryc-chart-container {
+    margin-top: 10px;
+}
+
+.ryc-yield-bars {
+    display: grid;
+    gap: 15px;
+}
+
+.ryc-yield-bar-item {
+    display: grid;
+    gap: 8px;
+}
+
+.ryc-yield-bar-container {
+    position: relative;
+    background: #e2e8f0;
+    border-radius: 6px;
+    height: 40px;
+    overflow: hidden;
+}
+
+.ryc-yield-bar {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.3s ease;
+    min-width: 60px;
+}
+
+.ryc-gross-bar {
+    background: linear-gradient(90deg, #48bb78, #38a169);
+}
+
+.ryc-net-bar {
+    background: linear-gradient(90deg, #4299e1, #3182ce);
+}
+
+.ryc-yield-bar-value {
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.ryc-yield-bar-label {
+    text-align: center;
+    font-weight: 500;
+    color: #4a5568;
+    font-size: 0.9rem;
+}
+
+/* Vacancy Impact */
+.ryc-vacancy-impact {
+    background: linear-gradient(135deg, #fef5e7, #fed7aa);
+    border-radius: 8px;
+    padding: 15px;
+    border-left: 4px solid #f6ad55;
+}
+
+.ryc-vacancy-details {
+    display: grid;
+    gap: 10px;
+}
+
+.ryc-loss-item .ryc-result-value {
+    color: #e53e3e;
+    font-weight: 700;
+}
+
+/* Scenario Section */
+.ryc-scenario-section {
+    background: #f7fafc;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.ryc-scenario-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.ryc-scenario-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.ryc-scenario-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.ryc-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ryc-save-btn {
+    background: #3182ce;
+    color: white;
+}
+
+.ryc-save-btn:hover {
+    background: #2c5282;
+}
+
+.ryc-compare-btn {
+    background: #38a169;
+    color: white;
+}
+
+.ryc-compare-btn:hover {
+    background: #2f855a;
+}
+
+.ryc-saved-scenarios {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Disclaimer */
+.ryc-disclaimer {
+    background: #f7fafc;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #3182ce;
+}
+
+.ryc-disclaimer p {
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .ryc-calculator-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .ryc-metrics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .ryc-container {
+        padding: 15px;
+    }
+    
+    .ryc-section {
+        padding: 20px;
+    }
+    
+    .ryc-input-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .ryc-input-field-container {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .ryc-analysis-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .ryc-scenario-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .ryc-scenario-buttons {
+        justify-content: center;
+    }
+    
+    .ryc-metric-value {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ryc-container {
+        padding: 10px;
+    }
+    
+    .ryc-section {
+        padding: 16px;
+    }
+    
+    .ryc-section h2 {
+        font-size: 1.2rem;
+    }
+    
+    .ryc-input-field-container {
+        max-width: 160px;
+    }
+    
+    .ryc-metric-value {
+        font-size: 1.4rem;
+    }
+    
+    .ryc-yield-bar-container {
+        height: 35px;
+    }
+    
+    .ryc-yield-bar-value {
+        font-size: 0.8rem;
+    }
+}
+
+/* Tooltip Styles */
+.ryc-input-label[title]:hover {
+    text-decoration: underline;
+    color: #3182ce;
+}
+
+/* Focus and Hover States */
+.ryc-custom-slider:hover {
+    opacity: 0.9;
+}
+
+.ryc-custom-slider:focus {
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+}
+
+/* Animation for metric cards */
+.ryc-metric-card {
+    transition: transform 0.2s ease;
+}
+
+.ryc-metric-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Currency formatting helper */
+.ryc-currency {
+    font-family: 'Inter', monospace;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Loading states */
+.ryc-loading .ryc-result-value,
+.ryc-loading .ryc-metric-value {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+    height: 1.2em;
+    color: transparent;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Success/Error states */
+.ryc-success {
+    color: #38a169 !important;
+}
+
+.ryc-error {
+    color: #e53e3e !important;
+}
+
+.ryc-warning {
+    color: #d69e2e !important;
+}
+
+/* Print styles */
+@media print {
+    .ryc-slider-container,
+    .ryc-scenario-section,
+    .ryc-info-section {
+        display: none;
+    }
+    
+    .ryc-calculator-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .ryc-section,
+    .ryc-results-section {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #e2e8f0;
+    }
+}

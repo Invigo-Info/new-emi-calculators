@@ -1,0 +1,481 @@
+/* Rent vs Buy Calculator Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.rvb-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Main Calculator Container */
+.rvb-calculator-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    min-height: 100vh;
+}
+
+/* Input Sections - Left Column */
+.rvb-input-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Section Row for side-by-side layout */
+.rvb-section-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.rvb-section-half {
+    margin-bottom: 0;
+}
+
+.rvb-section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.rvb-section h2 {
+    color: #2d3748;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid #3182ce;
+    padding-bottom: 10px;
+}
+
+.rvb-input-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.rvb-input-group {
+    margin-bottom: 10px;
+}
+
+.rvb-input-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.rvb-input-label {
+    font-weight: 500;
+    color: #4a5568;
+    font-size: 0.95rem;
+    cursor: help;
+    flex: 1;
+}
+
+.rvb-input-field-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 180px;
+}
+
+.rvb-input-field-container input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: #fff;
+    transition: border-color 0.2s ease;
+    text-align: right;
+    padding-right: 50px;
+}
+
+.rvb-input-field-container input:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.rvb-input-suffix {
+    position: absolute;
+    right: 12px;
+    color: #718096;
+    font-size: 0.85rem;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+/* Slider Styles */
+.rvb-slider-container {
+    margin-top: 8px;
+}
+
+.rvb-custom-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, #3182ce, #63b3ed);
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.rvb-custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3182ce;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.rvb-custom-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3182ce;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.rvb-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 0.75rem;
+    color: #718096;
+}
+
+/* Results Sections - Right Column */
+.rvb-results-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.rvb-results-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+}
+
+/* Recommendation Card */
+.rvb-recommendation-card {
+    text-align: center;
+}
+
+.rvb-recommendation-card h3 {
+    color: #2d3748;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.rvb-recommendation-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.rvb-recommendation-choice {
+    font-size: 2.5rem;
+    font-weight: 700;
+    padding: 15px 30px;
+    border-radius: 12px;
+    color: white;
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.rvb-recommendation-choice.rent {
+    background: linear-gradient(135deg, #ed8936, #dd6b20);
+}
+
+.rvb-advantage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.rvb-advantage-label {
+    font-size: 0.9rem;
+    color: #718096;
+    font-weight: 500;
+}
+
+.rvb-advantage-amount {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+/* Summary Grid */
+.rvb-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.rvb-result-card {
+    border-radius: 8px;
+    padding: 16px;
+    border-left: 4px solid;
+}
+
+.rvb-buy-card {
+    background: #f0fff4;
+    border-left-color: #48bb78;
+}
+
+.rvb-rent-card {
+    background: #fffaf0;
+    border-left-color: #ed8936;
+}
+
+.rvb-result-card h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #2d3748;
+}
+
+.rvb-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.rvb-result-label {
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.rvb-result-value {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.rvb-equity-item .rvb-result-value,
+.rvb-corpus-item .rvb-result-value {
+    color: #3182ce;
+    font-size: 1rem;
+}
+
+/* Breakeven Card */
+.rvb-breakeven-card h4 {
+    color: #2d3748;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.rvb-breakeven-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.rvb-breakeven-label {
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.rvb-breakeven-value {
+    font-weight: 600;
+    color: #3182ce;
+    font-size: 1.1rem;
+}
+
+.rvb-breakeven-desc {
+    font-size: 0.85rem;
+    color: #718096;
+    font-style: italic;
+}
+
+/* Chart Sections */
+.rvb-chart-section h4 {
+    color: #2d3748;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.rvb-chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+.rvb-chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Disclaimer */
+.rvb-disclaimer {
+    background: #f7fafc;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #3182ce;
+}
+
+.rvb-disclaimer p {
+    font-size: 0.85rem;
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .rvb-calculator-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .rvb-summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .rvb-section-row {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .rvb-container {
+        padding: 15px;
+    }
+    
+    .rvb-section {
+        padding: 20px;
+    }
+    
+    .rvb-input-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .rvb-input-field-container {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .rvb-recommendation-choice {
+        font-size: 2rem;
+        padding: 12px 25px;
+    }
+    
+    .rvb-chart-container {
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .rvb-container {
+        padding: 10px;
+    }
+    
+    .rvb-section {
+        padding: 16px;
+    }
+    
+    .rvb-section h2 {
+        font-size: 1.2rem;
+    }
+    
+    .rvb-input-field-container {
+        max-width: 160px;
+    }
+    
+    .rvb-recommendation-choice {
+        font-size: 1.8rem;
+        padding: 10px 20px;
+    }
+    
+    .rvb-advantage-amount {
+        font-size: 1.2rem;
+    }
+    
+    .rvb-chart-container {
+        height: 200px;
+    }
+}
+
+/* Tooltip Styles */
+.rvb-input-label[title]:hover {
+    text-decoration: underline;
+    color: #3182ce;
+}
+
+/* Focus and Hover States */
+.rvb-custom-slider:hover {
+    opacity: 0.9;
+}
+
+.rvb-custom-slider:focus {
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+}
+
+/* Animation for recommendation card */
+.rvb-recommendation-choice {
+    transition: transform 0.2s ease;
+}
+
+.rvb-recommendation-choice:hover {
+    transform: scale(1.02);
+}
+
+/* Currency formatting helper */
+.rvb-currency {
+    font-family: 'Inter', monospace;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Loading states */
+.rvb-loading .rvb-result-value {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+    height: 1.2em;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
