@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Construction Cost Calculator | Calculate Construction Cost</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_construction_cost_calculator_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="container">
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Construction Cost Calculation Section -->
+                <div class="section">
+                    <h2>Calculate Home Construction Cost</h2>
+                    <div class="input-grid">
+                        <!-- Built-up Area Input -->
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label" for="builtUpArea">Built-up Area</label>
+                                <div class="input-field-container">
+                                    <input 
+                                        type="number" 
+                                        id="builtUpArea" 
+                                        name="builtUpArea"
+                                        value="1000" 
+                                        min="100" 
+                                        max="50000" 
+                                        step="50"
+                                        placeholder="Enter area in sq ft"
+                                        aria-label="Built-up area in square feet"
+                                        autocomplete="off">
+                                    <span class="input-suffix">ft²</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input 
+                                    type="range" 
+                                    id="builtUpAreaSlider" 
+                                    name="builtUpAreaSlider"
+                                    min="100" 
+                                    max="50000" 
+                                    value="1000" 
+                                    step="50" 
+                                    class="custom-slider"
+                                    aria-label="Built-up area slider"
+                                    title="Drag to adjust built-up area">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>100 ft²</span>
+                                    <span>50K ft²</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cost per Square Foot Input -->
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label" for="costPerSqFt">Cost per Square Foot</label>
+                                <div class="input-field-container">
+                                    <input 
+                                        type="number" 
+                                        id="costPerSqFt" 
+                                        name="costPerSqFt"
+                                        value="1500" 
+                                        min="500" 
+                                        max="5000" 
+                                        step="50"
+                                        placeholder="Enter cost per sq ft"
+                                        aria-label="Cost per square foot in rupees"
+                                        autocomplete="off">
+                                    <span class="input-suffix">₹/ft²</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input 
+                                    type="range" 
+                                    id="costPerSqFtSlider" 
+                                    name="costPerSqFtSlider"
+                                    min="500" 
+                                    max="5000" 
+                                    value="1500" 
+                                    step="50" 
+                                    class="custom-slider"
+                                    aria-label="Cost per square foot slider"
+                                    title="Drag to adjust cost per square foot">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>₹500</span>
+                                    <span>₹5K</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Toggle Options -->
+                        <div class="input-group toggle-group">
+                            <div class="toggle-row">
+                                <label class="toggle-label">Show Detailed Cost Breakup</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="showDetailedBreakup" checked>
+                                    <span class="toggle-slider"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group toggle-group">
+                            <div class="toggle-row">
+                                <label class="toggle-label">Show Material Quantities</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="showMaterialQuantities" checked>
+                                    <span class="toggle-slider"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Information Note -->
+                        <div class="info-note">
+                            <div class="info-icon">ℹ️</div>
+                            <div class="info-text">
+                                <strong>Thumb-rule Note:</strong> Steel requirement ≈ 4 kg/ft² (industry standard)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <!-- Total Cost Card -->
+                <div class="results-card-grid">
+                    <div class="result-card total-cost-card">
+                        <div class="card-icon">🏠</div>
+                        <div class="card-content">
+                            <div class="card-label bold-title">Total Construction Cost</div>
+                            <div class="card-value" id="totalConstructionCost">₹15,00,000</div>
+                            <div class="card-sub-value" id="costPerSqFtDisplay">₹1,500 per ft²</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Cost Breakup -->
+                <div class="cost-breakup-section" id="costBreakupSection">
+                    <h3>📊 Cost Breakup by Material</h3>
+                    <div class="breakup-grid">
+                        <!-- Individual Material Cards -->
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Cement</span>
+                                <span class="material-cost" id="cementCost">₹2,46,000</span>
+                                <span class="material-percent">16.4%</span>
+                            </div>
+                        </div>
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Sand</span>
+                                <span class="material-cost" id="sandCost">₹1,84,500</span>
+                                <span class="material-percent">12.3%</span>
+                            </div>
+                        </div>
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Aggregate</span>
+                                <span class="material-cost" id="aggregateCost">₹1,11,000</span>
+                                <span class="material-percent">7.4%</span>
+                            </div>
+                        </div>
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Steel</span>
+                                <span class="material-cost" id="steelCost">₹3,69,000</span>
+                                <span class="material-percent">24.6%</span>
+                            </div>
+                        </div>
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Paint</span>
+                                <span class="material-cost" id="paintCost">₹61,500</span>
+                                <span class="material-percent">4.1%</span>
+                            </div>
+                        </div>
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Tiles</span>
+                                <span class="material-cost" id="tilesCost">₹1,20,000</span>
+                                <span class="material-percent">8.0%</span>
+                            </div>
+                        </div>
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Bricks</span>
+                                <span class="material-cost" id="bricksCost">₹66,000</span>
+                                <span class="material-percent">4.4%</span>
+                            </div>
+                        </div>
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Windows</span>
+                                <span class="material-cost" id="windowsCost">₹45,000</span>
+                                <span class="material-percent">3.0%</span>
+                            </div>
+                        </div>
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Doors</span>
+                                <span class="material-cost" id="doorsCost">₹51,000</span>
+                                <span class="material-percent">3.4%</span>
+                            </div>
+                        </div>
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Plumbing</span>
+                                <span class="material-cost" id="plumbingCost">₹82,500</span>
+                                <span class="material-percent">5.5%</span>
+                            </div>
+                        </div>
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Electrical</span>
+                                <span class="material-cost" id="electricalCost">₹1,02,000</span>
+                                <span class="material-percent">6.8%</span>
+                            </div>
+                        </div>
+                        <div class="breakup-card">
+                            <div class="breakup-item">
+                                <span class="material-name">Sanitary</span>
+                                <span class="material-cost" id="sanitaryCost">₹61,500</span>
+                                <span class="material-percent">4.1%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Group Totals -->
+                    <div class="group-totals">
+                        <div class="group-card finishers-card">
+                            <div class="group-content">
+                                <span class="group-label">🎨 Finishers Total</span>
+                                <span class="group-cost" id="finishersTotal">₹2,47,500</span>
+                                <span class="group-percent">16.5%</span>
+                            </div>
+                            <div class="group-sub-text">Paint + Tiles + Bricks</div>
+                        </div>
+                        <div class="group-card fittings-card">
+                            <div class="group-content">
+                                <span class="group-label">🔧 Fittings Total</span>
+                                <span class="group-cost" id="fittingsTotal">₹3,42,000</span>
+                                <span class="group-percent">22.8%</span>
+                            </div>
+                            <div class="group-sub-text">Windows + Doors + Plumbing + Electrical + Sanitary</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Material Quantities Section -->
+                <div class="material-quantities-section" id="materialQuantitiesSection">
+                    <h3>📦 Material Quantities Required</h3>
+                    <div class="quantities-grid">
+                        <div class="quantity-card">
+                            <div class="quantity-icon">🧱</div>
+                            <div class="quantity-content">
+                                <div class="quantity-label">Cement</div>
+                                <div class="quantity-value" id="cementQuantity">400 bags</div>
+                            </div>
+                        </div>
+                        <div class="quantity-card">
+                            <div class="quantity-icon">🏔️</div>
+                            <div class="quantity-content">
+                                <div class="quantity-label">Sand</div>
+                                <div class="quantity-value" id="sandQuantity">51 m³ (≈ 81.6 t)</div>
+                            </div>
+                        </div>
+                        <div class="quantity-card">
+                            <div class="quantity-icon">🪨</div>
+                            <div class="quantity-content">
+                                <div class="quantity-label">Aggregate</div>
+                                <div class="quantity-value" id="aggregateQuantity">38 m³ (≈ 60.8 t)</div>
+                            </div>
+                        </div>
+                        <div class="quantity-card">
+                            <div class="quantity-icon">🔩</div>
+                            <div class="quantity-content">
+                                <div class="quantity-label">Steel</div>
+                                <div class="quantity-value" id="steelQuantity">4,000 kg</div>
+                                <div class="quantity-sub">(4 kg/ft²)</div>
+                            </div>
+                        </div>
+                        <div class="quantity-card">
+                            <div class="quantity-icon">🎨</div>
+                            <div class="quantity-content">
+                                <div class="quantity-label">Paint</div>
+                                <div class="quantity-value" id="paintQuantity">180 L</div>
+                            </div>
+                        </div>
+                        <div class="quantity-card">
+                            <div class="quantity-icon">🧱</div>
+                            <div class="quantity-content">
+                                <div class="quantity-label">Bricks</div>
+                                <div class="quantity-value" id="bricksQuantity">8,000 pcs</div>
+                                <div class="quantity-sub">(8 pcs/ft²)</div>
+                            </div>
+                        </div>
+                        <div class="quantity-card">
+                            <div class="quantity-icon">🔳</div>
+                            <div class="quantity-content">
+                                <div class="quantity-label">Flooring</div>
+                                <div class="quantity-value" id="flooringQuantity">1,300 ft²</div>
+                                <div class="quantity-sub">(≈ 325 tiles)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Construction Cost Chart -->
+                <div class="chart-section">
+                    <h3>📈 Construction Cost Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="constructionCostChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-btn download-btn" id="downloadReportBtn">
+                        📄 Download Report
+                    </button>
+                    <button class="action-btn share-btn" id="shareResultsBtn">
+                        📤 Share Results
+                    </button>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="disclaimer">
+                    <p><strong>Disclaimer:</strong> This is a thumb-rule estimate for planning purposes. Actual construction costs may vary significantly based on architectural drawings, material specifications, site conditions, labor costs, and local market rates.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Construction Cost Calculator Script -->
+    <script src="{{ url_for('static', filename='js/home_construction_cost_calculator_script.js') }}"></script>
+</body>
+</html>

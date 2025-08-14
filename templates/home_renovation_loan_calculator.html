@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Renovation Loan Calculator | Calculate EMI, APR & Processing Fees</title>
+    <meta name="description" content="Calculate home renovation loan EMI with processing fees, GST, and APR. Compare gross vs net disbursal modes with detailed amortization schedule.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_renovation_loan_emi_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    
+    <div class="hr-container">
+        <div class="hr-calculator-wrapper">
+            <!-- Input Section -->
+            <div class="hr-input-section">
+                <div class="hr-card">
+                    <h2 class="hr-section-title">Loan Details</h2>
+                    
+                    <!-- Loan Amount -->
+                    <div class="hr-input-group">
+                        <label for="hrLoanAmount" class="hr-label">Loan Amount</label>
+                        <div class="hr-input-container">
+                            <input type="number" id="hrLoanAmount" class="hr-input" value="100000" min="10000" max="50000000">
+                            <span class="hr-currency">₹</span>
+                        </div>
+                        <div class="hr-slider-container">
+                            <input type="range" id="hrLoanAmountSlider" class="hr-slider" min="10000" max="5000000" value="100000" step="1000">
+                            <div class="hr-slider-labels">
+                                <span>₹10K</span>
+                                <span>₹50L</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interest Rate -->
+                    <div class="hr-input-group">
+                        <label for="hrInterestRate" class="hr-label">Interest Rate (% p.a.)</label>
+                        <div class="hr-input-container">
+                            <input type="number" id="hrInterestRate" class="hr-input" value="18" min="1" max="30" step="0.1">
+                            <span class="hr-unit">%</span>
+                        </div>
+                        <div class="hr-slider-container">
+                            <input type="range" id="hrInterestRateSlider" class="hr-slider" min="1" max="30" value="18" step="0.1">
+                            <div class="hr-slider-labels">
+                                <span>1%</span>
+                                <span>30%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tenure -->
+                    <div class="hr-input-group">
+                        <label for="hrTenure" class="hr-label">Loan Tenure</label>
+                        <div class="hr-tenure-container">
+                            <div class="hr-input-container">
+                                <input type="number" id="hrTenure" class="hr-input" value="12" min="1" max="300">
+                            </div>
+                            <div class="hr-toggle-container">
+                                <div class="hr-toggle-switch">
+                                    <input type="radio" id="hrTenureMonths" name="hrTenureType" value="months" checked>
+                                    <label for="hrTenureMonths" class="hr-toggle-label">Months</label>
+                                    <input type="radio" id="hrTenureYears" name="hrTenureType" value="years">
+                                    <label for="hrTenureYears" class="hr-toggle-label">Years</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-slider-container">
+                            <input type="range" id="hrTenureSlider" class="hr-slider" min="1" max="25" value="12" step="1">
+                            <div class="hr-slider-labels">
+                                <span id="hrTenureMinLabel">1</span>
+                                <span id="hrTenureMaxLabel">25</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Processing Fee -->
+                    <div class="hr-input-group">
+                        <label for="hrProcessingFee" class="hr-label">Processing Fee</label>
+                        <div class="hr-fee-container">
+                            <div class="hr-toggle-container">
+                                <div class="hr-toggle-switch">
+                                    <input type="radio" id="hrFeePercent" name="hrFeeType" value="%" checked>
+                                    <label for="hrFeePercent" class="hr-toggle-label">%</label>
+                                    <input type="radio" id="hrFeeAmount" name="hrFeeType" value="₹">
+                                    <label for="hrFeeAmount" class="hr-toggle-label">₹</label>
+                                </div>
+                            </div>
+                            <div class="hr-input-container">
+                                <input type="number" id="hrProcessingFee" class="hr-input" value="3" min="0" step="0.1">
+                                <span class="hr-unit" id="hrFeeUnit">%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GST Toggle -->
+                    <div class="hr-input-group">
+                        <label class="hr-label">GST on Fee (18%)</label>
+                        <div class="hr-checkbox-container">
+                            <label class="hr-checkbox-label">
+                                <input type="checkbox" id="hrGstToggle" checked>
+                                <span class="hr-checkbox-custom"></span>
+                                Include GST on processing fee
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Disbursal Mode -->
+                    <div class="hr-input-group">
+                        <label for="hrDisbursalMode" class="hr-label">Disbursal Mode</label>
+                        <select id="hrDisbursalMode" class="hr-select">
+                            <option value="Net">Net (fee deducted upfront)</option>
+                            <option value="Gross">Gross (fee paid separately)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="hr-results-section">
+                <div class="hr-card">
+                    <h2 class="hr-section-title">Loan Summary</h2>
+                    
+                    <!-- EMI Display -->
+                    <div class="hr-emi-display">
+                        <div class="hr-emi-amount">
+                            <span class="hr-emi-label">Monthly EMI</span>
+                            <span class="hr-emi-value" id="hrEmiAmount">₹9,168</span>
+                        </div>
+                    </div>
+
+                    <!-- Key Metrics -->
+                    <div class="hr-metrics-grid">
+                        <div class="hr-metric">
+                            <span class="hr-metric-label">Total Interest</span>
+                            <span class="hr-metric-value" id="hrTotalInterest">₹10,016</span>
+                        </div>
+                        <div class="hr-metric">
+                            <span class="hr-metric-label">Processing Fee</span>
+                            <span class="hr-metric-value" id="hrProcessingFeeAmount">₹3,000</span>
+                        </div>
+                        <div class="hr-metric">
+                            <span class="hr-metric-label">GST Amount</span>
+                            <span class="hr-metric-value" id="hrGstAmount">₹540</span>
+                        </div>
+                        <div class="hr-metric">
+                            <span class="hr-metric-label">Total Payable</span>
+                            <span class="hr-metric-value" id="hrTotalPayable">₹1,13,556</span>
+                        </div>
+                        <div class="hr-metric">
+                            <span class="hr-metric-label">APR / Effective Rate</span>
+                            <span class="hr-metric-value" id="hrAprRate">18.0%</span>
+                        </div>
+                    </div>
+
+                    <!-- Download Button -->
+                    <div class="hr-download-container">
+                        <button id="hrDownloadBtn" class="hr-download-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7,10 12,15 17,10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Download Schedule (CSV)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="hr-chart-section">
+            <div class="hr-card">
+                <h2 class="hr-section-title">Outstanding Balance Chart</h2>
+                <div class="hr-chart-container">
+                    <canvas id="hrBalanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amortization Table -->
+        <div class="hr-table-section">
+            <div class="hr-card">
+                <h2 class="hr-section-title">Amortization Schedule</h2>
+                <div class="hr-table-container">
+                    <table class="hr-table" id="hrAmortizationTable">
+                        <thead>
+                            <tr>
+                                <th id="hrTablePeriodHeader">Month</th>
+                                <th>EMI</th>
+                                <th>Interest</th>
+                                <th>Principal</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hrTableBody">
+                            <!-- Dynamic content will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="hr-disclaimer">
+            <p><strong>Disclaimer:</strong> This calculator provides illustrative results only. Actual loan terms, interest rates, processing fees, and other charges may vary based on lender policies, credit profile, and market conditions. Please consult with your financial advisor or lender for accurate loan details.</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/home_renovation_loan_emi_script.js') }}"></script>
+</body>
+</html>

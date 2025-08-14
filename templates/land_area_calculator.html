@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Land Area Calculator | Area Converter Tool</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/land_area_calculator_style.css') }}">    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="container">
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Land Area Conversion Section -->
+                <div class="section">
+                    <h2>Convert Land Area</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Area Value</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="areaValue" value="1.00" min="0" step="0.01">
+                                    <span class="input-suffix" id="fromUnitSuffix">sq ft</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">From Unit</label>
+                                <div class="select-container">
+                                    <select id="fromUnit" class="form-select">
+                                        <option value="Square Feet" selected>Square Feet</option>
+                                        <option value="Square Yards (Gaj)">Square Yards (Gaj)</option>
+                                        <option value="Square Meters">Square Meters</option>
+                                        <option value="Acre">Acre</option>
+                                        <option value="Hectare">Hectare</option>
+                                        <option value="Cent">Cent</option>
+                                        <option value="Guntha">Guntha</option>
+                                        <option value="Decimal">Decimal</option>
+                                        <option value="Ground">Ground</option>
+                                        <option value="Bigha">Bigha</option>
+                                        <option value="Katha">Katha</option>
+                                        <option value="Biswa">Biswa</option>
+                                        <option value="Marla">Marla</option>
+                                        <option value="Kanal">Kanal</option>
+                                        <option value="Murabba">Murabba</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">To Unit</label>
+                                <div class="select-container">
+                                    <select id="toUnit" class="form-select">
+                                        <option value="Square Feet">Square Feet</option>
+                                        <option value="Square Yards (Gaj)">Square Yards (Gaj)</option>
+                                        <option value="Square Meters" selected>Square Meters</option>
+                                        <option value="Acre">Acre</option>
+                                        <option value="Hectare">Hectare</option>
+                                        <option value="Cent">Cent</option>
+                                        <option value="Guntha">Guntha</option>
+                                        <option value="Decimal">Decimal</option>
+                                        <option value="Ground">Ground</option>
+                                        <option value="Bigha">Bigha</option>
+                                        <option value="Katha">Katha</option>
+                                        <option value="Biswa">Biswa</option>
+                                        <option value="Marla">Marla</option>
+                                        <option value="Kanal">Kanal</option>
+                                        <option value="Murabba">Murabba</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">State/Region</label>
+                                <div class="select-container">
+                                    <select id="region" class="form-select">
+                                        <option value="Not applicable" selected>Not applicable</option>
+                                        <option value="Rajasthan (Upper)">Rajasthan (Upper)</option>
+                                        <option value="Rajasthan (Lower)">Rajasthan (Lower)</option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                        <option value="Bihar">Bihar</option>
+                                        <option value="West Bengal">West Bengal</option>
+                                        <option value="Assam">Assam</option>
+                                        <option value="Gujarat">Gujarat</option>
+                                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                        <option value="Punjab/Haryana">Punjab/Haryana</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="region-info" id="regionInfo" style="display: none;">
+                                <small class="info-text">⚠️ These units vary by state. Select the appropriate region for accurate conversion.</small>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Precision (Decimal Places)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="precision" value="4" min="0" max="10" step="1">
+                                    <span class="input-suffix">digits</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="toggle-row">
+                                <label class="toggle-container">
+                                    <input type="checkbox" id="showTable" checked>
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show conversion table for all units</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card converted-value-card">
+                        <div class="card-icon">🏗️</div>
+                        <div class="card-content">
+                            <div class="card-title">Converted Area</div>
+                            <div class="card-value" id="convertedValue">92.9030 sq m</div>
+                        </div>
+                        <button class="copy-btn" id="copyResult" title="Copy result">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="result-card formula-card">
+                        <div class="card-icon">📐</div>
+                        <div class="card-content">
+                            <div class="card-title">Formula Used</div>
+                            <div class="card-formula" id="formulaUsed">sq m = sq ft × 0.092903</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card equivalent-card">
+                        <div class="card-icon">🔄</div>
+                        <div class="card-content">
+                            <div class="card-title">Square Meter Equivalent</div>
+                            <div class="card-value" id="sqmEquivalent">92.9030 sq m</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regional Info Note -->
+                <div class="regional-note" id="regionalNote" style="display: none;">
+                    <div class="note-icon">ℹ️</div>
+                    <div class="note-text">
+                        Conversions for regional units (Bigha/Katha/Biswa) differ by state. 
+                        Values shown use the selected region: <span id="selectedRegion">Not applicable</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- All Unit Conversions Table -->
+        <div class="conversion-table-container" id="conversionTableContainer">
+            <div class="table-header">
+                <h3>All Unit Conversions</h3>
+                <div class="table-subtitle">Your <span id="inputValueDisplay">1.00</span> <span id="inputUnitDisplay">Square Feet</span> equals:</div>
+            </div>
+            <div class="table-wrapper">
+                <table class="conversion-table" id="conversionTable">
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Value</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="conversionTableBody">
+                        <!-- Table rows will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/land_area_calculator.js') }}"></script>
+</body>
+</html>

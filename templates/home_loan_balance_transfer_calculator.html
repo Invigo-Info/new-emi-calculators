@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Loan Balance Transfer Calculator | Compare Interest Rates & Save on EMI</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_loan_balance_transfer_style.css') }}">    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="container">
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Current Loan Details Section -->
+                <div class="section">
+                    <h2>Current Loan Details</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Existing Loan Outstanding</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="existingOutstanding" value="3000000" min="100000" max="50000000" step="10000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="existingOutstandingSlider" min="100000" max="50000000" value="3000000" step="10000" class="custom-slider">
+                                <div class="slider-labels">
+                                    <span>₹1L</span>
+                                    <span>₹5Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Remaining Tenure</label>
+                                <div class="tenure-container">
+                                    <div class="tenure-toggle">
+                                        <button type="button" class="tenure-toggle-btn" data-type="years" data-field="remaining">Years</button>
+                                        <button type="button" class="tenure-toggle-btn active" data-type="months" data-field="remaining">Months</button>
+                                    </div>
+                                    <div class="input-field-container">
+                                        <input type="number" id="remainingTenure" value="240" min="12" max="360" step="1">
+                                        <span class="input-suffix" id="remainingTenureSuffix">Months</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="remainingTenureSlider" min="12" max="360" value="240" step="1" class="custom-slider">
+                                <div class="slider-labels">
+                                    <span id="remainingTenureMinLabel">1Y</span>
+                                    <span id="remainingTenureMaxLabel">30Y</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Current Interest Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="currentRate" value="10.0" min="3.0" max="18.0" step="0.01">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="currentRateSlider" min="3.0" max="18.0" value="10.0" step="0.01" class="custom-slider">
+
+                                <div class="slider-labels">
+                                    <span>3%</span>
+                                    <span>18%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New Loan Details Section -->
+                <div class="section">
+                    <h2>Proposed New Loan Details</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Proposed Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="proposedRate" value="8.60" min="3.0" max="18.0" step="0.01">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="proposedRateSlider" min="3.0" max="18.0" value="8.60" step="0.01" class="custom-slider">
+
+                                <div class="slider-labels">
+                                    <span>3%</span>
+                                    <span>18%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Proposed Tenure</label>
+                                <div class="tenure-container">
+                                    <div class="tenure-toggle">
+                                        <button type="button" class="tenure-toggle-btn" data-type="years" data-field="proposed">Years</button>
+                                        <button type="button" class="tenure-toggle-btn active" data-type="months" data-field="proposed">Months</button>
+                                    </div>
+                                    <div class="input-field-container">
+                                        <input type="number" id="proposedTenure" value="240" min="12" max="360" step="1">
+                                        <span class="input-suffix" id="proposedTenureSuffix">Months</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="proposedTenureSlider" min="12" max="360" value="240" step="1" class="custom-slider">
+                                <div class="slider-labels">
+                                    <span id="proposedTenureMinLabel">1Y</span>
+                                    <span id="proposedTenureMaxLabel">30Y</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Top-up Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="topupAmount" value="0" min="0" max="10000000" step="10000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="topupAmountSlider" min="0" max="10000000" value="0" step="10000" class="custom-slider">
+
+                                <div class="slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹1Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Rate Type</label>
+                                <div class="select-container">
+                                    <select id="rateType" class="form-select">
+                                        <option value="floating">Floating (repo-linked)</option>
+                                        <option value="fixed">Fixed</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charges & Fees Section -->
+                <div class="section">
+                    <h2>Charges & Fees</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Processing Fee</label>
+                                <div class="fee-container">
+                                    <div class="fee-toggle">
+                                        <button type="button" class="fee-toggle-btn active" data-type="percentage" data-fee="processing">%</button>
+                                        <button type="button" class="fee-toggle-btn" data-type="amount" data-fee="processing">₹</button>
+                                    </div>
+                                    <div class="input-field-container">
+                                        <input type="number" id="processingFee" value="0.5" min="0" max="10" step="0.1">
+                                        <span class="input-suffix" id="processingFeeSuffix">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="processingFeeSlider" min="0" max="10" value="0.5" step="0.1" class="custom-slider">
+
+                                <div class="slider-labels">
+                                    <span>0%</span>
+                                    <span>10%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Foreclosure Charges</label>
+                                <div class="fee-container">
+                                    <div class="fee-toggle">
+                                        <button type="button" class="fee-toggle-btn active" data-type="percentage" data-fee="foreclosure">%</button>
+                                        <button type="button" class="fee-toggle-btn" data-type="amount" data-fee="foreclosure">₹</button>
+                                    </div>
+                                    <div class="input-field-container">
+                                        <input type="number" id="foreclosureFee" value="0" min="0" max="10" step="0.1">
+                                        <span class="input-suffix" id="foreclosureFeeSuffix">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="foreclosureFeeSlider" min="0" max="10" value="0" step="0.1" class="custom-slider">
+
+                                <div class="slider-labels">
+                                    <span>0%</span>
+                                    <span>10%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Stamp Duty / MOD Charges</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="stampDuty" value="0" min="0" max="1000000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="stampDutySlider" min="0" max="1000000" value="0" step="1000" class="custom-slider">
+
+                                <div class="slider-labels">
+                                    <span>₹0</span>
+                                    <span>₹10L</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-card-grid">
+                    <div class="result-card existing-emi-card">
+                        <div class="card-icon">📊</div>
+                        <div class="card-content">
+                            <div class="card-label bold-title">Existing EMI</div>
+                            <div class="card-value" id="existingEmi">₹0</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card proposed-emi-card">
+                        <div class="card-icon">🏆</div>
+                        <div class="card-content">
+                            <div class="card-label bold-title">Proposed EMI</div>
+                            <div class="card-value" id="proposedEmi">₹0</div>
+                        </div>
+                    </div>
+
+                    <div class="result-card emi-saving-card">
+                        <div class="card-icon">💰</div>
+                        <div class="card-content">
+                            <div class="card-label">EMI Saving</div>
+                            <div class="card-value" id="emiSaving">₹0<span class="per-month">/month</span></div>
+                        </div>
+                    </div>
+
+                    <div class="result-card net-savings-card">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-content">
+                            <div class="card-label">Net Cash Saving</div>
+                            <div class="card-value" id="netSavings">₹0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Outflow Comparison -->
+                <div class="comparison-section">
+                    <h3>Total Outflow Comparison</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <label>Current Loan Outflow</label>
+                            <div class="comparison-value" id="remainingOutflow">₹0</div>
+                        </div>
+                        <div class="comparison-item">
+                            <label>New Loan Outflow (incl. fees)</label>
+                            <div class="comparison-value" id="newOutflow">₹0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Breakeven Analysis -->
+                <div class="breakeven-section">
+                    <h3>Breakeven Analysis</h3>
+                    <div class="breakeven-content">
+                        <div class="breakeven-months">
+                            <label>Breakeven Period</label>
+                            <div class="breakeven-value" id="breakevenMonths">0 months</div>
+                        </div>
+                        <div class="breakeven-description">
+                            <p id="breakevenDescription">Time to recover transfer costs through monthly savings</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fees Breakdown -->
+                <div class="fees-section">
+                    <h3>Fees Breakdown</h3>
+                    <div class="fees-grid">
+                        <div class="fee-item">
+                            <span>Processing Fee</span>
+                            <span id="processingFeeAmount">₹0</span>
+                        </div>
+                        <div class="fee-item">
+                            <span>Foreclosure Charges</span>
+                            <span id="foreclosureFeeAmount">₹0</span>
+                        </div>
+                        <div class="fee-item">
+                            <span>Stamp Duty/MOD</span>
+                            <span id="stampDutyAmount">₹0</span>
+                        </div>
+                        <div class="fee-total">
+                            <span>Total Fees</span>
+                            <span id="totalFees">₹0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <h3>Outflow Comparison Chart</h3>
+                    <div class="chart-container">
+                        <canvas id="outflowChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Balance Chart -->
+                <div class="chart-section">
+                    <h3>Outstanding Balance Over Time</h3>
+                    <div class="chart-container">
+                        <canvas id="balanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Amortization Preview -->
+                <div class="amortization-section">
+                    <h3>Amortization Preview</h3>
+                    <div class="amortization-container">
+                        <div class="amortization-table-wrapper">
+                            <table class="amortization-table" id="amortizationTable">
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>EMI</th>
+                                        <th>Principal</th>
+                                        <th>Interest</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="amortizationBody">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="download-section">
+                            <button id="downloadCsv" class="download-btn">
+                                📊 Download Full Amortization CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Important Note -->
+                <div class="note-section">
+                    <div class="note-content">
+                        <h4>Important Note:</h4>
+                        <p id="floatingRateNote">Floating rates are repo-linked and can vary during the loan tenure. The calculations assume constant rates for comparison purposes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <!-- Home Loan Balance Transfer Calculator Script -->
+    <script src="{{ url_for('static', filename='js/home_loan_balance_transfer_script.js') }}"></script>
+</body>
+</html>
