@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Half Yearly EMI Calculator | Calculate Half-Yearly EMI Payment</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/half_yearly_emi_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="container">
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- Half-Yearly EMI Details Section -->
+                <div class="section">
+                    <h2 style="color: #2d3748; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; text-align: center;">Calculate Half-Yearly EMI for your Loan</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="halfYearlyLoanAmount" value="5000" min="1000" max="10000000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="halfYearlyLoanAmountSlider" min="0" max="10000000" value="5000" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>25L</span>
+                                    <span>50L</span>
+                                    <span>75L</span>
+                                    <span>1Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Annual Interest Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="halfYearlyInterestRate" value="12" min="0" max="36" step="0.25">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="halfYearlyInterestRateSlider" min="0" max="36" value="12" step="0.25" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>9</span>
+                                    <span>18</span>
+                                    <span>27</span>
+                                    <span>36</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Tenure (Years)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="halfYearlyTenureYears" value="5" min="1" max="30" step="1">
+                                    <span class="input-suffix">Years</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="halfYearlyTenureYearsSlider" min="1" max="30" value="5" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>1Y</span>
+                                    <span>8Y</span>
+                                    <span>15Y</span>
+                                    <span>22Y</span>
+                                    <span>30Y</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Payment Frequency</label>
+                                <div class="input-field-container readonly">
+                                    <input type="text" id="halfYearlyPaymentFrequency" value="Half-Yearly (2 payments per year)" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Half-Yearly Payment Schedule Section -->
+                <div class="section">
+                    <div class="schedule-section" id="halfYearlyScheduleSection">
+                        <div class="schedule-header">Half-Yearly Payment Schedule</div>
+                        <div class="schedule-table-container">
+                            <table class="schedule-table" id="halfYearlyScheduleTable">
+                                <thead>
+                                    <tr>
+                                        <th>Period</th>
+                                        <th>Principal</th>
+                                        <th>Interest</th>
+                                        <th>Half-Yearly Payment</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="halfYearlyScheduleTableBody">
+                                    <!-- Schedule rows will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="download-section">
+                            <button id="downloadCsvBtn" class="download-btn">Download Schedule as CSV</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-label">Half-Yearly EMI</div>
+                        <div class="result-value" id="halfYearlyEmi">₹ 0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Number of Payments</div>
+                        <div class="result-value" id="halfYearlyNumberOfPayments">0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Principal Amount</div>
+                        <div class="result-value" id="halfYearlyPrincipalAmount">₹ 5,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Total Interest Payable</div>
+                        <div class="result-value" id="halfYearlyTotalInterest">₹ 0</div>
+                    </div>
+                    <div class="result-item total">
+                        <div class="result-label">Total Payment<br>(Principal + Interest)</div>
+                        <div class="result-value" id="halfYearlyTotalPayment">₹ 0</div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Break-up of Total Payment</div>
+                    <div class="pie-chart-container">
+                        <canvas id="halfYearlyPaymentBreakupChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator principal"></div>
+                            <div class="summary-label">Principal Loan Amount</div>
+                            <div class="summary-percentage" id="halfYearlyPrincipalPercentage">0%</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest"></div>
+                            <div class="summary-label">Total Interest</div>
+                            <div class="summary-percentage" id="halfYearlyInterestPercentage">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/half_yearly_emi_script.js') }}"></script>
+</body>
+</html>

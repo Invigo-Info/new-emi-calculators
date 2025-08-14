@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Used Car Loan EMI Calculator | Calculate Used Car Loan EMI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/used_car_loan_emi_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="used-car-container">
+        <div class="used-car-calculator-container">
+            <div class="used-car-input-sections">
+                <!-- Used Car Loan Details Section -->
+                <div class="used-car-section">
+                    <div class="used-car-input-grid">
+                        <div class="used-car-input-group">
+                            <div class="used-car-input-row">
+                                <label class="used-car-input-label">Used Car Loan Amount</label>
+                                <div class="used-car-input-field-container">
+                                    <input type="number" id="usedCarLoanAmount" value="300000" min="50000" max="1000000" step="10000">
+                                    <span class="used-car-input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="used-car-slider-container">
+                                <input type="range" id="usedCarLoanAmountSlider" min="0" max="1000000" value="300000" step="10000" class="used-car-custom-slider">
+                                <div class="used-car-slider-track"></div>
+                                <div class="used-car-slider-labels">
+                                    <span>0</span>
+                                    <span>2.5L</span>
+                                    <span>5L</span>
+                                    <span>7.5L</span>
+                                    <span>10L</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="used-car-input-group">
+                            <div class="used-car-input-row">
+                                <label class="used-car-input-label">Interest Rate</label>
+                                <div class="used-car-input-field-container">
+                                    <input type="number" id="usedCarInterestRate" value="9.5" min="6" max="20" step="0.25">
+                                    <span class="used-car-input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="used-car-slider-container">
+                                <input type="range" id="usedCarInterestRateSlider" min="6" max="20" value="9.5" step="0.25" class="used-car-custom-slider">
+                                <div class="used-car-slider-track"></div>
+                                <div class="used-car-slider-labels">
+                                    <span>6</span>
+                                    <span>9</span>
+                                    <span>12</span>
+                                    <span>15</span>
+                                    <span>18</span>
+                                    <span>20</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="used-car-input-group">
+                            <div class="used-car-input-row">
+                                <label class="used-car-input-label">Loan Tenure</label>
+                                <div class="used-car-tenure-input-container">
+                                    <input type="number" id="usedCarTenureValue" value="4" min="1" max="7" step="1">
+                                    <div class="used-car-tenure-buttons">
+                                        <button type="button" class="used-car-tenure-btn active" id="usedCarTenureYrBtn" data-unit="years">Yr</button>
+                                        <button type="button" class="used-car-tenure-btn" id="usedCarTenureMoBtn" data-unit="months">Mo</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="used-car-slider-container">
+                                <input type="range" id="usedCarTenureSlider" min="1" max="7" value="4" step="1" class="used-car-custom-slider">
+                                <div class="used-car-slider-track"></div>
+                                <div class="used-car-slider-labels" id="usedCarTenureSliderLabels">
+                                    <span>1</span>
+                                    <span>2</span>
+                                    <span>3</span>
+                                    <span>4</span>
+                                    <span>5</span>
+                                    <span>6</span>
+                                    <span>7</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="used-car-results-section">
+                <div class="used-car-results-grid">
+                    <div class="used-car-result-item">
+                        <div class="used-car-result-label">Loan EMI</div>
+                        <div class="used-car-result-value" id="usedCarLoanEmi">₹ 7,618</div>
+                    </div>
+                    <div class="used-car-result-item">
+                        <div class="used-car-result-label">Principal Amount</div>
+                        <div class="used-car-result-value" id="usedCarPrincipalAmount">₹ 3,00,000</div>
+                    </div>
+                    <div class="used-car-result-item">
+                        <div class="used-car-result-label">Total Interest Payable</div>
+                        <div class="used-car-result-value" id="usedCarTotalInterest">₹ 65,654</div>
+                    </div>
+                    <div class="used-car-result-item used-car-total">
+                        <div class="used-car-result-label">Total Payment<br>(Principal + Interest)</div>
+                        <div class="used-car-result-value" id="usedCarTotalPayment">₹ 3,65,654</div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="used-car-chart-section">
+                    <div class="used-car-chart-header">Break-up of Total Payment</div>
+                    <div class="used-car-pie-chart-container">
+                        <canvas id="usedCarPaymentBreakupChart"></canvas>
+                    </div>
+                    <div class="used-car-chart-summary">
+                        <div class="used-car-summary-item">
+                            <div class="used-car-color-indicator used-car-principal"></div>
+                            <div class="used-car-summary-label">Principal Loan Amount</div>
+                            <div class="used-car-summary-percentage" id="usedCarPrincipalPercentage">82.0%</div>
+                        </div>
+                        <div class="used-car-summary-item">
+                            <div class="used-car-color-indicator used-car-interest"></div>
+                            <div class="used-car-summary-label">Total Interest</div>
+                            <div class="used-car-summary-percentage" id="usedCarInterestPercentage">18.0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/used_car_loan_emi_script.js') }}"></script>
+</body>
+</html>
