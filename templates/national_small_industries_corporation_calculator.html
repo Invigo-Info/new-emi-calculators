@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Small Industries Corporation (NSIC) Fee Calculator | Calculate NSIC Registration Fee</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/national_small_industries_corporation_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="container">
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- NSIC Details Section -->
+                <div class="section">
+                    <h2 style="color: #2d3748; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; text-align: center;">Calculate NSIC Registration Fee</h2>
+                    <div class="help-text">
+                        Registration fee is turnover-based; inspection & professional charges vary by agency; GST extra.
+                    </div>
+                    
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Enterprise Category</label>
+                                <div class="select-container">
+                                    <select id="enterpriseCategory">
+                                        <option value="Micro" selected>Micro</option>
+                                        <option value="Small">Small</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Purpose</label>
+                                <div class="select-container">
+                                    <select id="purpose">
+                                        <option value="Fresh" selected>Fresh</option>
+                                        <option value="Renewal">Renewal</option>
+                                        <option value="Amendment">Amendment</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label" title="Registration fee has caps: ₹1,00,000 for fresh; ₹50,000 for renewal/amendment">Annual Turnover (₹ crore)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="annualTurnoverCrore" value="1.00" min="0" step="0.01">
+                                    <span class="input-suffix">Cr</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="annualTurnoverSlider" min="0" max="10" value="1" step="0.01" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>2.5</span>
+                                    <span>5</span>
+                                    <span>7.5</span>
+                                    <span>10</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="checkbox-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="includeInspectionAndProfessional" checked>
+                                    <span class="checkmark"></span>
+                                    Include Inspection & Professional Charges
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">GST Rate (%)</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="gstRatePercent" value="18" min="0" max="28" step="0.5">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="gstRateSlider" min="0" max="28" value="18" step="0.5" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>0</span>
+                                    <span>7</span>
+                                    <span>14</span>
+                                    <span>21</span>
+                                    <span>28</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-label">Registration Fee</div>
+                        <div class="result-value" id="registrationFee">₹ 3,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Inspection Charge</div>
+                        <div class="result-value" id="inspectionCharge">₹ 2,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Professional Fee</div>
+                        <div class="result-value" id="professionalFee">₹ 6,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Subtotal</div>
+                        <div class="result-value" id="subtotal">₹ 11,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">GST (18%)</div>
+                        <div class="result-value" id="gstAmount">₹ 1,980</div>
+                    </div>
+                    <div class="result-item total">
+                        <div class="result-label">Total Payable</div>
+                        <div class="result-value" id="totalPayable">₹ 12,980</div>
+                    </div>
+                </div>
+
+                <!-- Test Cases Section -->
+                <div class="test-cases-section">
+                    <div class="test-header">Test Cases (for verification):</div>
+                    <div class="test-case">
+                        <strong>Test 1:</strong> Micro, Fresh, 2.00 cr → Reg. ₹4,500; Subtotal (incl. ₹2,000 + ₹6,000) ₹12,500; GST 18% ₹2,250; Total ₹14,750
+                    </div>
+                    <div class="test-case">
+                        <strong>Test 2:</strong> Small, Renewal, 5.00 cr → Reg. fresh ₹13,000 → renewal ₹6,500; with ₹3,000 + ₹8,000 → Subtotal ₹17,500; GST ₹3,150; Total ₹20,650
+                    </div>
+                </div>
+
+                <!-- Footer Note -->
+                <div class="footer-note">
+                    <strong>Note:</strong> This tool is indicative. Verify the payable amount on NSIC's official Fee Calculator and current circulars.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/national_small_industries_corporation_script.js') }}"></script>
+</body>
+</html>

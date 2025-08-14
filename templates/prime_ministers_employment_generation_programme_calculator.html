@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Minister's Employment Generation Programme (PMEGP) Calculator | PMEGP Loan EMI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/prime_ministers_employment_generation_programme_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="container">
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- PMEGP Loan Details Section -->
+                <div class="section">
+                    <h2 style="color: #2d3748; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; text-align: center;">Prime Minister's Employment Generation Programme (PMEGP) Calculator</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">PMEGP Loan Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="pmegpLoanAmount" value="500000" min="10000" max="20000000" step="10000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="pmegpLoanAmountSlider" min="10000" max="20000000" value="500000" step="10000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>10K</span>
+                                    <span>5L</span>
+                                    <span>10L</span>
+                                    <span>15L</span>
+                                    <span>20L</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Annual Interest Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="pmegpInterestRate" value="12" min="8" max="18" step="0.1">
+                                    <span class="input-suffix">% p.a.</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="pmegpInterestRateSlider" min="8" max="18" value="12" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>8%</span>
+                                    <span>10%</span>
+                                    <span>12%</span>
+                                    <span>14%</span>
+                                    <span>16%</span>
+                                    <span>18%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Tenure</label>
+                                <div class="tenure-input-container">
+                                    <input type="number" id="pmegpTenureValue" value="5" min="1" max="10" step="1">
+                                    <div class="tenure-buttons">
+                                        <button type="button" class="tenure-btn active" id="pmegpTenureYrBtn" data-unit="years">Yr</button>
+                                        <button type="button" class="tenure-btn" id="pmegpTenureMoBtn" data-unit="months">Mo</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="pmegpTenureSlider" min="1" max="10" value="5" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels" id="pmegpTenureSliderLabels">
+                                    <span>1</span>
+                                    <span>2</span>
+                                    <span>3</span>
+                                    <span>4</span>
+                                    <span>5</span>
+                                    <span>6</span>
+                                    <span>7</span>
+                                    <span>8</span>
+                                    <span>9</span>
+                                    <span>10</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="validation-messages">
+                        <div id="pmegpValidationMessage" class="validation-message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-grid">
+                    <div class="result-item featured">
+                        <div class="result-label">Monthly EMI</div>
+                        <div class="result-value" id="pmegpMonthlyEmi">₹ 11,122</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Principal Amount</div>
+                        <div class="result-value" id="pmegpPrincipalAmount">₹ 5,00,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Total Interest</div>
+                        <div class="result-value" id="pmegpTotalInterest">₹ 1,67,333</div>
+                    </div>
+                    <div class="result-item total">
+                        <div class="result-label">Total Payment<br>(Principal + Interest)</div>
+                        <div class="result-value" id="pmegpTotalPayment">₹ 6,67,333</div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Break-up of Total Payment</div>
+                    <div class="pie-chart-container">
+                        <canvas id="pmegpPaymentBreakupChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator principal"></div>
+                            <div class="summary-label">Principal Loan Amount</div>
+                            <div class="summary-percentage" id="pmegpPrincipalPercentage">74.9%</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest"></div>
+                            <div class="summary-label">Total Interest</div>
+                            <div class="summary-percentage" id="pmegpInterestPercentage">25.1%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="disclaimer-section">
+                    <p class="disclaimer-text">
+                        <strong>Disclaimer:</strong> This tool provides indicative results for planning only. 
+                        Actual loan terms are as per lender policy.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amortization Section (Bottom of Main Container) -->
+        <div class="amortization-main-section">
+            <div class="amortization-header">
+                <div class="amortization-title-section">
+                    <h3>Amortization Schedule</h3>
+                    <div class="amortization-toggle-buttons">
+                        <button type="button" class="amortization-toggle-btn active" id="pmegpMonthlyToggle" data-view="monthly">Monthly</button>
+                        <button type="button" class="amortization-toggle-btn" id="pmegpYearlyToggle" data-view="yearly">Yearly</button>
+                    </div>
+                </div>
+                <button id="pmegpDownloadCsv" class="download-btn">Download CSV</button>
+            </div>
+            <div class="amortization-table-container">
+                <table id="pmegpAmortizationTable" class="amortization-table">
+                    <thead>
+                        <tr id="pmegpAmortizationTableHeader">
+                            <th id="pmegpPeriodHeader">Month</th>
+                            <th>Principal</th>
+                            <th>Interest</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pmegpAmortizationBody">
+                        <!-- Amortization data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/prime_ministers_employment_generation_programme_script.js') }}"></script>
+</body>
+</html>

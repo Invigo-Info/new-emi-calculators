@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSME Business Loan Calculator | Calculate MSME Business Loan EMI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/msme_business_loan_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="msme-container">
+        <div class="msme-calculator-container">
+            <div class="msme-input-sections">
+                <!-- MSME Business Loan Details Section -->
+                <div class="msme-section">
+                    <h2 style="color: #2d3748; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; text-align: center;">Calculate EMI for your MSME Business Loan</h2>
+                    <div class="msme-input-grid">
+                        <div class="msme-input-group">
+                            <div class="msme-input-row">
+                                <label class="msme-input-label">Business Loan Amount</label>
+                                <div class="msme-input-field-container">
+                                    <input type="number" id="msmeLoanAmount" value="1000000" min="10000" max="50000000" step="10000">
+                                    <span class="msme-input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="msme-slider-container">
+                                <input type="range" id="msmeLoanAmountSlider" min="10000" max="50000000" value="1000000" step="10000" class="msme-custom-slider">
+                                <div class="msme-slider-track"></div>
+                                <div class="msme-slider-labels">
+                                    <span>10K</span>
+                                    <span>10L</span>
+                                    <span>25L</span>
+                                    <span>50L</span>
+                                    <span>1Cr</span>
+                                    <span>5Cr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="msme-input-group">
+                            <div class="msme-input-row">
+                                <label class="msme-input-label">Annual Interest Rate</label>
+                                <div class="msme-input-field-container">
+                                    <input type="number" id="msmeInterestRate" value="13.5" min="0" max="40" step="0.1">
+                                    <span class="msme-input-suffix">%</span>
+                                </div>
+                            </div>
+                            <div class="msme-slider-container">
+                                <input type="range" id="msmeInterestRateSlider" min="0" max="40" value="13.5" step="0.1" class="msme-custom-slider">
+                                <div class="msme-slider-track"></div>
+                                <div class="msme-slider-labels">
+                                    <span>0</span>
+                                    <span>8</span>
+                                    <span>15</span>
+                                    <span>25</span>
+                                    <span>40</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="msme-input-group">
+                            <div class="msme-input-row">
+                                <label class="msme-input-label">Loan Tenure</label>
+                                <div class="msme-tenure-input-container">
+                                    <input type="number" id="msmeTenureValue" value="4" min="1" max="10" step="1">
+                                    <div class="msme-tenure-buttons">
+                                        <button type="button" class="msme-tenure-btn active" id="msmeTenureYrBtn" data-unit="years">Yr</button>
+                                        <button type="button" class="msme-tenure-btn" id="msmeTenureMoBtn" data-unit="months">Mo</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="msme-slider-container">
+                                <input type="range" id="msmeTenureSlider" min="1" max="10" value="4" step="1" class="msme-custom-slider">
+                                <div class="msme-slider-track"></div>
+                                <div class="msme-slider-labels" id="msmeTenureSliderLabels">
+                                    <span>1</span>
+                                    <span>2</span>
+                                    <span>4</span>
+                                    <span>6</span>
+                                    <span>8</span>
+                                    <span>10</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Optional Fees Section -->
+                        <div class="msme-fees-section">
+                            <h3 style="color: #4a5568; font-size: 1rem; font-weight: 600; margin-bottom: 15px;">Optional Fees</h3>
+                            
+                            <div class="msme-input-group">
+                                <div class="msme-input-row">
+                                    <label class="msme-input-label">Processing Fee</label>
+                                    <div class="msme-input-field-container">
+                                        <input type="number" id="msmeProcessingFee" value="2" min="0" max="10" step="0.1">
+                                        <span class="msme-input-suffix">%</span>
+                                    </div>
+                                </div>
+                                <div class="msme-slider-container">
+                                    <input type="range" id="msmeProcessingFeeSlider" min="0" max="10" value="2" step="0.1" class="msme-custom-slider">
+                                    <div class="msme-slider-track"></div>
+                                    <div class="msme-slider-labels">
+                                        <span>0</span>
+                                        <span>2</span>
+                                        <span>5</span>
+                                        <span>8</span>
+                                        <span>10</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="msme-input-group">
+                                <div class="msme-input-row">
+                                    <label class="msme-input-label">GST on Fee</label>
+                                    <div class="msme-input-field-container">
+                                        <input type="number" id="msmeGstOnFee" value="18" min="0" max="28" step="0.1">
+                                        <span class="msme-input-suffix">%</span>
+                                    </div>
+                                </div>
+                                <div class="msme-slider-container">
+                                    <input type="range" id="msmeGstOnFeeSlider" min="0" max="28" value="18" step="0.1" class="msme-custom-slider">
+                                    <div class="msme-slider-track"></div>
+                                    <div class="msme-slider-labels">
+                                        <span>0</span>
+                                        <span>12</span>
+                                        <span>18</span>
+                                        <span>28</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Amortization Table Section (moved after inputs) -->
+                <div class="msme-amortization-section">
+                    <div class="msme-amortization-header">
+                        <h3 style="color: #2d3748; font-size: 1.125rem; font-weight: 600; margin-bottom: 15px;">Amortization Schedule</h3>
+                        <div class="msme-amortization-controls">
+                            <div class="msme-schedule-toggle">
+                                <button type="button" class="msme-schedule-btn active" id="msmeMonthlyScheduleBtn">Monthly View</button>
+                                <button type="button" class="msme-schedule-btn" id="msmeYearlyScheduleBtn">Yearly View</button>
+                            </div>
+                            <button class="msme-download-btn" id="msmeDownloadCsv">Download CSV</button>
+                        </div>
+                    </div>
+                    <div class="msme-table-container">
+                        <table class="msme-amortization-table">
+                            <thead id="msmeTableHeader">
+                                <tr>
+                                    <th>Month</th>
+                                    <th>EMI</th>
+                                    <th>Principal</th>
+                                    <th>Interest</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="msmeAmortizationTableBody">
+                                <!-- Table rows will be populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="msme-results-section">
+                <div class="msme-results-grid">
+                    <div class="msme-result-item">
+                        <div class="msme-result-label">Monthly EMI</div>
+                        <div class="msme-result-value" id="msmeEmi">₹ 27,076</div>
+                    </div>
+                    <div class="msme-result-item">
+                        <div class="msme-result-label">Loan Amount</div>
+                        <div class="msme-result-value" id="msmePrincipalAmount">₹ 10,00,000</div>
+                    </div>
+                    <div class="msme-result-item">
+                        <div class="msme-result-label">Total Interest Payable</div>
+                        <div class="msme-result-value" id="msmeTotalInterest">₹ 2,99,664</div>
+                    </div>
+                    <div class="msme-result-item msme-total">
+                        <div class="msme-result-label">Total Payment<br>(Principal + Interest)</div>
+                        <div class="msme-result-value" id="msmeTotalPayment">₹ 12,99,664</div>
+                    </div>
+                </div>
+
+                <!-- Fee Details Section -->
+                <div class="msme-fee-details">
+                    <h3 style="color: #2d3748; font-size: 1.125rem; font-weight: 600; margin-bottom: 15px; text-align: center;">Fee Breakdown</h3>
+                    <div class="msme-fee-grid">
+                        <div class="msme-fee-item">
+                            <div class="msme-fee-label">Processing Fee</div>
+                            <div class="msme-fee-value" id="msmeProcessingFeeAmount">₹ 20,000</div>
+                        </div>
+                        <div class="msme-fee-item">
+                            <div class="msme-fee-label">GST on Fee</div>
+                            <div class="msme-fee-value" id="msmeGstAmount">₹ 3,600</div>
+                        </div>
+                        <div class="msme-fee-item msme-net-disbursal">
+                            <div class="msme-fee-label">Net Disbursal Amount</div>
+                            <div class="msme-fee-value" id="msmeNetDisbursal">₹ 9,76,400</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="msme-chart-section">
+                    <div class="msme-chart-header">Break-up of Total Payment</div>
+                    <div class="msme-pie-chart-container">
+                        <canvas id="msmePaymentBreakupChart"></canvas>
+                    </div>
+                    <div class="msme-chart-summary">
+                        <div class="msme-summary-item">
+                            <div class="msme-color-indicator msme-principal"></div>
+                            <div class="msme-summary-label">Principal Loan Amount</div>
+                            <div class="msme-summary-percentage" id="msmePrincipalPercentage">76.9%</div>
+                        </div>
+                        <div class="msme-summary-item">
+                            <div class="msme-color-indicator msme-interest"></div>
+                            <div class="msme-summary-label">Total Interest</div>
+                            <div class="msme-summary-percentage" id="msmeInterestPercentage">23.1%</div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Disclaimer -->
+                <div class="msme-disclaimer">
+                    <p><strong>Note:</strong> Indicative results. Actual terms depend on lender policy.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/msme_business_loan_script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pradhan Mantri Mudra Yojana (PMMY) Calculator | EMI Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pradhan_mantri_mudra_yojana_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="container">
+        <div class="calculator-container">
+            <div class="input-sections">
+                <!-- PMMY Loan Details Section -->
+                <div class="section">
+                    <h2 style="color: #2d3748; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; text-align: center;">Pradhan Mantri Mudra Yojana (PMMY) EMI Calculator</h2>
+                    
+                    <!-- PMMY Category Selection -->
+                    <div class="pmmy-category-section">
+                        <div class="input-row">
+                            <label class="input-label">PMMY Category</label>
+                            <div class="category-dropdown-container">
+                                <select id="pmmyCategory" class="category-dropdown">
+                                    <option value="">Select Category (Optional)</option>
+                                    <option value="Shishu">Shishu</option>
+                                    <option value="Kishore">Kishore</option>
+                                    <option value="Tarun">Tarun</option>
+                                    <option value="Tarun Plus">Tarun Plus</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="category-hints" id="categoryHints">
+                            <div class="category-hint shishu">
+                                <span class="category-name">Shishu:</span> up to ₹50,000
+                            </div>
+                            <div class="category-hint kishore">
+                                <span class="category-name">Kishore:</span> ₹50,001–₹5,00,000
+                            </div>
+                            <div class="category-hint tarun">
+                                <span class="category-name">Tarun:</span> ₹5,00,001–₹10,00,000
+                            </div>
+                            <div class="category-hint tarunplus">
+                                <span class="category-name">Tarun Plus:</span> ₹10,00,001–₹20,00,000
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Loan Amount</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="loanAmount" value="500000" min="10000" max="2000000" step="1000">
+                                    <span class="input-suffix">₹</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="loanAmountSlider" min="10000" max="2000000" value="500000" step="1000" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>10K</span>
+                                    <span>5L</span>
+                                    <span>10L</span>
+                                    <span>15L</span>
+                                    <span>20L</span>
+                                </div>
+                            </div>
+                            <div class="validation-message" id="loanAmountValidation"></div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Interest Rate</label>
+                                <div class="input-field-container">
+                                    <input type="number" id="annualInterestRatePercent" value="8" min="5" max="15" step="0.1">
+                                    <span class="input-suffix">% p.a.</span>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="interestRateSlider" min="5" max="15" value="8" step="0.1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels">
+                                    <span>5%</span>
+                                    <span>7.5%</span>
+                                    <span>10%</span>
+                                    <span>12.5%</span>
+                                    <span>15%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <label class="input-label">Tenure</label>
+                                <div class="tenure-input-container">
+                                    <input type="number" id="tenureValue" value="36" min="12" max="84" step="1">
+                                    <div class="tenure-buttons">
+                                        <button type="button" class="tenure-btn" id="tenureMoBtn" data-unit="months">Months</button>
+                                        <button type="button" class="tenure-btn active" id="tenureYrBtn" data-unit="years">Years</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="tenureSlider" min="12" max="84" value="36" step="1" class="custom-slider">
+                                <div class="slider-track"></div>
+                                <div class="slider-labels" id="tenureSliderLabels">
+                                    <span>12</span>
+                                    <span>24</span>
+                                    <span>36</span>
+                                    <span>48</span>
+                                    <span>60</span>
+                                    <span>72</span>
+                                    <span>84</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div class="results-grid">
+                    <div class="result-item main-emi">
+                        <div class="result-label">Monthly EMI</div>
+                        <div class="result-value" id="monthlyEmi">₹ 15,668</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Principal Amount</div>
+                        <div class="result-value" id="principalAmount">₹ 5,00,000</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Total Interest Payable</div>
+                        <div class="result-value" id="totalInterest">₹ 64,055</div>
+                    </div>
+                    <div class="result-item total">
+                        <div class="result-label">Total Payment<br>(Principal + Interest)</div>
+                        <div class="result-value" id="totalPayment">₹ 5,64,055</div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <div class="chart-header">Break-up of Total Payment</div>
+                    <div class="pie-chart-container">
+                        <canvas id="paymentBreakupChart"></canvas>
+                    </div>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <div class="color-indicator principal"></div>
+                            <div class="summary-label">Principal Loan Amount</div>
+                            <div class="summary-percentage" id="principalPercentage">88.6%</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="color-indicator interest"></div>
+                            <div class="summary-label">Total Interest</div>
+                            <div class="summary-percentage" id="interestPercentage">11.4%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="disclaimer">
+                    <p><strong>Disclaimer:</strong> This tool provides indicative EMIs. Actual eligibility, interest rate, and terms are as per bank/NBFC policy and subject to approval. PMMY schemes may have different terms and conditions.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amortization Schedule Section - Full Width Bottom Row -->
+        <div class="amortization-container">
+            <div class="amortization-section">
+                <div class="amortization-header">
+                    <h3>Amortization Schedule</h3>
+                    <div class="amortization-controls">
+                        <div class="amortization-toggle">
+                            <button type="button" class="amortization-toggle-btn active" id="monthlyAmortizationBtn">Monthly</button>
+                            <button type="button" class="amortization-toggle-btn" id="yearlyAmortizationBtn">Yearly</button>
+                        </div>
+                        <button id="downloadCsvBtn" class="download-btn">Download CSV</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="amortization-table" id="amortizationTable">
+                        <thead>
+                            <tr id="amortizationTableHeader">
+                                <th>Month</th>
+                                <th>EMI</th>
+                                <th>Principal</th>
+                                <th>Interest</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="amortizationTableBody">
+                            <!-- Dynamic content will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/pradhan_mantri_mudra_yojana_script.js') }}"></script>
+</body>
+</html>

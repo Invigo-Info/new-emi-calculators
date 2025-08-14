@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floor Space Index / Floor Area Ratio Calculator | Calculate FSI and FAR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/floor_space_index_calculator_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    {% include 'header_nav_component.html' %}
+    <div class="fsi-container">
+        <div class="fsi-calculator-container">
+            <div class="fsi-input-sections">
+                <!-- Floor Space Index Calculator Section -->
+                <div class="fsi-section">
+                    <h2 style="color: #2d3748; font-size: 1.25rem; font-weight: 600; margin-bottom: 20px; text-align: center;">Calculate Floor Space Index / Floor Area Ratio</h2>
+                    <p class="fsi-description">Enter any 2 values to calculate the missing variable</p>
+                    
+                    <div class="fsi-input-grid">
+                        <div class="fsi-input-group">
+                            <div class="fsi-input-row">
+                                <label class="fsi-input-label">Total Floor Area</label>
+                                <div class="fsi-input-field-container">
+                                    <input type="number" id="fsiTotalFloorArea" placeholder="Enter Total Floor Area" min="0" step="0.01">
+                                    <select id="fsiFloorAreaUnit" class="fsi-unit-selector">
+                                        <option value="sq ft">sq ft</option>
+                                        <option value="sq m">sq m</option>
+                                        <option value="acres">acres</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="fsi-slider-container">
+                                <input type="range" id="fsiTotalFloorAreaSlider" min="0" max="100000" value="0" step="100" class="fsi-custom-slider">
+                                <div class="fsi-slider-track"></div>
+                                <div class="fsi-slider-labels">
+                                    <span>0</span>
+                                    <span>25K</span>
+                                    <span>50K</span>
+                                    <span>75K</span>
+                                    <span>100K</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="fsi-input-group">
+                            <div class="fsi-input-row">
+                                <label class="fsi-input-label">Total Area of the Plot</label>
+                                <div class="fsi-input-field-container">
+                                    <input type="number" id="fsiTotalPlotArea" placeholder="Enter Total Area of the Plot" min="0" step="0.01">
+                                    <select id="fsiPlotAreaUnit" class="fsi-unit-selector">
+                                        <option value="sq ft">sq ft</option>
+                                        <option value="sq m">sq m</option>
+                                        <option value="acres">acres</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="fsi-slider-container">
+                                <input type="range" id="fsiTotalPlotAreaSlider" min="0" max="50000" value="0" step="50" class="fsi-custom-slider">
+                                <div class="fsi-slider-track"></div>
+                                <div class="fsi-slider-labels">
+                                    <span>0</span>
+                                    <span>12.5K</span>
+                                    <span>25K</span>
+                                    <span>37.5K</span>
+                                    <span>50K</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="fsi-input-group">
+                            <div class="fsi-input-row">
+                                <label class="fsi-input-label">Floor Space Index</label>
+                                <div class="fsi-input-field-container">
+                                    <input type="number" id="fsiFloorSpaceIndex" placeholder="Enter Floor Space Index" min="0" max="10" step="0.01">
+                                    <span class="fsi-input-suffix">Ratio</span>
+                                </div>
+                            </div>
+                            <div class="fsi-slider-container">
+                                <input type="range" id="fsiFloorSpaceIndexSlider" min="0" max="5" value="0" step="0.01" class="fsi-custom-slider">
+                                <div class="fsi-slider-track"></div>
+                                <div class="fsi-slider-labels">
+                                    <span>0</span>
+                                    <span>1.25</span>
+                                    <span>2.5</span>
+                                    <span>3.75</span>
+                                    <span>5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- FSI Information Section -->
+                <div class="fsi-section fsi-info-section">
+                    <div class="fsi-info-header">Understanding Floor Space Index (FSI)</div>
+                    <div class="fsi-info-content">
+                        <div class="fsi-info-item">
+                            <h4>What is FSI?</h4>
+                            <p>Floor Space Index (FSI) or Floor Area Ratio (FAR) is the ratio of total floor area to the plot area. It determines how much construction is allowed on a plot.</p>
+                        </div>
+                        <div class="fsi-info-item">
+                            <h4>Formula</h4>
+                            <p><strong>FSI = Total Floor Area ÷ Plot Area</strong></p>
+                        </div>
+                        <div class="fsi-info-item">
+                            <h4>Example</h4>
+                            <p>Plot Area: 1000 sq ft, Total Floor Area: 1500 sq ft<br>FSI = 1500 ÷ 1000 = 1.5</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="fsi-results-section">
+                <div class="fsi-results-grid">
+                    <div class="fsi-result-item">
+                        <div class="fsi-result-label">Total Floor Area</div>
+                        <div class="fsi-result-value" id="fsiResultFloorArea">-</div>
+                    </div>
+                    <div class="fsi-result-item">
+                        <div class="fsi-result-label">Plot Area</div>
+                        <div class="fsi-result-value" id="fsiResultPlotArea">-</div>
+                    </div>
+                    <div class="fsi-result-item fsi-highlight">
+                        <div class="fsi-result-label">Floor Space Index</div>
+                        <div class="fsi-result-value" id="fsiResultIndex">-</div>
+                    </div>
+                    <div class="fsi-result-item">
+                        <div class="fsi-result-label">Efficiency Rating</div>
+                        <div class="fsi-result-value" id="fsiResultEfficiency">-</div>
+                    </div>
+                    <div class="fsi-result-item">
+                        <div class="fsi-result-label">Development Type</div>
+                        <div class="fsi-result-value" id="fsiResultCategory">-</div>
+                    </div>
+                    <div class="fsi-result-item">
+                        <div class="fsi-result-label">Utilization %</div>
+                        <div class="fsi-result-value" id="fsiResultUtilization">-</div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="fsi-chart-section">
+                    <div class="fsi-chart-header">FSI Visualization</div>
+                    <div class="fsi-pie-chart-container">
+                        <canvas id="fsiChart"></canvas>
+                    </div>
+                    <div class="fsi-chart-summary">
+                        <div class="fsi-summary-item">
+                            <div class="fsi-color-indicator fsi-floor-area"></div>
+                            <div class="fsi-summary-label">Floor Area</div>
+                            <div class="fsi-summary-value" id="fsiFloorAreaSummary">-</div>
+                        </div>
+                        <div class="fsi-summary-item">
+                            <div class="fsi-color-indicator fsi-plot-area"></div>
+                            <div class="fsi-summary-label">Plot Area</div>
+                            <div class="fsi-summary-value" id="fsiPlotAreaSummary">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FSI Guidelines Section -->
+                <div class="fsi-guidelines-section">
+                    <div class="fsi-guidelines-header">FSI Guidelines</div>
+                    <div class="fsi-guidelines-grid">
+                        <div class="fsi-guideline-item">
+                            <span class="fsi-guideline-range">0 - 0.5</span>
+                            <span class="fsi-guideline-desc">Low Density - Bungalows/Villas</span>
+                        </div>
+                        <div class="fsi-guideline-item">
+                            <span class="fsi-guideline-range">0.5 - 1.0</span>
+                            <span class="fsi-guideline-desc">Medium Density - Low-rise Apartments</span>
+                        </div>
+                        <div class="fsi-guideline-item">
+                            <span class="fsi-guideline-range">1.0 - 2.0</span>
+                            <span class="fsi-guideline-desc">High Density - Mid-rise Buildings</span>
+                        </div>
+                        <div class="fsi-guideline-item">
+                            <span class="fsi-guideline-range">2.0 - 3.0</span>
+                            <span class="fsi-guideline-desc">Very High Density - High-rise Buildings</span>
+                        </div>
+                        <div class="fsi-guideline-item">
+                            <span class="fsi-guideline-range">3.0+</span>
+                            <span class="fsi-guideline-desc">Ultra High Density - Skyscrapers</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/floor_space_index_calculator_script.js') }}"></script>
+</body>
+</html>
