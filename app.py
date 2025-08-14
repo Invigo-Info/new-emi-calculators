@@ -222,6 +222,10 @@ def home_loan_affordability_calculator():
 def home_loan_refinance_calculator():
     return render_template('home_loan_refinance_calculator.html')
 
+@app.route('/home-loan-balance-transfer/')
+def home_loan_balance_transfer_calculator():
+    return render_template('home_loan_balance_transfer_calculator.html')
+
 @app.route('/loan-amount-calculator/')
 def loan_amount_calculator():
     return render_template('loan_amount_calculator.html')
@@ -238,6 +242,10 @@ def interest_rate_calculator():
 def car_loan_emi_calculator():
     return render_template('car_loan_emi_calculator.html')
 
+@app.route('/used-car-loan-emi-calculator/')
+def used_car_loan_emi_calculator():
+    return render_template('used_car_loan_emi_calculator.html')
+
 @app.route('/two-wheeler-loan-emi-calculator/')
 def two_wheeler_loan_emi_calculator():
     return render_template('two_wheeler_loan_emi_calculator.html')
@@ -246,9 +254,41 @@ def two_wheeler_loan_emi_calculator():
 def personal_loan_emi_calculator():
     return render_template('personal_loan_emi_calculator.html')
 
+@app.route('/credit-linked-capital-subsidy-scheme-loan-emi-calculator/')
+def clcss_loan_emi_calculator():
+    return render_template('clcss_loan_emi_calculator.html')
+
+@app.route('/machinery-loan-emi-calculator/')
+def machinery_loan_emi_calculator():
+    return render_template('machinery_loan_emi_calculator.html')
+
+@app.route('/working-capital-loan-emi-calculator/')
+def working_capital_loan_emi_calculator():
+    return render_template('working_capital_loan_emi_calculator.html')
+
+@app.route('/msme-business-loan-calculator/')
+def msme_business_loan_calculator():
+    return render_template('msme_business_loan_calculator.html')
+
+@app.route('/national-small-industries-corporation-calculator/')
+def national_small_industries_corporation_calculator():
+    return render_template('national_small_industries_corporation_calculator.html')
+
+@app.route('/pradhan-mantri-mudra-yojana-calculator/')
+def pradhan_mantri_mudra_yojana_calculator():
+    return render_template('pradhan_mantri_mudra_yojana_calculator.html')
+
+@app.route('/prime-ministers-employment-generation-programme-calculator/')
+def prime_ministers_employment_generation_programme_calculator():
+    return render_template('prime_ministers_employment_generation_programme_calculator.html')
+
 @app.route('/business-loan-emi-calculator/')
 def business_loan_emi_calculator():
     return render_template('business_loan_emi_calculator.html')
+
+@app.route('/cgtmse-loan-emi-calculator/')
+def cgtmse_loan_emi_calculator():
+    return render_template('cgtmse_loan_emi_calculator.html')
 
 @app.route('/education-loan-emi-calculator/')
 def education_loan_emi_calculator():
@@ -3094,6 +3134,51 @@ def calculate_car_loan_emi():
             'error': str(e)
         })
 
+@app.route('/calculate-used-car-loan-emi', methods=['POST'])
+def calculate_used_car_loan_emi():
+    try:
+        data = request.get_json()
+        
+        used_car_loan_amount = float(data.get('usedCarLoanAmount', 0))
+        interest_rate = float(data.get('interestRate', 0))
+        tenure_years = int(data.get('tenureYears', 0))
+        tenure_months = int(data.get('tenureMonths', 0))
+        emi_scheme = data.get('emiScheme', 'arrears')  # 'advance' or 'arrears'
+        
+        total_months = (tenure_years * 12) + tenure_months
+        
+        if total_months <= 0:
+            return jsonify({
+                'status': 'error',
+                'error': 'Invalid tenure'
+            })
+        
+        # Calculate EMI
+        emi = calculate_emi(used_car_loan_amount, interest_rate, total_months, emi_scheme == 'advance')
+        
+        total_interest = (emi * total_months) - used_car_loan_amount
+        total_payment = used_car_loan_amount + total_interest
+        
+        # Calculate percentages for pie chart
+        principal_percentage = (used_car_loan_amount / total_payment) * 100
+        interest_percentage = (total_interest / total_payment) * 100
+        
+        return jsonify({
+            'emi': round(emi, 2),
+            'totalInterest': round(total_interest, 2),
+            'totalPayment': round(total_payment, 2),
+            'principalAmount': round(used_car_loan_amount, 2),
+            'principalPercentage': round(principal_percentage, 1),
+            'interestPercentage': round(interest_percentage, 1)
+        })
+        
+    except Exception as e:
+        print(f"Error in used car loan EMI calculation: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        })
+
 @app.route('/calculate-two-wheeler-loan-emi', methods=['POST'])
 def calculate_two_wheeler_loan_emi():
     try:
@@ -3179,6 +3264,356 @@ def calculate_personal_loan_emi():
         
     except Exception as e:
         print(f"Error in personal loan EMI calculation: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        })
+
+@app.route('/calculate-working-capital-loan-emi', methods=['POST'])
+def calculate_working_capital_loan_emi():
+    try:
+        data = request.get_json()
+        
+        loan_amount = float(data.get('loanAmount', 0))
+        annual_interest_rate = float(data.get('annualInterestRate', 0))
+        tenure_months = int(data.get('tenureMonths', 0))
+        processing_fee_percent = float(data.get('processingFeePercent', 0))
+        gst_on_fee_percent = float(data.get('gstOnFeePercent', 0))
+        
+        if loan_amount <= 0 or annual_interest_rate <= 0 or tenure_months <= 0:
+            return jsonify({
+                'status': 'error',
+                'error': 'Invalid input values'
+            })
+        
+        # Calculate EMI using standard formula
+        monthly_rate = annual_interest_rate / (12 * 100)
+        if monthly_rate > 0:
+            emi = (loan_amount * monthly_rate * (1 + monthly_rate) ** tenure_months) / ((1 + monthly_rate) ** tenure_months - 1)
+        else:
+            emi = loan_amount / tenure_months
+        
+        # Calculate totals
+        total_payment = emi * tenure_months
+        total_interest = total_payment - loan_amount
+        
+        # Calculate fees
+        processing_fee = loan_amount * (processing_fee_percent / 100)
+        gst_on_fee = processing_fee * (gst_on_fee_percent / 100)
+        net_disbursal = loan_amount - processing_fee - gst_on_fee
+        
+        # Calculate first month breakdown
+        first_month_interest = loan_amount * monthly_rate
+        first_month_principal = emi - first_month_interest
+        first_month_balance = loan_amount - first_month_principal
+        
+        # Generate amortization schedule
+        amortization_schedule = []
+        remaining_balance = loan_amount
+        
+        for month in range(1, tenure_months + 1):
+            monthly_interest = remaining_balance * monthly_rate
+            monthly_principal = emi - monthly_interest
+            remaining_balance = max(0, remaining_balance - monthly_principal)
+            
+            amortization_schedule.append({
+                'month': month,
+                'principal': round(monthly_principal, 2),
+                'interest': round(monthly_interest, 2),
+                'balance': round(remaining_balance, 2),
+                'emi': round(emi, 2)
+            })
+        
+        return jsonify({
+            'status': 'success',
+            'emi': round(emi, 2),
+            'totalPayment': round(total_payment, 2),
+            'totalInterest': round(total_interest, 2),
+            'principalAmount': round(loan_amount, 2),
+            'processingFee': round(processing_fee, 2),
+            'gstOnFee': round(gst_on_fee, 2),
+            'netDisbursal': round(net_disbursal, 2),
+            'firstMonth': {
+                'interest': round(first_month_interest, 2),
+                'principal': round(first_month_principal, 2),
+                'balance': round(first_month_balance, 2),
+                'emi': round(emi, 2)
+            },
+            'amortizationSchedule': amortization_schedule
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        })
+
+@app.route('/calculate-machinery-loan-emi', methods=['POST'])
+def calculate_machinery_loan_emi():
+    try:
+        data = request.get_json()
+        
+        # Input validation
+        loan_amount = float(data.get('loanAmount', 0))
+        equipment_cost = float(data.get('equipmentCost', 0))
+        margin_percent = float(data.get('marginPercent', 0))
+        input_mode = data.get('inputMode', 'loan_amount')
+        annual_interest_rate = float(data.get('annualInterestRate', 0))
+        tenure_months = int(data.get('tenureMonths', 0))
+        processing_fee_percent = float(data.get('processingFeePercent', 0))
+        gst_on_fee_percent = float(data.get('gstOnFeePercent', 0))
+        
+        # Determine final loan amount based on input mode
+        if input_mode == 'cost_margin':
+            final_loan_amount = equipment_cost * (1 - margin_percent / 100)
+        else:
+            final_loan_amount = loan_amount
+            
+        # Validation
+        if final_loan_amount < 50000:
+            return jsonify({
+                'status': 'error',
+                'error': 'Loan amount must be at least ₹50,000'
+            })
+            
+        if final_loan_amount > 100000000:
+            return jsonify({
+                'status': 'error',
+                'error': 'Loan amount cannot exceed ₹10,00,00,000'
+            })
+            
+        if tenure_months < 6 or tenure_months > 120:
+            return jsonify({
+                'status': 'error',
+                'error': 'Tenure must be between 6 and 120 months'
+            })
+            
+        if annual_interest_rate < 0 or annual_interest_rate > 40:
+            return jsonify({
+                'status': 'error',
+                'error': 'Interest rate must be between 0% and 40%'
+            })
+        
+        # Calculate EMI
+        monthly_rate = (annual_interest_rate / 12) / 100
+        if monthly_rate > 0:
+            emi = (final_loan_amount * monthly_rate * pow(1 + monthly_rate, tenure_months)) / (pow(1 + monthly_rate, tenure_months) - 1)
+        else:
+            emi = final_loan_amount / tenure_months
+            
+        total_payment = emi * tenure_months
+        total_interest = total_payment - final_loan_amount
+        
+        # Calculate fees
+        processing_fee = final_loan_amount * (processing_fee_percent / 100)
+        gst_on_fee = processing_fee * (gst_on_fee_percent / 100)
+        net_disbursal = final_loan_amount - processing_fee - gst_on_fee
+        
+        # First month breakdown
+        first_month_interest = final_loan_amount * monthly_rate
+        first_month_principal = emi - first_month_interest
+        first_month_balance = final_loan_amount - first_month_principal
+        
+        # Generate amortization schedule
+        amortization = []
+        balance = final_loan_amount
+        
+        for month in range(1, tenure_months + 1):
+            month_interest = balance * monthly_rate
+            month_principal = emi - month_interest
+            balance = balance - month_principal
+            
+            amortization.append({
+                'month': month,
+                'principal': round(month_principal, 2),
+                'interest': round(month_interest, 2),
+                'balance': round(max(0, balance), 2)  # Ensure balance doesn't go negative due to rounding
+            })
+        
+        return jsonify({
+            'status': 'success',
+            'emi': round(emi, 2),
+            'totalInterest': round(total_interest, 2),
+            'totalPayment': round(total_payment, 2),
+            'loanAmount': round(final_loan_amount, 2),
+            'processingFee': round(processing_fee, 2),
+            'gstOnFee': round(gst_on_fee, 2),
+            'netDisbursal': round(net_disbursal, 2),
+            'firstMonth': {
+                'principal': round(first_month_principal, 2),
+                'interest': round(first_month_interest, 2),
+                'balance': round(first_month_balance, 2),
+                'emi': round(emi, 2)
+            },
+            'amortization': amortization
+        })
+        
+    except Exception as e:
+        print(f"Error in machinery loan EMI calculation: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        })
+
+@app.route('/calculate-nsic-fee', methods=['POST'])
+def calculate_nsic_fee():
+    try:
+        data = request.get_json()
+        
+        enterprise_category = data.get('enterpriseCategory', 'Micro')
+        purpose = data.get('purpose', 'Fresh')
+        annual_turnover_crore = float(data.get('annualTurnoverCrore', 1.0))
+        include_inspection_and_professional = data.get('includeInspectionAndProfessional', True)
+        gst_rate_percent = float(data.get('gstRatePercent', 18))
+        
+        # Validate inputs
+        if annual_turnover_crore < 0:
+            return jsonify({
+                'status': 'error',
+                'error': 'Annual turnover cannot be negative'
+            })
+        
+        # Calculate registration fee using the provided logic
+        def calc_fresh_registration_fee(category, turnover_cr):
+            cr = max(0, turnover_cr)
+            extra_blocks = max(0, int(cr - 1))  # count full ₹1 cr beyond first
+            fee = 0
+            if category == 'Micro':
+                fee = 3000 + 1500 * extra_blocks
+            else:  # Small
+                fee = 5000 + 2000 * extra_blocks
+            return min(fee, 100000)  # cap
+        
+        def calc_registration_fee(category, turnover_cr, purpose):
+            fresh = calc_fresh_registration_fee(category, turnover_cr)
+            if purpose == 'Fresh':
+                return fresh
+            half = round(fresh * 0.5)
+            return min(half, 50000)  # renewal/amendment cap
+        
+        def inspection_charge(category):
+            return 2000 if category == 'Micro' else 3000
+        
+        def professional_fee(category):
+            return 6000 if category == 'Micro' else 8000
+        
+        # Calculate fees
+        registration_fee = calc_registration_fee(enterprise_category, annual_turnover_crore, purpose)
+        
+        inspection_fee = 0
+        professional_fee_amount = 0
+        
+        if include_inspection_and_professional:
+            inspection_fee = inspection_charge(enterprise_category)
+            professional_fee_amount = professional_fee(enterprise_category)
+        
+        subtotal = registration_fee + inspection_fee + professional_fee_amount
+        gst_amount = subtotal * (gst_rate_percent / 100)
+        total_payable = subtotal + gst_amount
+        
+        return jsonify({
+            'registrationFee': round(registration_fee, 2),
+            'inspectionCharge': round(inspection_fee, 2),
+            'professionalFee': round(professional_fee_amount, 2),
+            'subtotal': round(subtotal, 2),
+            'gstAmount': round(gst_amount, 2),
+            'totalPayable': round(total_payable, 2),
+            'gstRate': gst_rate_percent
+        })
+        
+    except Exception as e:
+        print(f"Error in NSIC fee calculation: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        })
+
+@app.route('/calculate-pmmy-emi', methods=['POST'])
+def calculate_pmmy_emi():
+    try:
+        data = request.get_json()
+        
+        loan_amount = float(data.get('loanAmount', 0))
+        interest_rate = float(data.get('annualInterestRatePercent', 0))
+        tenure_months = int(data.get('tenureMonths', 0))
+        pmmy_category = data.get('pmmyCategory', '')
+        
+        if tenure_months <= 0:
+            return jsonify({
+                'status': 'error',
+                'error': 'Invalid tenure'
+            })
+        
+        # Validate PMMY category limits
+        if pmmy_category == 'Shishu' and loan_amount > 50000:
+            return jsonify({
+                'status': 'error',
+                'error': 'Shishu category allows loans up to ₹50,000 only'
+            })
+        elif pmmy_category == 'Kishore' and (loan_amount <= 50000 or loan_amount > 500000):
+            return jsonify({
+                'status': 'error',
+                'error': 'Kishore category allows loans from ₹50,001 to ₹5,00,000'
+            })
+        elif pmmy_category == 'Tarun' and (loan_amount <= 500000 or loan_amount > 1000000):
+            return jsonify({
+                'status': 'error',
+                'error': 'Tarun category allows loans from ₹5,00,001 to ₹10,00,000'
+            })
+        elif pmmy_category == 'Tarun Plus' and (loan_amount <= 1000000 or loan_amount > 2000000):
+            return jsonify({
+                'status': 'error',
+                'error': 'Tarun Plus category allows loans from ₹10,00,001 to ₹20,00,000'
+            })
+        
+        # Calculate EMI using standard formula
+        monthly_rate = interest_rate / (12 * 100)
+        
+        if monthly_rate > 0:
+            emi = (loan_amount * monthly_rate * (1 + monthly_rate) ** tenure_months) / ((1 + monthly_rate) ** tenure_months - 1)
+        else:
+            emi = loan_amount / tenure_months
+        
+        total_payment = emi * tenure_months
+        total_interest = total_payment - loan_amount
+        
+        # Calculate percentages for chart
+        principal_percentage = (loan_amount / total_payment) * 100
+        interest_percentage = (total_interest / total_payment) * 100
+        
+        # Generate amortization schedule
+        amortization_schedule = []
+        balance = loan_amount
+        
+        for month in range(1, tenure_months + 1):
+            interest_payment = balance * monthly_rate
+            principal_payment = emi - interest_payment
+            balance -= principal_payment
+            
+            # Ensure balance doesn't go negative due to rounding
+            if balance < 0:
+                balance = 0
+            
+            amortization_schedule.append({
+                'month': month,
+                'principal': round(principal_payment, 2),
+                'interest': round(interest_payment, 2),
+                'emi': round(emi, 2),
+                'balance': round(balance, 2)
+            })
+        
+        return jsonify({
+            'emi': round(emi, 2),
+            'totalInterest': round(total_interest, 2),
+            'totalPayment': round(total_payment, 2),
+            'principalAmount': round(loan_amount, 2),
+            'principalPercentage': round(principal_percentage, 1),
+            'interestPercentage': round(interest_percentage, 1),
+            'amortizationSchedule': amortization_schedule
+        })
+        
+    except Exception as e:
+        print(f"Error in PMMY EMI calculation: {str(e)}")
         return jsonify({
             'status': 'error',
             'error': str(e)
@@ -4126,6 +4561,14 @@ def gold_loan_emi_calculator():
 def quarterly_emi_calculator():
     return render_template('quarterly_emi_calculator.html')
 
+@app.route('/half-yearly-emi-calculator/')
+def half_yearly_emi_calculator():
+    return render_template('half_yearly_emi_calculator.html')
+
+@app.route('/yearly-emi-calculator/')
+def yearly_emi_calculator():
+    return render_template('yearly_emi_calculator.html')
+
 @app.route('/calculate-gold-loan-emi', methods=['POST'])
 def calculate_gold_loan_emi():
     try:
@@ -4268,6 +4711,127 @@ def calculate_quarterly_emi():
             'status': 'success',
             'principal': principal,
             'quarterlyEmi': round(quarterly_emi, 2),
+            'totalInterest': round(total_interest, 2),
+            'totalPayment': round(total_payment, 2),
+            'amortizationSchedule': amortization_schedule
+        })
+    
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        })
+
+@app.route('/calculate-half-yearly-emi', methods=['POST'])
+def calculate_half_yearly_emi():
+    try:
+        data = request.get_json()
+        principal = float(data.get('principal', 0))
+        annual_rate = float(data.get('interestRate', 0))
+        tenure_years = int(data.get('tenureYears', 0))
+        
+        if principal <= 0 or tenure_years <= 0:
+            return jsonify({
+                'status': 'error',
+                'error': 'Invalid input values'
+            })
+        
+        # Calculate half-yearly parameters
+        tenure_half_years = tenure_years * 2  # 2 half-years per year
+        half_yearly_rate = annual_rate / (2 * 100)  # Convert annual rate to half-yearly rate
+        
+        # Calculate half-yearly EMI using standard EMI formula adapted for half-yearly payments
+        if half_yearly_rate == 0:
+            half_yearly_emi = principal / tenure_half_years
+            total_interest = 0
+        else:
+            half_yearly_emi = principal * half_yearly_rate * ((1 + half_yearly_rate) ** tenure_half_years) / (((1 + half_yearly_rate) ** tenure_half_years) - 1)
+            total_interest = (half_yearly_emi * tenure_half_years) - principal
+        
+        total_payment = half_yearly_emi * tenure_half_years
+        
+        # Generate half-yearly amortization schedule
+        amortization_schedule = []
+        remaining_principal = principal
+        
+        for period in range(1, tenure_half_years + 1):
+            interest_payment = remaining_principal * half_yearly_rate
+            principal_payment = half_yearly_emi - interest_payment
+            remaining_principal = max(0, remaining_principal - principal_payment)
+            
+            amortization_schedule.append({
+                'period': period,
+                'principal': round(principal_payment, 2),
+                'interest': round(interest_payment, 2),
+                'halfYearlyPayment': round(half_yearly_emi, 2),
+                'balance': round(remaining_principal, 2)
+            })
+        
+        return jsonify({
+            'status': 'success',
+            'principal': principal,
+            'halfYearlyEmi': round(half_yearly_emi, 2),
+            'numberOfPayments': tenure_half_years,
+            'totalInterest': round(total_interest, 2),
+            'totalPayment': round(total_payment, 2),
+            'amortizationSchedule': amortization_schedule
+        })
+    
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        })
+
+@app.route('/calculate-yearly-emi', methods=['POST'])
+def calculate_yearly_emi():
+    try:
+        data = request.get_json()
+        principal = float(data.get('principal', 0))
+        annual_rate = float(data.get('interestRate', 0))
+        tenure_years = int(data.get('tenureYears', 0))
+        
+        if principal <= 0 or tenure_years <= 0:
+            return jsonify({
+                'status': 'error',
+                'error': 'Invalid input values'
+            })
+        
+        # Calculate yearly parameters
+        yearly_rate = annual_rate / 100  # Annual rate (one period per year)
+        
+        # Calculate yearly EMI using standard EMI formula for yearly payments
+        if yearly_rate == 0:
+            yearly_emi = principal / tenure_years
+            total_interest = 0
+        else:
+            yearly_emi = principal * yearly_rate * ((1 + yearly_rate) ** tenure_years) / (((1 + yearly_rate) ** tenure_years) - 1)
+            total_interest = (yearly_emi * tenure_years) - principal
+        
+        total_payment = yearly_emi * tenure_years
+        
+        # Generate yearly amortization schedule
+        amortization_schedule = []
+        remaining_principal = principal
+        
+        for year in range(1, tenure_years + 1):
+            interest_payment = remaining_principal * yearly_rate
+            principal_payment = yearly_emi - interest_payment
+            remaining_principal = max(0, remaining_principal - principal_payment)
+            
+            amortization_schedule.append({
+                'year': year,
+                'principal': round(principal_payment, 2),
+                'interest': round(interest_payment, 2),
+                'yearlyPayment': round(yearly_emi, 2),
+                'balance': round(remaining_principal, 2)
+            })
+        
+        return jsonify({
+            'status': 'success',
+            'principal': principal,
+            'yearlyEmi': round(yearly_emi, 2),
+            'numberOfPayments': tenure_years,
             'totalInterest': round(total_interest, 2),
             'totalPayment': round(total_payment, 2),
             'amortizationSchedule': amortization_schedule
@@ -10001,6 +10565,667 @@ def calculate_xirr_analysis():
             'status': 'error',
             'error': str(e)
         }), 400
+
+# Land Area Calculator Route
+@app.route('/land-area-calculator/')
+def land_area_calculator():
+    return render_template('land_area_calculator.html')
+
+@app.route('/convert-land-area', methods=['POST'])
+def convert_land_area():
+    try:
+        data = request.get_json()
+        
+        # Extract input parameters
+        from_value = float(data.get('fromValue', 1.0))
+        from_unit = data.get('fromUnit', 'Square Feet')
+        to_unit = data.get('toUnit', 'Square Meters')
+        region = data.get('region', 'Not applicable')
+        precision = int(data.get('precision', 4))
+        show_table = data.get('showTable', True)
+        
+        # Perform conversion
+        result = calculate_land_area_conversion(from_value, from_unit, to_unit, region, precision, show_table)
+        
+        return jsonify({
+            'status': 'success',
+            'data': result
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        }), 400
+
+def calculate_land_area_conversion(from_value, from_unit, to_unit, region, precision, show_table):
+    """
+    Calculate land area conversion using Square Meter as base unit
+    """
+    try:
+        # Unit conversion factors to square meters
+        unit_to_sqm = {
+            'Square Feet': 0.092903,
+            'Square Yards (Gaj)': 0.836127,
+            'Square Meters': 1,
+            'Acre': 4046.86,
+            'Hectare': 10000,
+            'Cent': 40.4686,
+            'Guntha': 101.17,
+            'Decimal': 40.4686,
+            'Ground': 222.967,
+            'Bigha': {
+                'Not applicable': 1337.8,
+                'Rajasthan (Upper)': 17424.0,
+                'Rajasthan (Lower)': 3025.0,
+                'Uttar Pradesh': 2529.0,
+                'Bihar': 2529.0,
+                'West Bengal': 1337.8,
+                'Assam': 2508.0,
+                'Gujarat': 17424.0,
+                'Madhya Pradesh': 12165.0,
+                'Punjab/Haryana': 4046.86
+            },
+            'Katha': {
+                'Not applicable': 126.441,
+                'Rajasthan (Upper)': 81.75,
+                'Rajasthan (Lower)': 101.17,
+                'Uttar Pradesh': 126.441,
+                'Bihar': 126.441,
+                'West Bengal': 720,
+                'Assam': 2880,
+                'Gujarat': 81.75,
+                'Madhya Pradesh': 121.65,
+                'Punjab/Haryana': 505.857
+            },
+            'Biswa': {
+                'Not applicable': 151.25,
+                'Rajasthan (Upper)': 151.25,
+                'Rajasthan (Lower)': 96.8,
+                'Uttar Pradesh': 126.441,
+                'Bihar': 63.22,
+                'West Bengal': 36,
+                'Assam': 144,
+                'Gujarat': 151.25,
+                'Madhya Pradesh': 60.825,
+                'Punjab/Haryana': 25.29
+            },
+            'Marla': 25.2929,
+            'Kanal': 505.857,
+            'Murabba': 101171.41
+        }
+        
+        # Get conversion factors
+        from_factor = unit_to_sqm.get(from_unit)
+        to_factor = unit_to_sqm.get(to_unit)
+        
+        # Handle regional units
+        if isinstance(from_factor, dict):
+            from_factor = from_factor.get(region, from_factor.get('Not applicable'))
+        
+        if isinstance(to_factor, dict):
+            to_factor = to_factor.get(region, to_factor.get('Not applicable'))
+        
+        if not from_factor or not to_factor:
+            raise Exception('Invalid unit or region selection')
+        
+        # Convert to square meters then to target unit
+        sqm = from_value * from_factor
+        result_value = sqm / to_factor
+        
+        # Round to specified precision
+        rounded_result = round(result_value, precision)
+        
+        # Format number with commas (INR style)
+        formatted_result = "{:,.{}f}".format(rounded_result, precision)
+        
+        # Create formula explanation
+        formula = f"{from_unit} to {to_unit}: multiply by {from_factor/to_factor:.6f}"
+        
+        result = {
+            'convertedValue': rounded_result,
+            'formattedValue': formatted_result,
+            'formula': formula,
+            'fromValue': from_value,
+            'fromUnit': from_unit,
+            'toUnit': to_unit,
+            'region': region,
+            'sqmEquivalent': round(sqm, precision)
+        }
+        
+        # Generate conversion table if requested
+        if show_table:
+            conversion_table = []
+            for unit, factor in unit_to_sqm.items():
+                if isinstance(factor, dict):
+                    factor_value = factor.get(region, factor.get('Not applicable'))
+                else:
+                    factor_value = factor
+                
+                if factor_value:
+                    converted_value = sqm / factor_value
+                    conversion_table.append({
+                        'unit': unit,
+                        'value': round(converted_value, precision),
+                        'formatted': "{:,.{}f}".format(converted_value, precision)
+                    })
+            
+            result['conversionTable'] = conversion_table
+        
+        return result
+        
+    except Exception as e:
+        raise Exception(f"Error in land area conversion: {str(e)}")
+
+@app.route('/home-construction-cost-calculator/')
+def home_construction_cost_calculator():
+    return render_template('home_construction_cost_calculator.html')
+
+@app.route('/home-renovation-loan-calculator/')
+def home_renovation_loan_calculator():
+    return render_template('home_renovation_loan_calculator.html')
+
+@app.route('/calculate-home-renovation-loan', methods=['POST'])
+def calculate_home_renovation_loan():
+    try:
+        data = request.get_json()
+        
+        # Extract input parameters
+        loan_amount = float(data.get('loanAmount', 100000))
+        annual_rate = float(data.get('interestRate', 18))
+        tenure_months = int(data.get('tenureMonths', 12))
+        fee_type = data.get('feeType', '%')  # '%' or '₹'
+        fee_value = float(data.get('feeValue', 3))
+        gst_enabled = data.get('gstEnabled', True)
+        disbursal_mode = data.get('disbursalMode', 'Net')  # 'Net' or 'Gross'
+        
+        # Validate inputs
+        if loan_amount < 10000:
+            raise ValueError("Loan amount must be at least ₹10,000")
+        if annual_rate < 1 or annual_rate > 30:
+            raise ValueError("Interest rate must be between 1% and 30%")
+        if tenure_months < 1 or tenure_months > 300:
+            raise ValueError("Tenure must be between 1 and 300 months")
+        
+        # Calculate EMI and other values
+        monthly_rate = annual_rate / 12 / 100
+        
+        if monthly_rate == 0:
+            emi = loan_amount / tenure_months
+        else:
+            emi = loan_amount * (monthly_rate * (1 + monthly_rate) ** tenure_months) / ((1 + monthly_rate) ** tenure_months - 1)
+        
+        # Calculate fees
+        if fee_type == '%':
+            fee_amount = loan_amount * fee_value / 100
+        else:
+            fee_amount = fee_value
+        
+        gst_amount = fee_amount * 0.18 if gst_enabled else 0
+        total_interest = emi * tenure_months - loan_amount
+        total_payable = loan_amount + total_interest + fee_amount + gst_amount
+        
+        # Calculate APR
+        if disbursal_mode == 'Net':
+            # Net disbursal: deduct fees from amount received
+            net_amount = loan_amount - fee_amount - gst_amount
+            apr = calculate_apr_home_renovation(net_amount, emi, tenure_months)
+        else:
+            # Gross disbursal: fees paid separately
+            apr = annual_rate  # APR approximately equals nominal rate
+        
+        # Generate amortization schedule
+        schedule = generate_amortization_schedule_home_renovation(loan_amount, monthly_rate, emi, tenure_months)
+        
+        return jsonify({
+            'status': 'success',
+            'emi': round(emi, 2),
+            'totalInterest': round(total_interest, 2),
+            'feeAmount': round(fee_amount, 2),
+            'gstAmount': round(gst_amount, 2),
+            'totalPayable': round(total_payable, 2),
+            'apr': round(apr, 2),
+            'schedule': schedule
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        }), 400
+
+def calculate_apr_home_renovation(net_amount, emi, tenure_months):
+    """Calculate APR using Newton-Raphson method for net disbursal"""
+    if net_amount <= 0 or emi <= 0 or tenure_months <= 0:
+        return 0
+    
+    # Initial guess: 12% annual rate
+    rate = 0.01  # monthly rate
+    max_iterations = 100
+    tolerance = 1e-6
+    
+    for _ in range(max_iterations):
+        # NPV function: net_amount - sum of discounted EMIs
+        npv = net_amount
+        npv_derivative = 0
+        
+        for month in range(1, tenure_months + 1):
+            factor = (1 + rate) ** month
+            npv -= emi / factor
+            npv_derivative += emi * month / (factor * (1 + rate))
+        
+        if abs(npv) < tolerance:
+            break
+        
+        if abs(npv_derivative) < 1e-10:
+            break
+            
+        rate -= npv / npv_derivative
+        
+        # Keep rate within reasonable bounds
+        if rate < 0 or rate > 0.05:  # Max 60% annual rate
+            rate = max(0, min(0.05, rate))
+    
+    # Convert monthly rate to annual percentage
+    annual_apr = ((1 + rate) ** 12 - 1) * 100
+    return annual_apr
+
+def generate_amortization_schedule_home_renovation(principal, monthly_rate, emi, tenure_months):
+    """Generate amortization schedule"""
+    schedule = []
+    outstanding = principal
+    
+    for month in range(1, tenure_months + 1):
+        if monthly_rate == 0:
+            interest_payment = 0
+            principal_payment = emi
+        else:
+            interest_payment = outstanding * monthly_rate
+            principal_payment = emi - interest_payment
+        
+        outstanding = max(0, outstanding - principal_payment)
+        
+        schedule.append({
+            'month': month,
+            'emi': round(emi, 2),
+            'interest': round(interest_payment, 2),
+            'principal': round(principal_payment, 2),
+            'balance': round(outstanding, 2)
+        })
+    
+    return schedule
+
+@app.route('/rent-vs-buy-calculator/')
+def rent_vs_buy_calculator():
+    return render_template('rent_vs_buy_calculator.html')
+
+@app.route('/rent-yield-calculator/')
+def rent_yield_calculator():
+    return render_template('rent_yield_calculator.html')
+
+@app.route('/calculate-rent-yield', methods=['POST'])
+def calculate_rent_yield():
+    try:
+        data = request.get_json()
+        
+        # Extract input parameters
+        purchase_price = float(data.get('purchasePrice', 10000000))
+        monthly_rent = float(data.get('monthlyRent', 35000))
+        annual_costs = float(data.get('annualCosts', 12000))
+        vacancy_months = float(data.get('vacancyMonths', 0))
+        
+        # Perform calculations
+        gross_income = monthly_rent * 12
+        effective_annual_rent = gross_income * (1 - vacancy_months / 12) if vacancy_months > 0 else gross_income
+        annual_income = effective_annual_rent - annual_costs
+        
+        gross_yield_pct = (effective_annual_rent / purchase_price) * 100 if purchase_price > 0 else 0
+        net_yield_pct = (annual_income / purchase_price) * 100 if purchase_price > 0 else 0
+        
+        payback_years = (purchase_price / annual_income) if annual_income > 0 else float('inf')
+        
+        # Round results appropriately
+        gross_yield_pct = round(gross_yield_pct, 2)
+        net_yield_pct = round(net_yield_pct, 2)
+        payback_years = round(payback_years, 1) if payback_years != float('inf') else None
+        
+        return jsonify({
+            'status': 'success',
+            'grossIncome': round(gross_income, 2),
+            'effectiveAnnualRent': round(effective_annual_rent, 2),
+            'annualCosts': round(annual_costs, 2),
+            'annualIncome': round(annual_income, 2),
+            'grossYieldPct': gross_yield_pct,
+            'netYieldPct': net_yield_pct,
+            'paybackYears': payback_years,
+            'monthlyRent': round(monthly_rent, 2),
+            'purchasePrice': round(purchase_price, 2)
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        }), 400
+
+# Floor Space Index / Floor Area Ratio Calculator Route
+@app.route('/floor-space-index-or-floor-area-ratio-calculator/')
+def floor_space_index_calculator():
+    return render_template('floor_space_index_calculator.html')
+
+@app.route('/built-up-vs-carpet-area-calculator/')
+def built_up_vs_carpet_area_calculator():
+    return render_template('built_up_vs_carpet_area_calculator.html')
+
+@app.route('/calculate-floor-space-index', methods=['POST'])
+def calculate_floor_space_index():
+    try:
+        data = request.get_json()
+        
+        # Extract input parameters
+        total_floor_area = float(data.get('totalFloorArea', 0))
+        total_plot_area = float(data.get('totalPlotArea', 0))
+        floor_space_index = float(data.get('floorSpaceIndex', 0))
+        
+        # Determine which value to calculate based on what's provided
+        if total_floor_area > 0 and total_plot_area > 0:
+            # Calculate Floor Space Index
+            calculated_fsi = total_floor_area / total_plot_area
+            result = {
+                'calculationType': 'FSI',
+                'floorSpaceIndex': round(calculated_fsi, 3),
+                'totalFloorArea': round(total_floor_area, 2),
+                'totalPlotArea': round(total_plot_area, 2)
+            }
+        elif total_plot_area > 0 and floor_space_index > 0:
+            # Calculate Total Floor Area
+            calculated_floor_area = total_plot_area * floor_space_index
+            result = {
+                'calculationType': 'FloorArea',
+                'floorSpaceIndex': round(floor_space_index, 3),
+                'totalFloorArea': round(calculated_floor_area, 2),
+                'totalPlotArea': round(total_plot_area, 2)
+            }
+        elif total_floor_area > 0 and floor_space_index > 0:
+            # Calculate Total Plot Area
+            calculated_plot_area = total_floor_area / floor_space_index
+            result = {
+                'calculationType': 'PlotArea',
+                'floorSpaceIndex': round(floor_space_index, 3),
+                'totalFloorArea': round(total_floor_area, 2),
+                'totalPlotArea': round(calculated_plot_area, 2)
+            }
+        else:
+            return jsonify({
+                'status': 'error',
+                'error': 'Please provide at least 2 values to calculate the third'
+            }), 400
+        
+        # Additional calculations
+        efficiency_rating = get_fsi_efficiency_rating(result['floorSpaceIndex'])
+        utilization_percentage = (result['floorSpaceIndex'] * 100) if result['floorSpaceIndex'] <= 1 else 100
+        
+        return jsonify({
+            'status': 'success',
+            'result': result,
+            'efficiencyRating': efficiency_rating,
+            'utilizationPercentage': round(utilization_percentage, 1),
+            'fsiCategory': get_fsi_category(result['floorSpaceIndex'])
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        }), 400
+
+def get_fsi_efficiency_rating(fsi):
+    """Get efficiency rating based on FSI value"""
+    if fsi <= 0.5:
+        return "Low Density"
+    elif fsi <= 1.0:
+        return "Medium Density"
+    elif fsi <= 2.0:
+        return "High Density"
+    elif fsi <= 3.0:
+        return "Very High Density"
+    else:
+        return "Ultra High Density"
+
+def get_fsi_category(fsi):
+    """Get FSI category for development type"""
+    if fsi <= 0.5:
+        return "Bungalow/Villa Development"
+    elif fsi <= 1.0:
+        return "Low-rise Apartment"
+    elif fsi <= 2.0:
+        return "Mid-rise Development"
+    elif fsi <= 3.0:
+        return "High-rise Development"
+    else:
+        return "Skyscraper Development"
+
+@app.route('/calculate-built-up-vs-carpet-area', methods=['POST'])
+def calculate_built_up_vs_carpet_area():
+    try:
+        data = request.get_json()
+        
+        # Extract input parameters
+        mode = data.get('mode', 'carpet')  # 'carpet' or 'builtup'
+        area_unit = data.get('areaUnit', 'sqft')  # 'sqft' or 'sqm' 
+        carpet_area = data.get('carpetArea', 0)
+        built_up_area = data.get('builtUpArea', 0)
+        wall_ducts_loading = data.get('wallDuctsLoading', 20) / 100  # Convert percentage to decimal
+        common_area_loading = data.get('commonAreaLoading', 25) / 100  # Convert percentage to decimal
+        
+        # Perform calculations based on mode
+        if mode == 'carpet':
+            # Starting with carpet area
+            if carpet_area <= 0:
+                raise ValueError("Carpet area must be greater than 0")
+            
+            # Calculate built-up area: carpet + wall & ducts loading
+            calculated_built_up = carpet_area * (1 + wall_ducts_loading)
+            
+            # Calculate super built-up area: built-up + common area loading
+            super_built_up = calculated_built_up * (1 + common_area_loading)
+            
+            # Final areas
+            final_carpet = carpet_area
+            final_built_up = calculated_built_up
+            
+        else:
+            # Starting with built-up area
+            if built_up_area <= 0:
+                raise ValueError("Built-up area must be greater than 0")
+            
+            # Calculate carpet area: built-up / (1 + wall loading)
+            calculated_carpet = built_up_area / (1 + wall_ducts_loading)
+            
+            # Calculate super built-up area: built-up + common area loading
+            super_built_up = built_up_area * (1 + common_area_loading)
+            
+            # Final areas
+            final_carpet = calculated_carpet
+            final_built_up = built_up_area
+        
+        # Calculate loading summaries (percentages)
+        built_up_over_carpet_pct = ((final_built_up / final_carpet) - 1) * 100
+        super_over_built_up_pct = ((super_built_up / final_built_up) - 1) * 100
+        super_over_carpet_pct = ((super_built_up / final_carpet) - 1) * 100
+        
+        # Round areas to 2 decimal places
+        final_carpet = round(final_carpet, 2)
+        final_built_up = round(final_built_up, 2)
+        super_built_up = round(super_built_up, 2)
+        
+        # Round percentages to 1 decimal place
+        built_up_over_carpet_pct = round(built_up_over_carpet_pct, 1)
+        super_over_built_up_pct = round(super_over_built_up_pct, 1)
+        super_over_carpet_pct = round(super_over_carpet_pct, 1)
+        
+        return jsonify({
+            'status': 'success',
+            'carpetArea': final_carpet,
+            'builtUpArea': final_built_up,
+            'superBuiltUpArea': super_built_up,
+            'builtUpOverCarpetPct': built_up_over_carpet_pct,
+            'superOverBuiltUpPct': super_over_built_up_pct,
+            'superOverCarpetPct': super_over_carpet_pct,
+            'areaUnit': area_unit,
+            'wallDuctsLoadingPct': wall_ducts_loading * 100,
+            'commonAreaLoadingPct': common_area_loading * 100
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e)
+        }), 400
+
+@app.route('/calculate-msme-business-loan-emi', methods=['POST'])
+def calculate_msme_business_loan_emi():
+    try:
+        data = request.get_json()
+        
+        loan_amount = float(data.get('loanAmount', 0))
+        annual_interest_rate = float(data.get('annualInterestRate', 0))
+        tenure_months = int(data.get('tenureMonths', 0))
+        processing_fee_percent = float(data.get('processingFeePercent', 0))
+        gst_on_fee_percent = float(data.get('gstOnFeePercent', 0))
+        
+        # Validate inputs
+        if loan_amount < 10000:
+            return jsonify({'status': 'error', 'error': 'Loan amount must be at least ₹10,000'})
+        if loan_amount > 50000000:
+            return jsonify({'status': 'error', 'error': 'Loan amount must not exceed ₹5,00,00,000'})
+        if annual_interest_rate < 0 or annual_interest_rate > 40:
+            return jsonify({'status': 'error', 'error': 'Interest rate must be between 0% and 40%'})
+        if tenure_months < 6 or tenure_months > 120:
+            return jsonify({'status': 'error', 'error': 'Tenure must be between 6 and 120 months'})
+        
+        # Calculate EMI using reducing balance method
+        monthly_rate = annual_interest_rate / (12 * 100)
+        
+        if monthly_rate > 0:
+            emi = (loan_amount * monthly_rate * pow(1 + monthly_rate, tenure_months)) / (pow(1 + monthly_rate, tenure_months) - 1)
+        else:
+            emi = loan_amount / tenure_months
+        
+        total_payment = emi * tenure_months
+        total_interest = total_payment - loan_amount
+        
+        # Calculate fees
+        processing_fee = loan_amount * (processing_fee_percent / 100)
+        gst_on_fee = processing_fee * (gst_on_fee_percent / 100)
+        total_fees = processing_fee + gst_on_fee
+        net_disbursal = loan_amount - total_fees
+        
+        # Generate amortization schedule
+        amortization_schedule = []
+        remaining_balance = loan_amount
+        
+        for month in range(1, tenure_months + 1):
+            interest_payment = remaining_balance * monthly_rate
+            principal_payment = emi - interest_payment
+            remaining_balance = remaining_balance - principal_payment
+            
+            # Ensure no negative balance due to rounding
+            if remaining_balance < 0:
+                remaining_balance = 0
+                
+            amortization_schedule.append({
+                'month': month,
+                'emi': round(emi, 2),
+                'principal': round(principal_payment, 2),
+                'interest': round(interest_payment, 2),
+                'balance': round(remaining_balance, 2)
+            })
+        
+        return jsonify({
+            'status': 'success',
+            'emi': round(emi, 2),
+            'loanAmount': loan_amount,
+            'totalInterest': round(total_interest, 2),
+            'totalPayment': round(total_payment, 2),
+            'processingFee': round(processing_fee, 2),
+            'gstOnFee': round(gst_on_fee, 2),
+            'totalFees': round(total_fees, 2),
+            'netDisbursal': round(net_disbursal, 2),
+            'amortizationSchedule': amortization_schedule,
+            'interestPercentage': round((total_interest / total_payment) * 100, 1),
+            'principalPercentage': round((loan_amount / total_payment) * 100, 1)
+        })
+        
+    except Exception as e:
+        return jsonify({'status': 'error', 'error': str(e)})
+
+@app.route('/udyogini-loan-emi-calculator/')
+def udyogini_loan_emi_calculator():
+    return render_template('udyogini_loan_emi_calculator.html')
+
+@app.route('/calculate-udyogini-loan-emi', methods=['POST'])
+def calculate_udyogini_loan_emi():
+    try:
+        data = request.get_json()
+        
+        loan_amount = float(data.get('loanAmount', 0))
+        interest_rate = float(data.get('interestRate', 0))
+        tenure_months = int(data.get('tenureMonths', 0))
+        category = data.get('category', 'General/Special')
+        apply_subsidy = data.get('applySubsidy', False)
+        
+        # Validate inputs
+        if loan_amount <= 0 or interest_rate <= 0 or tenure_months <= 0:
+            return jsonify({'status': 'error', 'error': 'Invalid input values'})
+        
+        # Calculate subsidy amount
+        if category == "SC/ST":
+            subsidy_amount = min(loan_amount * 0.50, 150000)  # 50% cap ₹1,50,000
+        else:
+            subsidy_amount = min(loan_amount * 0.30, 90000)   # 30% cap ₹90,000
+        
+        # Calculate gross EMI (without subsidy)
+        gross_emi = calculate_emi(loan_amount, interest_rate, tenure_months)
+        gross_total_payment = gross_emi * tenure_months
+        gross_total_interest = gross_total_payment - loan_amount
+        
+        # Calculate effective EMI (with subsidy if applied)
+        effective_principal = loan_amount - subsidy_amount if apply_subsidy else loan_amount
+        effective_emi = calculate_emi(effective_principal, interest_rate, tenure_months)
+        effective_total_payment = effective_emi * tenure_months
+        effective_total_interest = effective_total_payment - effective_principal
+        
+        # Calculate percentages for chart (based on gross values)
+        principal_percentage = (loan_amount / gross_total_payment) * 100
+        interest_percentage = (gross_total_interest / gross_total_payment) * 100
+        
+        # Generate amortization schedule
+        amortization_schedule = calculate_yearly_payment_schedule(
+            loan_amount, 
+            interest_rate, 
+            tenure_months, 
+            emi_advance=False
+        )
+        
+        return jsonify({
+            'status': 'success',
+            'grossEmi': round(gross_emi, 2),
+            'grossPrincipal': loan_amount,
+            'grossTotalInterest': round(gross_total_interest, 2),
+            'grossTotalPayment': round(gross_total_payment, 2),
+            'subsidyAmount': subsidy_amount,
+            'effectivePrincipal': effective_principal,
+            'effectiveEmi': round(effective_emi, 2),
+            'effectiveTotalInterest': round(effective_total_interest, 2),
+            'effectiveTotalPayment': round(effective_total_payment, 2),
+            'principalPercentage': round(principal_percentage, 1),
+            'interestPercentage': round(interest_percentage, 1),
+            'amortizationSchedule': amortization_schedule
+        })
+        
+    except Exception as e:
+        return jsonify({'status': 'error', 'error': str(e)})
 
 if __name__ == '__main__':
     app.run(debug=True) 
