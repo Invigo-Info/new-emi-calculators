@@ -10909,7 +10909,7 @@ def calculate_rent_yield():
         }), 400
 
 # Floor Space Index / Floor Area Ratio Calculator Route
-@app.route('/floor-area-ratio-emi-calculator/')
+@app.route('/floor-area-ratio-calculator/')
 def floor_space_index_calculator():
     return render_template('floor_space_index_calculator.html')
 
