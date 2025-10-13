@@ -266,19 +266,19 @@ def machinery_loan_emi_calculator():
 def working_capital_loan_emi_calculator():
     return render_template('working_capital_loan_emi_calculator.html')
 
-@app.route('/msme-business-loan-calculator/')
+@app.route('/msme-business-loan-emi-calculator/')
 def msme_business_loan_calculator():
     return render_template('msme_business_loan_calculator.html')
 
-@app.route('/national-small-industries-corporation-calculator/')
+@app.route('/national-small-industries-corporation-emi-calculator/')
 def national_small_industries_corporation_calculator():
     return render_template('national_small_industries_corporation_calculator.html')
 
-@app.route('/pradhan-mantri-mudra-yojana-calculator/')
+@app.route('/pradhan-mantri-mudra-yojana-emi-calculator/')
 def pradhan_mantri_mudra_yojana_calculator():
     return render_template('pradhan_mantri_mudra_yojana_calculator.html')
 
-@app.route('/prime-ministers-employment-generation-programme-calculator/')
+@app.route('/prime-ministers-employment-generation-programme-emi-calculator/')
 def prime_ministers_employment_generation_programme_calculator():
     return render_template('prime_ministers_employment_generation_programme_calculator.html')
 
@@ -10909,7 +10909,7 @@ def calculate_rent_yield():
         }), 400
 
 # Floor Space Index / Floor Area Ratio Calculator Route
-@app.route('/floor-space-index-or-floor-area-ratio-calculator/')
+@app.route('/floor-space-index-or-floor-area-ratio-emi-calculator/')
 def floor_space_index_calculator():
     return render_template('floor_space_index_calculator.html')
 
