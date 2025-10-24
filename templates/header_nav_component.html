@@ -1,6 +1,7 @@
 <div class="emi-header-nav-wrapper">
     <div class="emi-header-nav-container">
         <header class="emi-header-nav">
+            
             <!-- Dynamic Page Title (extracted from HTML title tag) -->
             <h1 class="emi-title" id="dynamicPageTitle">EMI Calculator</h1>
             <p class="emi-description">{{ page_description | default('Calculate your loan EMI easily and accurately') }}</p>
@@ -9,11 +10,12 @@
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     const titleElement = document.getElementById('dynamicPageTitle');
-                    const htmlTitle = document.title;
-                    
-                    if (htmlTitle && htmlTitle.includes('|')) {
-                        // Extract the part before the "|" symbol and trim whitespace
-                        const pageTitle = htmlTitle.split('|')[0].trim();
+                    const htmlTitle = document.title || '';
+                    // Use text before '|' if present, else the full title
+                    const pageTitle = htmlTitle.includes('|')
+                        ? htmlTitle.split('|')[0].trim()
+                        : htmlTitle.trim();
+                    if (pageTitle) {
                         titleElement.textContent = pageTitle;
                     }
                 });
@@ -116,6 +118,8 @@
                 </div>                
                 
             </nav>
+            <!-- Mobile Menu Panel -->
+            
         </header>
     </div>
 </div>

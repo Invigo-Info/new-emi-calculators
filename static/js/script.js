@@ -906,6 +906,16 @@ function updateYearlyPaymentChart(data) {
                 }
             }
         });
+        // Fintech theme: fix currency tick labels for INR and update chart
+        if (yearlyPaymentChart && yearlyPaymentChart.options && yearlyPaymentChart.options.scales) {
+            if (yearlyPaymentChart.options.scales.y && yearlyPaymentChart.options.scales.y.ticks) {
+                yearlyPaymentChart.options.scales.y.ticks.callback = function(value){ return formatCurrency(value); };
+            }
+            if (yearlyPaymentChart.options.scales.y1 && yearlyPaymentChart.options.scales.y1.ticks) {
+                yearlyPaymentChart.options.scales.y1.ticks.callback = function(value){ return formatCurrency(value); };
+            }
+            try { yearlyPaymentChart.update(); } catch(e) {}
+        }
         
     } catch (error) {
         console.error('Error updating yearly payment chart:', error);

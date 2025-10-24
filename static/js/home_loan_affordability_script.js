@@ -129,9 +129,9 @@ function updatePieChart(result) {
                 result.total_interest
             ],
             backgroundColor: [
-                '#3182ce',
+                '#416cfa',
                 '#38a169',
-                '#e53e3e'
+                '#6684e8'
             ],
             borderWidth: 2,
             borderColor: '#fff'
@@ -191,16 +191,20 @@ function updateBarChart(result) {
                 {
                     label: 'Principal Payment',
                     data: principalData,
-                    backgroundColor: '#3182ce',
+                    backgroundColor: '#416cfa',
                     borderColor: '#2c5aa0',
-                    borderWidth: 1
+                    borderWidth: 1,
+                    categoryPercentage: 0.7,
+                    barPercentage: 0.9
                 },
                 {
                     label: 'Interest Payment',
                     data: interestData,
-                    backgroundColor: '#e53e3e',
-                    borderColor: '#c53030',
-                    borderWidth: 1
+                    backgroundColor: '#6684e8',
+                    borderColor: '#4c64c8',
+                    borderWidth: 1,
+                    categoryPercentage: 0.7,
+                    barPercentage: 0.9
                 },
                 {
                     label: 'Remaining Balance',

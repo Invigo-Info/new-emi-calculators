@@ -297,10 +297,10 @@ header p {
 .input-section {
     display: flex;
     flex-direction: column;
-    gap: 35px;
+    gap: 64px;
     position: relative;
     z-index: 3;
-    padding: 10px 0;
+    padding: 12px 0;
 }
 
 .input-group {
@@ -330,12 +330,12 @@ header p {
     display: flex;
     align-items: center;
     background: #ffffff;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
+    border: 1px solid #e5e7eb; /* requested border */
+    border-radius: 5px; /* requested radius */
     padding: 0;
     transition: all 0.3s ease;
     height: 56px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     flex: 1;
     max-width: none;
     width: 100%;
@@ -356,8 +356,8 @@ header p {
     display: flex;
     align-items: center;
     background: #f9fafb;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .percentage {
@@ -370,8 +370,8 @@ header p {
     display: flex;
     align-items: center;
     background: #f9fafb;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 input[type="number"] {
@@ -1386,12 +1386,12 @@ input[type="range"]::-moz-range-thumb {
     display: flex;
     align-items: center;
     background: #ffffff;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
+    border: 1px solid #e5e7eb; /* requested border */
+    border-radius: 5px; /* requested radius */
     padding: 0;
     transition: all 0.3s ease;
     height: 56px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
     flex: 1;
     max-width: 300px;
 }
@@ -1418,8 +1418,8 @@ input[type="range"]::-moz-range-thumb {
     display: flex;
     border-left: 1px solid #e5e7eb;
     height: 100%;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
     overflow: hidden;
 }
 
@@ -1452,3 +1452,136 @@ input[type="range"]::-moz-range-thumb {
     background: #3b82f6;
     color: white;
 } 
+
+/* =============================
+   Fintech Theme Overrides
+   ============================= */
+:root {
+    --color-primary: #2563EB;
+    --color-accent: #4C6FFF;
+    --color-bg: #FFFFFF;
+    --color-bg-secondary: #F8FAFC;
+    --color-text: #111827;
+}
+
+body {
+    color: var(--color-text);
+    background: var(--color-bg);
+}
+
+.container {
+    max-width: 1200px;
+    padding: 0 24px;
+}
+
+.hero-intro {
+    background: var(--color-bg);
+    padding: 24px 0 8px;
+}
+
+.hero-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.hero-subtitle {
+    margin-top: 8px;
+    color: #4B5563;
+    font-size: 1rem;
+}
+
+.calculator-container {
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+    background: var(--color-bg);
+    border: 1px solid #E5E7EB;
+}
+
+.loan-tabs .tab-button {
+    border-radius: 999px;
+    border: 1px solid #E5E7EB;
+    padding: 10px 16px;
+    color: #374151;
+    background: var(--color-bg-secondary);
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.loan-tabs .tab-button:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
+.loan-tabs .tab-button.active {
+    color: #fff;
+    border-color: transparent;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+}
+
+.input-group label { color: #111827; font-weight: 600; }
+.input-container,
+.tenure-input-container,
+.tenure-input { border-color: #e5e7eb; }
+
+input[type="range"]::-webkit-slider-thumb,
+input[type="range"]::-moz-range-thumb { background: var(--color-primary); }
+
+.results-section .result-card {
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    border: none;
+    color: #ffffff;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+}
+.results-section .result-card h3 { color: #ffffff; opacity: 0.95; }
+.results-section .result-card small { color: #ffffff; opacity: 0.85; }
+.results-section .result-card .result-value { color: #ffffff; }
+
+.btn-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent)) !important;
+    color: #fff !important;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25) !important;
+}
+.btn-gradient:hover { filter: brightness(0.98); transform: translateY(-2px); }
+
+.share-btn { background: var(--color-primary); }
+.share-btn:hover { background: var(--color-accent); }
+
+/* Hide broken currency span and render via pseudo for robustness */
+.input-container .currency { display: none; }
+.input-container { position: relative; }
+.input-container::before {
+    content: '₹';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #111827;
+    font-weight: 700;
+}
+.input-container input[type="number"] { padding-left: 36px; }
+
+/* Trust section */
+.trust-section { padding: 40px 0 56px; }
+.trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.trust-card {
+    background: var(--color-bg);
+    border: 1px solid #E5E7EB;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(17, 24, 39, 0.04);
+}
+.trust-card h4 { color: var(--color-text); font-size: 1rem; margin-bottom: 6px; }
+.trust-card p { color: #4B5563; font-size: 0.95rem; }
+
+/* Secondary blocks */
+.yearly-schedule-container,
+.payment-schedule-table-container { background: var(--color-bg); border: 1px solid #E5E7EB; border-radius: 16px; box-shadow: 0 8px 24px rgba(17,24,39,0.04); }
+
+/* Tenure tabs */
+.tenure-tab.active { background: var(--color-primary); }
+.tenure-tab:hover { background: #E5E7EB; }
+
+/* Download section background */
+.download-section { background: var(--color-bg-secondary); }
+/* Page-specific visibility overrides */
+.hero-intro { display: none !important; }
+.trust-section { display: none !important; }

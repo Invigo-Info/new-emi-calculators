@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -66,7 +66,7 @@ nav {
 
 /* Input Sections */
 .input-sections {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -173,7 +173,7 @@ nav {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -183,7 +183,7 @@ nav {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -199,7 +199,7 @@ nav {
 
 /* Results Section */
 .results-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -211,69 +211,60 @@ nav {
 .eligibility-result {
     text-align: center;
     padding: 25px;
-    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+    background: #416cfa;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border: none;
+    color: #ffffff;
 }
 
 .eligibility-main {
     margin-bottom: 20px;
 }
 
-.eligibility-text {
-    font-size: 0.875rem;
-    color: #4a5568;
-    margin-bottom: 8px;
-}
+.eligibility-text { font-size: 0.875rem; color: #ffffff; margin-bottom: 8px; opacity: 0.95; }
 
-.eligibility-amount {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #2d3748;
-}
+.eligibility-amount { font-size: 1.8rem; font-weight: 700; color: #ffffff; }
 
 .emi-display {
     margin-top: 15px;
 }
 
-.emi-text {
-    font-size: 0.875rem;
-    color: #4a5568;
-    margin-bottom: 5px;
-}
+.emi-text { font-size: 0.875rem; color: #ffffff; margin-bottom: 5px; opacity: 0.95; }
 
-.emi-amount {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #3182ce;
-}
+.emi-amount { font-size: 1.3rem; font-weight: 600; color: #ffffff; }
 
 .results-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
 }
 
 .result-item {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 15px;
-    background: #f7fafc;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
+    gap: 6px;
+    padding: 14px;
+    background: #416cfa;
+    border-radius: 12px;
+    border: none;
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+    text-align: center;
 }
 
 .result-label {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     font-weight: 500;
-    color: #4a5568;
+    color: #ffffff;
+    opacity: 0.95;
 }
 
 .result-value {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #2d3748;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
 }
 
 .chart-section {
@@ -319,17 +310,13 @@ nav {
     flex-shrink: 0;
 }
 
-.color-indicator.loan-amount {
-    background-color: #3182ce;
-}
+.color-indicator.loan-amount { background-color: #416cfa; }
 
 .color-indicator.down-payment {
     background-color: #38a169;
 }
 
-.color-indicator.interest {
-    background-color: #e53e3e;
-}
+.color-indicator.interest { background-color: #6684e8; }
 
 .summary-label {
     font-size: 0.875rem;
@@ -346,7 +333,7 @@ nav {
 
 /* Analysis Section */
 .analysis-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -370,7 +357,7 @@ nav {
 
 /* Table Section */
 .table-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -482,15 +469,13 @@ nav {
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
-    .results-section {
-        order: -1;
-    }
+    .input-sections { order: 1; }
+    .results-section { order: 2; }
 }
 
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
 
     .input-grid {
@@ -628,9 +613,9 @@ nav {
     gap: 30px;
 }
 
-.mega-menu-category {
-    /* No specific styles needed */
-}
+/* .mega-menu-category {
+    
+} */
 
 .category-title {
     display: flex;

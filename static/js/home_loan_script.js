@@ -223,7 +223,7 @@ function updatePieChart(downPayment, principal, interest, taxes) {
             labels: ['Down Payment & Fees', 'Principal', 'Interest', 'Taxes & Insurance'],
             datasets: [{
                 data: [downPayment, principal, interest, taxes],
-                backgroundColor: ['#805ad5', '#38a169', '#dd6b20', '#3182ce'],
+                backgroundColor: ['#805ad5', '#416cfa', '#6684e8', '#3182ce'],
                 borderWidth: 2,
                 borderColor: '#fff'
             }]
@@ -354,6 +354,8 @@ function updateScheduleChart() {
                     data: taxesData,
                     backgroundColor: '#6B46C1',
                     borderWidth: 0,
+                    categoryPercentage: 0.7,
+                    barPercentage: 0.9,
                     stack: 'payment',
                     order: 4
                 },
@@ -362,6 +364,8 @@ function updateScheduleChart() {
                     data: interestData,
                     backgroundColor: '#F59E0B',
                     borderWidth: 0,
+                    categoryPercentage: 0.7,
+                    barPercentage: 0.9,
                     stack: 'payment',
                     order: 3
                 },
@@ -370,6 +374,8 @@ function updateScheduleChart() {
                     data: prepaymentsData,
                     backgroundColor: '#EF4444',
                     borderWidth: 0,
+                    categoryPercentage: 0.7,
+                    barPercentage: 0.9,
                     stack: 'payment',
                     order: 2
                 },
@@ -378,6 +384,8 @@ function updateScheduleChart() {
                     data: principalData,
                     backgroundColor: '#10B981',
                     borderWidth: 0,
+                    categoryPercentage: 0.7,
+                    barPercentage: 0.9,
                     stack: 'payment',
                     order: 1
                 },

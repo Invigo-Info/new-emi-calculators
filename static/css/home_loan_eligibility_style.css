@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -85,8 +85,8 @@ nav {
 }
 
 .scheme-tab-button.active {
-    color: #3182ce;
-    border-bottom-color: #3182ce;
+    color: #416cfa;
+    border-bottom-color: #416cfa;
 }
 
 .scheme-tab-button:hover:not(.active) {
@@ -95,7 +95,7 @@ nav {
 
 /* Input Sections */
 .input-sections {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -218,7 +218,7 @@ input[type="range"]::-webkit-slider-thumb {
     appearance: none;
     width: 18px;
     height: 18px;
-    background: #3182ce;
+    background: #146cfa;
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid white;
@@ -226,14 +226,14 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-    background: #2c5aa0;
+    background: #146cfa;
     transform: scale(1.1);
 }
 
 input[type="range"]::-moz-range-thumb {
     width: 18px;
     height: 18px;
-    background: #3182ce;
+    background: #146cfa;
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid white;
@@ -267,7 +267,7 @@ input[type="range"]::-moz-range-thumb {
 
 /* Results Section */
 .results-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -276,44 +276,54 @@ input[type="range"]::-moz-range-thumb {
 
 .results-grid {
     margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
 }
 
 .result-item {
+    /* Compact card layout */
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.result-item:last-child {
-    border-bottom: none;
+    gap: 6px;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    text-align: center;
+    background: #416cfa;
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
 }
 
 .result-item.total {
-    background: #f7fafc;
-    margin: 10px -20px 0;
-    padding: 15px 20px;
-    border-radius: 8px;
+    background: #416cfa;
+    margin: 0;
+    padding: 14px;
+    border-radius: 12px;
     border: none;
     font-weight: 600;
 }
 
 .result-label {
-    font-size: 0.875rem;
-    color: #4a5568;
+    font-size: 0.9rem;
+    color: #ffffff;
     font-weight: 500;
+    opacity: 0.95;
+    line-height: 1.2;
 }
 
 .result-value {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #2d3748;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
 }
 
 .result-item.total .result-value {
-    font-size: 1.125rem;
-    color: #3182ce;
+    font-size: 1.4rem;
+    color: #ffffff;
 }
 
 /* Chart Section */
@@ -357,11 +367,11 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .color-indicator.principal {
-    background-color: #38a169;
+    background-color: #416cfa;
 }
 
 .color-indicator.interest {
-    background-color: #dd6b20;
+    background-color: #6684e8;
 }
 
 .color-indicator.other-emis {
@@ -380,7 +390,7 @@ input[type="range"]::-moz-range-thumb {
 
 /* Schedule Section */
 .schedule-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -406,7 +416,7 @@ input[type="range"]::-moz-range-thumb {
 
 /* Table Section */
 .table-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -660,7 +670,7 @@ input[type="range"]::-moz-range-thumb {
 
 @media (max-width: 768px) {
     .container {
-        padding: 10px;
+        padding: 0px 10px 10px 10px;
     }
 
     .input-grid {

@@ -297,7 +297,7 @@ function updateEligibilityBreakupChart(data, otherEmisOverTenure) {
 
     const chartData = [data.maxLoanAmount, data.totalInterest, otherEmisOverTenure];
     const labels = ['Loan Amount (Principal)', 'Total Interest', 'Other EMIs (Over Tenure)'];
-    const colors = ['#22c55e', '#f97316', '#8b5cf6'];
+    const colors = ['#416cfa', '#6684e8', '#8b5cf6'];
 
     eligibilityBreakupChart = new Chart(ctx, {
         type: 'doughnut',
@@ -386,7 +386,9 @@ function updateIncomeVsEmiChart(data) {
             data: [grossIncome, otherEmis, availableIncome, data.monthlyEmi],
             backgroundColor: ['#3b82f6', '#ef4444', '#22c55e', '#f97316'],
             borderColor: ['#2563eb', '#dc2626', '#16a34a', '#ea580c'],
-            borderWidth: 2
+            borderWidth: 2,
+            categoryPercentage: 0.6,
+            barPercentage: 0.7
         }]
     };
 
