@@ -259,7 +259,7 @@ function updateChart(data) {
             labels: ['Principal Amount', 'Total Interest'],
             datasets: [{
                 data: [data.principalAmount, data.totalInterest],
-                backgroundColor: ['#3182ce', '#f56565'],
+                backgroundColor: ['#14B8A6', '#F59E0B'],
                 borderWidth: 0,
                 cutout: '60%'
             }]

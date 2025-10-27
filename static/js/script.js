@@ -659,8 +659,8 @@ function updateYearlyPaymentChart(data) {
                     {
                         label: 'Principal',
                         data: principalData,
-                        backgroundColor: '#4ade80',
-                        borderColor: '#22c55e',
+                        backgroundColor: '#14B8A6',
+                        borderColor: '#0F766E',
                         borderWidth: 0,
                         borderRadius: {
                             topLeft: 0,
@@ -677,8 +677,8 @@ function updateYearlyPaymentChart(data) {
                     {
                         label: 'Interest',
                         data: interestData,
-                        backgroundColor: '#fb923c',
-                        borderColor: '#f97316',
+                        backgroundColor: '#F59E0B',
+                        borderColor: '#B45309',
                         borderWidth: 0,
                         borderRadius: {
                             topLeft: 4,
@@ -696,13 +696,13 @@ function updateYearlyPaymentChart(data) {
                         label: 'Balance',
                         data: balanceData,
                         type: 'line',
-                        borderColor: '#e91e63',
+                        borderColor: '#0B1F4B',
                         backgroundColor: 'transparent',
                         borderWidth: 3,
-                        pointBackgroundColor: '#e91e63',
+                        pointBackgroundColor: '#0B1F4B',
                         pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2,
-                        pointRadius: 4,
+                        pointBorderWidth: 0,
+                        pointRadius: 0,
                         pointHoverRadius: 6,
                         tension: 0.3,
                         yAxisID: 'y1',
@@ -1033,7 +1033,7 @@ function updatePaymentBreakupChart(data) {
             labels: ['Principal Loan Amount', 'Total Interest'],
             datasets: [{
                 data: [principal, totalInterest],
-                backgroundColor: ['#22c55e', '#f97316'],
+                backgroundColor: ['#14B8A6', '#F59E0B'],
                 borderWidth: 0,
                 cutout: '0%'
             }]
@@ -1090,3 +1090,4 @@ function updatePaymentBreakupChart(data) {
         }]
     });
 } 
+

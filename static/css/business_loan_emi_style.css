@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -87,7 +87,7 @@ nav {
 
 /* Input Sections */
 .input-sections {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -231,7 +231,7 @@ nav {
 }
 
 .tenure-btn.active {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
 }
 
@@ -244,7 +244,7 @@ nav {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: #416cfa;
     outline: none;
     -webkit-appearance: none;
     appearance: none;
@@ -254,7 +254,7 @@ nav {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: #416cfa;
     border: none;
 }
 
@@ -264,21 +264,21 @@ nav {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .custom-slider::-webkit-slider-thumb:hover {
-    background: #2c5aa0;
+    background: #3554d6;
 }
 
 .custom-slider::-moz-range-track {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: #416cfa;
     border: none;
     outline: none;
 }
@@ -287,14 +287,14 @@ nav {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .custom-slider::-moz-range-thumb:hover {
-    background: #2c5aa0;
+    background: #3554d6;
 }
 
 .slider-labels {
@@ -308,7 +308,7 @@ nav {
 
 /* Results Section */
 .results-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -325,8 +325,9 @@ nav {
 .result-item {
     text-align: center;
     padding: 20px;
-    background: #f7fafc;
+    background: #416cfa;
     border-radius: 8px;
+    color: #ffffff;
 }
 
 .result-item:last-child {
@@ -344,7 +345,7 @@ nav {
 
 .result-label {
     font-size: 0.875rem;
-    color: #718096;
+    color: #ffffff;
     margin-bottom: 8px;
     font-weight: 500;
 }
@@ -352,7 +353,7 @@ nav {
 .result-value {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #ffffff;
 }
 
 .result-item.total .result-value {
@@ -411,11 +412,11 @@ nav {
 }
 
 .color-indicator.principal {
-    background: #3182ce;
+    background: #14B8A6;
 }
 
 .color-indicator.interest {
-    background: #f56565;
+    background: #F59E0B;
 }
 
 .summary-label {

@@ -178,15 +178,15 @@ function updateComparisonChart(data) {
                 {
                     label: 'Monthly EMI (₹)',
                     data: [data.existingEmi, data.newEmi],
-                    backgroundColor: ['#f56565', '#48bb78'],
-                    borderColor: ['#e53e3e', '#38a169'],
+                    backgroundColor: ['#F59E0B', '#14B8A6'],
+                    borderColor: ['#B45309', '#0F766E'],
                     borderWidth: 1
                 },
                 {
                     label: 'Total Interest (₹)',
                     data: [data.existingTotalInterest, data.newTotalInterest],
-                    backgroundColor: ['#fc8181', '#68d391'],
-                    borderColor: ['#e53e3e', '#38a169'],
+                    backgroundColor: ['#F6B74F', '#6ED7CB'],
+                    borderColor: ['#B45309', '#0F766E'],
                     borderWidth: 1
                 }
             ]
@@ -238,16 +238,8 @@ function updateSavingsChart(data) {
             labels: ['EMI Savings', 'Interest Savings', 'Processing Fee'],
             datasets: [{
                 data: savingsData,
-                backgroundColor: [
-                    '#48bb78',
-                    '#4299e1',
-                    '#f56565'
-                ],
-                borderColor: [
-                    '#38a169',
-                    '#3182ce',
-                    '#e53e3e'
-                ],
+                backgroundColor: ['#14B8A6', '#F59E0B', '#5A3FC4'],
+                borderColor: ['#0F766E', '#B45309', '#4C1D95'],
                 borderWidth: 1
             }]
         },

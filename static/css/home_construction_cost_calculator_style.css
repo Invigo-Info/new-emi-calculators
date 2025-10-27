@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 /* Calculator Container */
@@ -27,7 +27,7 @@ body {
 
 /* Input Sections */
 .input-sections {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -96,8 +96,8 @@ body {
 
 .input-field-container input:focus {
     outline: none;
-    border-color: #3182ce;
-    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    border-color: #416cfa;
+    box-shadow: 0 0 0 3px rgba(65, 108, 250, 0.1);
 }
 
 /* Enhanced input field states */
@@ -223,26 +223,36 @@ body {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     transition: all 0.2s ease;
 }
 
 .custom-slider::-webkit-slider-thumb:hover {
-    background: #2c5282;
+    background: #416cfa;
     transform: scale(1.1);
+}
+
+/* Ensure active/dragging state keeps the blue color */
+.custom-slider::-webkit-slider-thumb:active {
+    background: #416cfa;
 }
 
 .custom-slider::-moz-range-thumb {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: none;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     transition: all 0.2s ease;
+}
+
+.custom-slider::-moz-range-thumb:hover,
+.custom-slider::-moz-range-thumb:active {
+    background: #416cfa;
 }
 
 .slider-labels {
@@ -310,7 +320,7 @@ body {
 }
 
 input:checked + .toggle-slider {
-    background-color: #3182ce;
+    background-color: #416cfa;
 }
 
 input:checked + .toggle-slider:before {
@@ -345,6 +355,7 @@ input:checked + .toggle-slider:before {
     display: flex;
     flex-direction: column;
     gap: 25px;
+    background: #f7fafc;
 }
 
 .results-card-grid {
@@ -353,15 +364,16 @@ input:checked + .toggle-slider:before {
 }
 
 .result-card {
-    background: white;
+    background: #416cfa;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
+    border: 1px solid #416cfa;
     display: flex;
     align-items: center;
     gap: 20px;
     transition: all 0.3s ease;
+    color: #ffffff;
 }
 
 .result-card:hover {
@@ -380,7 +392,7 @@ input:checked + .toggle-slider:before {
     justify-content: center;
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, #3182ce, #2c5282);
+    background: linear-gradient(135deg, #416cfa, #2c5282);
     color: white;
     border-radius: 12px;
     flex-shrink: 0;
@@ -392,32 +404,32 @@ input:checked + .toggle-slider:before {
 
 .card-label {
     font-size: 14px;
-    color: #718096;
+    color: #ffffff;
     margin-bottom: 8px;
     font-weight: 500;
 }
 
 .bold-title {
     font-weight: 600;
-    color: #2d3748;
+    color: #ffffff;
 }
 
 .card-value {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #2d3748;
+    color: #ffffff;
     margin-bottom: 4px;
 }
 
 .card-sub-value {
     font-size: 14px;
-    color: #718096;
+    color: #ffffff;
     font-weight: 500;
 }
 
 /* Cost Breakup Section */
 .cost-breakup-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -439,16 +451,17 @@ input:checked + .toggle-slider:before {
 }
 
 .breakup-card {
-    background: #f7fafc;
-    border: 1px solid #e2e8f0;
+    background: #416cfa;
+    border: 1px solid #416cfa;
     border-radius: 8px;
     padding: 15px;
     transition: all 0.2s ease;
+    color: #ffffff;
 }
 
 .breakup-card:hover {
-    background: #edf2f7;
-    border-color: #cbd5e0;
+    background: #416cfa;
+    border-color: #416cfa;
 }
 
 .breakup-item {
@@ -460,22 +473,22 @@ input:checked + .toggle-slider:before {
 
 .material-name {
     font-weight: 500;
-    color: #4a5568;
+    color: #ffffff;
     font-size: 14px;
 }
 
 .material-cost {
     font-weight: 600;
-    color: #2d3748;
+    color: #ffffff;
     font-size: 14px;
     text-align: right;
 }
 
 .material-percent {
     font-size: 12px;
-    color: #718096;
+    color: #ffffff;
     font-weight: 500;
-    background: #edf2f7;
+    background: rgba(255, 255, 255, 0.2);
     padding: 2px 8px;
     border-radius: 12px;
     text-align: center;
@@ -491,22 +504,25 @@ input:checked + .toggle-slider:before {
 }
 
 .group-card {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    /* background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); */
     border-radius: 10px;
     padding: 20px;
     color: white;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+    /* box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3); */
+    background-color: #416cfa;
 }
 
 .finishers-card {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+    /* background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3); */
+    background-color: #416cfa;
 }
 
 .fittings-card {
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-    box-shadow: 0 4px 15px rgba(67, 233, 123, 0.3);
+    /* background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    box-shadow: 0 4px 15px rgba(67, 233, 123, 0.3); */
+    background-color: #416cfa;
 }
 
 .group-content {
@@ -539,7 +555,7 @@ input:checked + .toggle-slider:before {
 
 /* Material Quantities Section */
 .material-quantities-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -560,50 +576,52 @@ input:checked + .toggle-slider:before {
 }
 
 .quantity-card {
-    background: linear-gradient(145deg, #ffffff, #f1f5f9);
-    border: 1px solid #e2e8f0;
+    background: #416cfa;
+    border: 1px solid #416cfa;
     border-radius: 10px;
     padding: 20px;
     text-align: center;
     transition: all 0.3s ease;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    color: #ffffff;
 }
 
 .quantity-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    border-color: #3182ce;
+    border-color: #416cfa;
 }
 
 .quantity-icon {
     font-size: 2rem;
     margin-bottom: 10px;
     display: block;
+    color: #ffffff;
 }
 
 .quantity-label {
     font-weight: 600;
-    color: #4a5568;
+    color: #ffffff;
     font-size: 14px;
     margin-bottom: 8px;
 }
 
 .quantity-value {
     font-weight: 700;
-    color: #2d3748;
+    color: #ffffff;
     font-size: 16px;
     margin-bottom: 4px;
 }
 
 .quantity-sub {
     font-size: 12px;
-    color: #718096;
+    color: #ffffff;
     font-weight: 500;
 }
 
 /* Chart Section */
 .chart-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -702,7 +720,7 @@ input:checked + .toggle-slider:before {
 
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
     
     .input-sections, 

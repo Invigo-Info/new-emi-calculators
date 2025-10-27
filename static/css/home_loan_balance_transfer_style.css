@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -67,7 +67,7 @@ nav {
 }
 
 .section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -125,7 +125,7 @@ nav {
 }
 
 .input-field-container:focus-within {
-    border-color: #3182ce;
+    border-color: #416cfa;
     box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
     background: white;
 }
@@ -173,7 +173,7 @@ nav {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: all 0.2s ease;
@@ -188,7 +188,7 @@ nav {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -225,7 +225,7 @@ nav {
 }
 
 .form-select:focus {
-    border-color: #3182ce;
+    border-color: #416cfa;
     box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
     background: white;
 }
@@ -257,7 +257,7 @@ nav {
 }
 
 .fee-toggle-btn.active {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
 }
 
@@ -292,7 +292,7 @@ nav {
 }
 
 .tenure-toggle-btn.active {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
 }
 
@@ -302,7 +302,7 @@ nav {
 
 /* Results Section */
 .results-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -318,6 +318,24 @@ nav {
     margin-bottom: 30px;
 }
 
+/* Ensure white text for EMI Saving and Net Cash Saving cards */
+.result-card.emi-saving-card,
+.result-card.net-savings-card {
+    color: #ffffff;
+}
+.result-card.emi-saving-card .card-label,
+.result-card.emi-saving-card .card-label.bold-title,
+.result-card.emi-saving-card .card-value,
+.result-card.emi-saving-card .per-month,
+.result-card.emi-saving-card .card-icon,
+.result-card.net-savings-card .card-label,
+.result-card.net-savings-card .card-label.bold-title,
+.result-card.net-savings-card .card-value,
+.result-card.net-savings-card .per-month,
+.result-card.net-savings-card .card-icon {
+    color: #ffffff;
+}
+
 @media (max-width: 768px) {
     .results-card-grid {
         grid-template-columns: 1fr;
@@ -326,8 +344,8 @@ nav {
 }
 
 .result-card {
-    background: white;
-    border: 1px solid #e2e8f0;
+    background: #416cfa;
+    border: 1px solid #416cfa;
     border-radius: 12px;
     padding: 20px;
     display: flex;
@@ -345,6 +363,7 @@ nav {
 .card-icon {
     font-size: 1.5rem;
     flex-shrink: 0;
+    color: #ffffff;
 }
 
 .card-content {
@@ -353,26 +372,26 @@ nav {
 
 .card-label {
     font-size: 13px;
-    color: #6b7280;
+    color: #ffffff;
     margin-bottom: 4px;
 }
 
 .card-label.bold-title {
     font-weight: 600;
-    color: #4a5568;
+    color: #ffffff;
 }
 
 .card-value {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #2d3748;
+    color: #ffffff;
     line-height: 1.2;
 }
 
 .per-month {
     font-size: 0.7rem;
     font-weight: 400;
-    color: #6b7280;
+    color: #ffffff;
 }
 
 /* Section Styles */
@@ -421,15 +440,15 @@ nav {
 
 .comparison-item {
     padding: 15px;
-    background: #f8fafc;
+    background: #416cfa;
     border-radius: 8px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #416cfa;
     text-align: center;
 }
 
 .comparison-item label {
     font-size: 14px;
-    color: #4a5568;
+    color: #ffffff;
     font-weight: 500;
     display: block;
     margin-bottom: 8px;
@@ -438,7 +457,7 @@ nav {
 .comparison-value {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #ffffff;
 }
 
 /* Breakeven Content */
@@ -450,15 +469,15 @@ nav {
 
 .breakeven-months {
     padding: 15px;
-    background: #f8fafc;
+    background: #416cfa;
     border-radius: 8px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #416cfa;
     text-align: center;
 }
 
 .breakeven-months label {
     font-size: 14px;
-    color: #4a5568;
+    color: #ffffff;
     font-weight: 500;
     display: block;
     margin-bottom: 8px;
@@ -467,7 +486,7 @@ nav {
 .breakeven-value {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #ffffff;
 }
 
 .breakeven-description p {
@@ -505,7 +524,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 15px 0 0 0;
-    border-top: 2px solid #3182ce;
+    border-top: 2px solid #416cfa;
     font-weight: 600;
     color: #2d3748;
     margin-top: 10px;
@@ -568,7 +587,7 @@ nav {
 }
 
 .download-btn {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -614,7 +633,7 @@ nav {
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
 
     .section {
@@ -655,6 +674,7 @@ nav {
 
     .card-value {
         font-size: 1.1rem;
+        color: #ffffff;
     }
 
     .chart-container {
@@ -682,6 +702,7 @@ nav {
 
     .card-value {
         font-size: 1rem;
+        color: #ffffff;
     }
 
     .results-card-grid {
@@ -697,7 +718,7 @@ nav {
 button:focus,
 input:focus,
 select:focus {
-    outline: 2px solid #3182ce;
+    outline: 2px solid #416cfa;
     outline-offset: 2px;
 }
 

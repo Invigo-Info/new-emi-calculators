@@ -304,22 +304,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 datasets: [{
                     label: 'Buy (Owner Equity)',
                     data: results.buyNetWorth,
-                    borderColor: '#48bb78',
-                    backgroundColor: 'rgba(72, 187, 120, 0.1)',
+                    borderColor: '#14B8A6',
+                    backgroundColor: 'rgba(20, 184, 166, 0.1)',
                     fill: false,
                     tension: 0.4,
-                    pointBackgroundColor: '#48bb78',
+                    pointBackgroundColor: '#14B8A6',
                     pointBorderColor: '#ffffff',
                     pointBorderWidth: 2,
                     pointRadius: 5
                 }, {
                     label: 'Rent (Invested Corpus)',
                     data: results.rentNetWorth,
-                    borderColor: '#ed8936',
-                    backgroundColor: 'rgba(237, 137, 54, 0.1)',
+                    borderColor: '#F59E0B',
+                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
                     fill: false,
                     tension: 0.4,
-                    pointBackgroundColor: '#ed8936',
+                    pointBackgroundColor: '#F59E0B',
                     pointBorderColor: '#ffffff',
                     pointBorderWidth: 2,
                     pointRadius: 5
@@ -386,14 +386,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 datasets: [{
                     label: 'Buy (EMI + Maintenance)',
                     data: results.buyCashFlow,
-                    backgroundColor: 'rgba(72, 187, 120, 0.8)',
-                    borderColor: '#48bb78',
+                    backgroundColor: '#14B8A6',
+                    borderColor: '#14B8A6',
                     borderWidth: 1
                 }, {
                     label: 'Rent (Annual Rent)',
                     data: results.rentCashFlow,
-                    backgroundColor: 'rgba(237, 137, 54, 0.8)',
-                    borderColor: '#ed8936',
+                    backgroundColor: '#F59E0B',
+                    borderColor: '#F59E0B',
                     borderWidth: 1
                 }]
             },

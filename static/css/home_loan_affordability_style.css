@@ -310,13 +310,11 @@ nav {
     flex-shrink: 0;
 }
 
-.color-indicator.loan-amount { background-color: #416cfa; }
+.color-indicator.loan-amount { background-color: #14B8A6; }
 
-.color-indicator.down-payment {
-    background-color: #38a169;
-}
+.color-indicator.down-payment {background-color: #F59E0B;}
 
-.color-indicator.interest { background-color: #6684e8; }
+.color-indicator.interest { background-color: #8B5CF6; }
 
 .summary-label {
     font-size: 0.875rem;
@@ -701,3 +699,53 @@ nav {
         gap: 15px;
     }
 }
+
+/* --- Typography adjustments (results + inputs) --- */
+/* Increase font sizes in input section */
+.input-group label { font-size: 1rem; }
+.input-container input { font-size: 1.1rem; }
+.slider-labels { font-size: 0.85rem; }
+.currency, .unit { font-size: 1rem; }
+.section-title { font-size: 1.3rem; }
+
+/* Increase font sizes on results cards */
+.result-label { font-size: 1rem; }
+.result-value { font-size: 1.4rem; }
+.result-value.large { font-size: 1.8rem; }
+
+/* --- Responsive font-size fine-tuning --- */
+@media (max-width: 768px) {
+  .section-title { font-size: 1.25rem; }
+  .input-group label { font-size: 0.98rem; }
+  .input-container input { font-size: 1.08rem; }
+  .slider-labels { font-size: 0.82rem; }
+  .currency, .unit { font-size: 0.98rem; }
+  .result-label { font-size: 0.98rem; }
+  .result-value { font-size: 1.35rem; }
+  .result-value.large { font-size: 1.7rem; }
+}
+
+@media (max-width: 480px) {
+  .section-title { font-size: 1.15rem; }
+  .input-group label { font-size: 0.95rem; }
+  .input-container input { font-size: 1.05rem; }
+  .slider-labels { font-size: 0.8rem; }
+  .currency, .unit { font-size: 0.95rem; }
+  .result-label { font-size: 0.95rem; }
+  .result-value { font-size: 1.3rem; }
+  .result-value.large { font-size: 1.6rem; }
+}
+
+/* --- Font-weight adjustments (inputs + results) --- */
+.input-group label, .input-container input, .currency, .unit { font-weight: 700; }
+.section-title { font-weight: 700; }
+.result-label, .result-value { font-weight: 700; }
+
+/* --- Font family normalization (Inter) --- */
+:root { --font-family-base: 'Inter', 'Inter UI', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; }
+body { font-family: var(--font-family-base) !important; }
+.input-group label, .input-container input, .slider-labels, .currency, .unit, .section-title, .result-label, .result-value {
+  font-family: var(--font-family-base) !important;
+}
+
+

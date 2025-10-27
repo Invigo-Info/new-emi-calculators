@@ -682,13 +682,9 @@ input[type="range"]::-moz-range-thumb {
     display: inline-block;
 }
 
-.principal-color {
-    background: #22c55e;
-}
+.principal-color { background: #14B8A6; }
 
-.interest-color {
-    background: #f97316;
-}
+.interest-color { background: #F59E0B; }
 
 .legend-label {
     font-weight: 500;
@@ -881,7 +877,7 @@ input[type="range"]::-moz-range-thumb {
 .payment-schedule-table th .sub-header {
     font-size: 12px;
     font-weight: 400;
-    color: #6b7280;
+    color: white;
 }
 
 .payment-schedule-table th:first-child {
@@ -891,32 +887,32 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .payment-schedule-table th.principal-col {
-    background: #22c55e;
+    background: #14B8A6;
     color: white;
     min-width: 120px;
 }
 
 .payment-schedule-table th.interest-col {
-    background: #f97316;
+    background: #F59E0B;
     color: white;
     min-width: 120px;
 }
 
 .payment-schedule-table th.total-payment-col {
-    background: #f8fafc;
-    color: #374151;
+    background: #1E3A8A;
+    color: white;
     min-width: 140px;
 }
 
 .payment-schedule-table th.balance-col {
-    background: #e11d48;
+    background: #10B981;
     color: white;
     min-width: 120px;
 }
 
 .payment-schedule-table th.loan-paid-col {
-    background: #f8fafc;
-    color: #374151;
+    background: #8B5CF6;
+    color: white;
     min-width: 100px;
 }
 
@@ -1585,3 +1581,4 @@ input[type="range"]::-moz-range-thumb { background: var(--color-primary); }
 /* Page-specific visibility overrides */
 .hero-intro { display: none !important; }
 .trust-section { display: none !important; }
+

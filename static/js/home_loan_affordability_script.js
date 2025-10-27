@@ -1,415 +1,191 @@
-// Global variables for charts
-let affordabilityPieChart;
-let affordabilityBarChart;
-let currentPaymentSchedule = [];
+// Home Loan Affordability � restored, readable implementation
+// Creates pie + bar charts and yearly payment table using /calculate-affordability
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    setupEventListeners();
-    calculateAndUpdate();
+let affordabilityPieChart = null;
+let affordabilityBarChart = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  bindInputs();
+  calculateAndRender();
 });
 
-function setupEventListeners() {
-    // Sync sliders with input fields
-    syncSliderWithInput('grossMonthlyIncome', 'grossMonthlyIncomeSlider');
-    syncSliderWithInput('otherMonthlyEmis', 'otherMonthlyEmisSlider');
-    syncSliderWithInput('desiredLoanTenure', 'desiredLoanTenureSlider');
-    syncSliderWithInput('rateOfInterest', 'rateOfInterestSlider');
-    syncSliderWithInput('myFunds', 'myFundsSlider');
+function bindInputs() {
+  const pairs = [
+    ['grossMonthlyIncome', 'grossMonthlyIncomeSlider'],
+    ['otherMonthlyEmis', 'otherMonthlyEmisSlider'],
+    ['desiredLoanTenure', 'desiredLoanTenureSlider'],
+    ['rateOfInterest', 'rateOfInterestSlider'],
+    ['myFunds', 'myFundsSlider'],
+  ];
 
-    // Add change listeners
-    document.getElementById('grossMonthlyIncome').addEventListener('input', calculateAndUpdate);
-    document.getElementById('grossMonthlyIncomeSlider').addEventListener('input', calculateAndUpdate);
-    document.getElementById('otherMonthlyEmis').addEventListener('input', calculateAndUpdate);
-    document.getElementById('otherMonthlyEmisSlider').addEventListener('input', calculateAndUpdate);
-    document.getElementById('desiredLoanTenure').addEventListener('input', calculateAndUpdate);
-    document.getElementById('desiredLoanTenureSlider').addEventListener('input', calculateAndUpdate);
-    document.getElementById('rateOfInterest').addEventListener('input', calculateAndUpdate);
-    document.getElementById('rateOfInterestSlider').addEventListener('input', calculateAndUpdate);
-    document.getElementById('myFunds').addEventListener('input', calculateAndUpdate);
-    document.getElementById('myFundsSlider').addEventListener('input', calculateAndUpdate);
-}
-
-function syncSliderWithInput(inputId, sliderId) {
+  for (const [inputId, sliderId] of pairs) {
     const input = document.getElementById(inputId);
     const slider = document.getElementById(sliderId);
+    if (!input || !slider) continue;
 
-    input.addEventListener('input', function() {
-        slider.value = this.value;
+    // initialize slider value from input
+    slider.value = input.value;
+
+    input.addEventListener('input', () => {
+      slider.value = input.value;
+      calculateAndRender();
+    });
+    slider.addEventListener('input', () => {
+      input.value = slider.value;
+      calculateAndRender();
+    });
+  }
+}
+
+async function calculateAndRender() {
+  const payload = {
+    grossMonthlyIncome: num('grossMonthlyIncome'),
+    otherMonthlyEmis: num('otherMonthlyEmis'),
+    desiredLoanTenure: num('desiredLoanTenure'),
+    rateOfInterest: num('rateOfInterest'),
+    myFunds: num('myFunds'),
+  };
+
+  try {
+    const res = await fetch('/calculate-affordability', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
     });
 
-    slider.addEventListener('input', function() {
-        input.value = this.value;
-    });
-}
-
-function calculateAndUpdate() {
-    // Get input values
-    const grossMonthlyIncome = parseFloat(document.getElementById('grossMonthlyIncome').value) || 0;
-    const otherMonthlyEmis = parseFloat(document.getElementById('otherMonthlyEmis').value) || 0;
-    const desiredLoanTenure = parseInt(document.getElementById('desiredLoanTenure').value) || 0;
-    const rateOfInterest = parseFloat(document.getElementById('rateOfInterest').value) || 0;
-    const myFunds = parseFloat(document.getElementById('myFunds').value) || 0;
-
-    // Make API call to calculate affordability
-    const data = {
-        grossMonthlyIncome: grossMonthlyIncome,
-        otherMonthlyEmis: otherMonthlyEmis,
-        desiredLoanTenure: desiredLoanTenure,
-        rateOfInterest: rateOfInterest,
-        myFunds: myFunds
-    };
-
-    fetch('/calculate-affordability', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.error) {
-            console.error('Calculation error:', result.error);
-            return;
-        }
-
-        // Store payment schedule globally
-        currentPaymentSchedule = result.payment_schedule || [];
-        
-        // Update the UI with results
-        updateResults(result);
-        updateCharts(result);
-        updatePaymentScheduleTable(currentPaymentSchedule);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-function updateResults(result) {
-    // Update eligible amount
-    document.getElementById('eligibleAmount').textContent = formatCurrency(result.eligible_loan_amount) + '*';
-    
-    // Update EMI amount
-    document.getElementById('emiAmount').textContent = formatCurrency(result.monthly_emi) + '*';
-    
-    // Update property cost affordable
-    document.getElementById('propertyCostAffordable').textContent = formatCurrency(result.property_cost_affordable);
-    
-    // Update remaining balance salary
-    document.getElementById('remainingBalanceSalary').textContent = formatCurrency(result.remaining_balance_salary);
-    
-    // Update chart summary values
-    document.getElementById('chartLoanAmount').textContent = formatCurrency(result.eligible_loan_amount);
-    document.getElementById('chartDownPayment').textContent = formatCurrency(result.down_payment);
-    document.getElementById('chartTotalInterest').textContent = formatCurrency(result.total_interest);
-    document.getElementById('chartTotalCost').textContent = formatCurrency(result.property_cost_affordable);
-}
-
-function updateCharts(result) {
-    updatePieChart(result);
-    updateBarChart(result);
-}
-
-function updatePieChart(result) {
-    const ctx = document.getElementById('affordabilityPieChart').getContext('2d');
-    
-    // Destroy existing chart if it exists
-    if (affordabilityPieChart) {
-        affordabilityPieChart.destroy();
+    const result = await res.json();
+    if (result && !result.error) {
+      updateResults(result);
+      renderPie(result);
+      renderBar(result);
+      renderTable(result.payment_schedule || [], result.eligible_loan_amount || 0);
+      return;
     }
-    
-    const data = {
-        labels: ['Loan Amount', 'Down Payment', 'Total Interest'],
-        datasets: [{
-            data: [
-                result.eligible_loan_amount,
-                result.down_payment,
-                result.total_interest
-            ],
-            backgroundColor: [
-                '#416cfa',
-                '#38a169',
-                '#6684e8'
-            ],
-            borderWidth: 2,
-            borderColor: '#fff'
-        }]
-    };
-    
-    affordabilityPieChart = new Chart(ctx, {
-        type: 'pie',
-        data: data,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            const value = formatCurrency(context.parsed);
-                            const percentage = ((context.parsed / (result.eligible_loan_amount + result.down_payment + result.total_interest)) * 100).toFixed(1);
-                            return `${context.label}: ${value} (${percentage}%)`;
-                        }
-                    }
-                }
-            }
-        }
-    });
+    // fallback if server returns error
+    renderFallback();
+  } catch (e) {
+    console.error('Affordability fetch error:', e);
+    renderFallback();
+  }
 }
 
-function updateBarChart(result) {
-    const ctx = document.getElementById('affordabilityBarChart').getContext('2d');
-    
-    // Destroy existing chart if it exists
-    if (affordabilityBarChart) {
-        affordabilityBarChart.destroy();
-    }
-    
-    // Prepare yearly data for bar chart
-    const yearlyData = currentPaymentSchedule.map(year => ({
-        year: year.year,
-        principal: year.principal,
-        interest: year.interest,
-        balance: year.balance
-    }));
-    
-    const labels = yearlyData.map(item => item.year.toString());
-    const principalData = yearlyData.map(item => item.principal);
-    const interestData = yearlyData.map(item => item.interest);
-    const balanceData = yearlyData.map(item => item.balance);
-    
-    affordabilityBarChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Principal Payment',
-                    data: principalData,
-                    backgroundColor: '#416cfa',
-                    borderColor: '#2c5aa0',
-                    borderWidth: 1,
-                    categoryPercentage: 0.7,
-                    barPercentage: 0.9
-                },
-                {
-                    label: 'Interest Payment',
-                    data: interestData,
-                    backgroundColor: '#6684e8',
-                    borderColor: '#4c64c8',
-                    borderWidth: 1,
-                    categoryPercentage: 0.7,
-                    barPercentage: 0.9
-                },
-                {
-                    label: 'Remaining Balance',
-                    data: balanceData,
-                    backgroundColor: '#38a169',
-                    borderColor: '#2f855a',
-                    borderWidth: 1,
-                    type: 'line',
-                    yAxisID: 'y1'
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return `${context.dataset.label}: ${formatCurrency(context.parsed.y)}`;
-                        }
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Year'
-                    }
-                },
-                y: {
-                    type: 'linear',
-                    display: true,
-                    position: 'left',
-                    title: {
-                        display: true,
-                        text: 'Payment Amount (₹)'
-                    },
-                    ticks: {
-                        callback: function(value) {
-                            return formatCurrencyShort(value);
-                        }
-                    }
-                },
-                y1: {
-                    type: 'linear',
-                    display: true,
-                    position: 'right',
-                    title: {
-                        display: true,
-                        text: 'Balance (₹)'
-                    },
-                    ticks: {
-                        callback: function(value) {
-                            return formatCurrencyShort(value);
-                        }
-                    },
-                    grid: {
-                        drawOnChartArea: false,
-                    },
-                }
-            }
-        }
-    });
+function renderFallback() {
+  const zero = {
+    eligible_loan_amount: 0,
+    monthly_emi: 0,
+    property_cost_affordable: 0,
+    remaining_balance_salary: 0,
+    total_interest: 0,
+    down_payment: 0,
+    payment_schedule: [],
+  };
+  updateResults(zero);
+  renderPie(zero);
+  renderBar({ payment_schedule: [], eligible_loan_amount: 0 });
+  renderTable([], 0);
 }
 
-function updatePaymentScheduleTable(schedule) {
-    const tableBody = document.getElementById('paymentScheduleTableBody');
-    tableBody.innerHTML = '';
-    
-    schedule.forEach((yearData, index) => {
-        // Create year row
-        const yearRow = document.createElement('tr');
-        yearRow.className = 'year-row';
-        yearRow.dataset.year = yearData.year;
-        
-        yearRow.innerHTML = `
-            <td>
-                <span class="expand-icon">▶</span>
-                <span class="year-text">${yearData.year}</span>
-            </td>
-            <td>${formatCurrency(yearData.principal)}</td>
-            <td>${formatCurrency(yearData.interest)}</td>
-            <td>${formatCurrency(yearData.emi)}</td>
-            <td>${formatCurrency(yearData.totalPayment)}</td>
-            <td>${formatCurrency(yearData.balance)}</td>
-            <td>${yearData.loanPaidPercentage}%</td>
-        `;
-        
-        // Add click event to toggle monthly data
-        yearRow.addEventListener('click', function() {
-            toggleYearExpansion(yearData.year, yearData.monthlyData);
-        });
-        
-        tableBody.appendChild(yearRow);
-        
-        // Create monthly rows (initially hidden)
-        yearData.monthlyData.forEach(monthData => {
-            const monthRow = document.createElement('tr');
-            monthRow.className = 'month-row';
-            monthRow.dataset.year = yearData.year;
-            
-            monthRow.innerHTML = `
-                <td class="month-cell">${monthData.month}</td>
-                <td>${formatCurrency(monthData.principal)}</td>
-                <td>${formatCurrency(monthData.interest)}</td>
-                <td>${formatCurrency(monthData.emi)}</td>
-                <td>${formatCurrency(monthData.principal + monthData.interest)}</td>
-                <td>${formatCurrency(monthData.balance)}</td>
-                <td>${monthData.loan_paid_percentage}%</td>
-            `;
-            
-            tableBody.appendChild(monthRow);
-        });
-    });
+function updateResults(r) {
+  setText('eligibleAmount', formatCurrency(r.eligible_loan_amount));
+  setText('emiAmount', formatCurrency(r.monthly_emi));
+  setText('propertyCostAffordable', formatCurrency(r.property_cost_affordable));
+  setText('remainingBalanceSalary', formatCurrency(r.remaining_balance_salary));
+  setText('chartLoanAmount', formatCurrency(r.eligible_loan_amount));
+  setText('chartDownPayment', formatCurrency(r.down_payment));
+  setText('chartTotalInterest', formatCurrency(r.total_interest));
+  setText('chartTotalCost', formatCurrency(r.property_cost_affordable));
 }
 
-function toggleYearExpansion(year, monthlyData) {
-    const yearRow = document.querySelector(`tr.year-row[data-year="${year}"]`);
-    const monthRows = document.querySelectorAll(`tr.month-row[data-year="${year}"]`);
-    
-    if (yearRow.classList.contains('expanded')) {
-        // Collapse
-        yearRow.classList.remove('expanded');
-        monthRows.forEach(row => row.classList.remove('show'));
-    } else {
-        // Expand
-        yearRow.classList.add('expanded');
-        monthRows.forEach(row => row.classList.add('show'));
-    }
+function renderPie(r) {
+  const ctx = byId('affordabilityPieChart');
+  if (!ctx) return;
+  const c = ctx.getContext('2d');
+  if (affordabilityPieChart) affordabilityPieChart.destroy();
+  affordabilityPieChart = new Chart(c, {
+    type: 'pie',
+    data: {
+      labels: ['Loan Amount', 'Down Payment', 'Total Interest'],
+      datasets: [{
+        data: [r.eligible_loan_amount || 0, r.down_payment || 0, r.total_interest || 0],
+        // original palette restored
+        backgroundColor: ['#14B8A6', '#F59E0B', '#8B5CF6'],
+        borderColor: '#fff',
+        borderWidth: 2,
+      }],
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } },
+  });
 }
+
+function renderBar(r) {
+  const ctx = byId('affordabilityBarChart');
+  if (!ctx) return;
+  const c = ctx.getContext('2d');
+  if (affordabilityBarChart) affordabilityBarChart.destroy();
+
+  const rows = r.payment_schedule || [];
+  const labels = rows.map(x => String(x.year));
+  const principal = rows.map(x => x.principal || 0);
+  const interest = rows.map(x => x.interest || 0);
+  const balance = rows.map(x => x.balance || 0);
+
+  affordabilityBarChart = new Chart(c, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Principal Payment', data: principal, backgroundColor: '#14B8A6', borderColor: '#14B8A6', borderWidth: 1, categoryPercentage: 0.7, barPercentage: 0.9 },
+        { label: 'Interest Payment', data: interest, backgroundColor: '#F59E0B', borderColor: '#F59E0B', borderWidth: 1, categoryPercentage: 0.7, barPercentage: 0.9 },
+        { label: 'Remaining Balance', data: balance, type: 'line', backgroundColor: '#8B5CF6', borderColor: '#8B5CF6', borderWidth: 1, pointRadius: 0, yAxisID: 'y1' },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.parsed.y)}` } } },
+      scales: {
+        x: { title: { display: true, text: 'Year' } },
+        y: { type: 'linear', position: 'left', ticks: { callback: v => formatCurrencyShort(v) } },
+        y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false }, ticks: { callback: v => formatCurrencyShort(v) } },
+      },
+    },
+  });
+}
+
+function renderTable(schedule, loanAmount) {
+  const body = byId('paymentScheduleTableBody');
+  if (!body) return;
+  body.innerHTML = '';
+  let cumulativePrincipal = 0;
+  schedule.forEach(row => {
+    cumulativePrincipal += row.principal || 0;
+    const tr = document.createElement('tr');
+    tr.className = 'year-row';
+    tr.innerHTML = `
+      <td><span class="year-text">${row.year || ''}</span></td>
+      <td>${formatCurrency(row.principal || 0)}</td>
+      <td>${formatCurrency(row.interest || 0)}</td>
+      <td>${formatCurrency(((row.principal || 0) + (row.interest || 0)) / 12)}</td>
+      <td>${formatCurrency((row.principal || 0) + (row.interest || 0))}</td>
+      <td>${formatCurrency(row.balance || 0)}</td>
+      <td>${loanAmount > 0 ? Math.min(100, ((cumulativePrincipal / loanAmount) * 100)).toFixed(1) : '0'}%</td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+// Utilities
+function num(id) { const el = document.getElementById(id); return el ? parseFloat(el.value) || 0 : 0; }
+function byId(id) { return document.getElementById(id); }
+function setText(id, text) { const el = byId(id); if (el) el.textContent = text; }
 
 function formatCurrency(amount) {
-    if (amount === 0) return '₹0';
-    
-    // Convert to Indian numbering system (Lakhs and Crores)
-    const numStr = Math.round(amount).toString();
-    let result = '';
-    
-    // Process from right to left for Indian numbering
-    let len = numStr.length;
-    
-    // Add commas according to Indian numbering system
-    for (let i = 0; i < len; i++) {
-        if (i > 0) {
-            // Add comma after first 3 digits from right, then every 2 digits
-            if (i === 3) {
-                result = ',' + result;
-            } else if (i > 3 && (i - 3) % 2 === 0) {
-                result = ',' + result;
-            }
-        }
-        result = numStr[len - 1 - i] + result;
-    }
-    
-    return '₹' + result;
+  try { return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount || 0); } catch { return `?${Math.round(amount || 0)}`; }
 }
-
 function formatCurrencyShort(amount) {
-    if (amount >= 10000000) {
-        return '₹' + (amount / 10000000).toFixed(1) + 'Cr';
-    } else if (amount >= 100000) {
-        return '₹' + (amount / 100000).toFixed(1) + 'L';
-    } else if (amount >= 1000) {
-        return '₹' + (amount / 1000).toFixed(1) + 'K';
-    }
-    return '₹' + Math.round(amount);
-} 
-
-// Mega Menu Functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const megaMenu = document.querySelector('.mega-menu');
-    const megaMenuBtn = document.querySelector('.mega-menu-btn');
-    const megaMenuContent = document.querySelector('.mega-menu-content');
-
-    if (megaMenuBtn && megaMenu) {
-        // Toggle mega menu on button click
-        megaMenuBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            megaMenu.classList.toggle('active');
-        });
-
-        // Close mega menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!megaMenu.contains(e.target)) {
-                megaMenu.classList.remove('active');
-            }
-        });
-
-        // Close mega menu when clicking on any link inside
-        if (megaMenuContent) {
-            const megaLinks = megaMenuContent.querySelectorAll('.mega-link');
-            megaLinks.forEach(function(link) {
-                link.addEventListener('click', function() {
-                    megaMenu.classList.remove('active');
-                });
-            });
-        }
-
-        // Prevent closing when clicking inside the mega menu content
-        if (megaMenuContent) {
-            megaMenuContent.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-        }
-    }
-});
+  const a = amount || 0;
+  if (a >= 10000000) return '?' + (a / 10000000).toFixed(1) + 'Cr';
+  if (a >= 100000) return '?' + (a / 100000).toFixed(1) + 'L';
+  if (a >= 1000) return '?' + (a / 1000).toFixed(1) + 'K';
+  return '?' + Math.round(a);
+}

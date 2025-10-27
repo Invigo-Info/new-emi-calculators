@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -15,7 +15,7 @@ body {
 .ryc-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 /* Main Calculator Container */
@@ -34,7 +34,7 @@ body {
 }
 
 .ryc-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -131,7 +131,7 @@ body {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: linear-gradient(to right, #3182ce, #63b3ed);
+    background: #416cfa;
     outline: none;
     -webkit-appearance: none;
     cursor: pointer;
@@ -143,7 +143,7 @@ body {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -153,7 +153,7 @@ body {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: 2px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -206,7 +206,7 @@ body {
 }
 
 .ryc-results-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -233,7 +233,7 @@ body {
     text-align: center;
     padding: 20px;
     border-radius: 10px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #416cfa;
     color: white;
     position: relative;
     overflow: hidden;
@@ -251,7 +251,7 @@ body {
 }
 
 .ryc-primary-metric {
-    background: linear-gradient(135deg, #4299e1, #3182ce);
+    background: #416cfa;
 }
 
 .ryc-metric-label {
@@ -302,6 +302,25 @@ body {
     color: #e53e3e;
 }
 
+/* Income & Expenses Summary card items in blue with white text */
+.ryc-summary-grid > .ryc-result-item {
+    background: #416cfa;
+}
+
+.ryc-summary-grid > .ryc-result-item.ryc-highlight {
+    background: #416cfa;
+    border: none;
+}
+
+.ryc-summary-grid > .ryc-result-item .ryc-result-label,
+.ryc-summary-grid > .ryc-result-item .ryc-result-value {
+    color: #ffffff;
+}
+
+.ryc-summary-grid > .ryc-result-item .ryc-result-value.ryc-expense {
+    color: #ffffff;
+}
+
 /* Analysis Grid */
 .ryc-analysis-grid {
     display: grid;
@@ -320,6 +339,24 @@ body {
 .ryc-payback-item {
     background: linear-gradient(135deg, #fed7e2, #fbb6ce);
     border-color: #f687b3;
+}
+
+/* Highlight specific Analysis cards: Investment Amount, Monthly Rental Income, Payback Period */
+.ryc-analysis-grid > .ryc-analysis-item:nth-child(1),
+.ryc-analysis-grid > .ryc-analysis-item:nth-child(2),
+.ryc-analysis-grid > .ryc-analysis-item.ryc-payback-item {
+    background: #416cfa;
+    border-color: #416cfa;
+    color: #ffffff;
+}
+
+.ryc-analysis-grid > .ryc-analysis-item:nth-child(1) .ryc-analysis-label,
+.ryc-analysis-grid > .ryc-analysis-item:nth-child(1) .ryc-analysis-value,
+.ryc-analysis-grid > .ryc-analysis-item:nth-child(2) .ryc-analysis-label,
+.ryc-analysis-grid > .ryc-analysis-item:nth-child(2) .ryc-analysis-value,
+.ryc-analysis-grid > .ryc-analysis-item.ryc-payback-item .ryc-analysis-label,
+.ryc-analysis-grid > .ryc-analysis-item.ryc-payback-item .ryc-analysis-value {
+    color: #ffffff;
 }
 
 .ryc-analysis-label {
@@ -368,11 +405,11 @@ body {
 }
 
 .ryc-gross-bar {
-    background: linear-gradient(90deg, #48bb78, #38a169);
+    background: #14B8A6;
 }
 
 .ryc-net-bar {
-    background: linear-gradient(90deg, #4299e1, #3182ce);
+    background: #F59E0B;
 }
 
 .ryc-yield-bar-value {
@@ -445,21 +482,21 @@ body {
 }
 
 .ryc-save-btn {
-    background: #3182ce;
+    background: #14B8A6;
     color: white;
 }
 
 .ryc-save-btn:hover {
-    background: #2c5282;
+    background: #0D9488;
 }
 
 .ryc-compare-btn {
-    background: #38a169;
+    background: #F59E0B;
     color: white;
 }
 
 .ryc-compare-btn:hover {
-    background: #2f855a;
+    background: #D97706;
 }
 
 .ryc-saved-scenarios {
@@ -496,7 +533,7 @@ body {
 
 @media (max-width: 768px) {
     .ryc-container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
     
     .ryc-section {
@@ -534,7 +571,7 @@ body {
 
 @media (max-width: 480px) {
     .ryc-container {
-        padding: 10px;
+        padding: 0px 10px 10px 10px;
     }
     
     .ryc-section {
@@ -574,7 +611,7 @@ body {
 }
 
 .ryc-custom-slider:focus {
-    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+    box-shadow: 0 0 0 3px rgba(65, 108, 250, 0.2);
 }
 
 /* Animation for metric cards */

@@ -472,19 +472,23 @@ input[type="range"]::-moz-range-thumb {
 
 /* Column-specific styles */
 .eligibility-table .principal-col {
-    background-color: rgba(56, 161, 105, 0.1);
+    /* background-color: rgba(56, 161, 105, 0.1); */
+    background-color: #14B8A6;
 }
 
 .eligibility-table .interest-col {
-    background-color: rgba(221, 107, 32, 0.1);
+    /* background-color: rgba(221, 107, 32, 0.1); */
+    background-color: #F59E0B;
 }
 
 .eligibility-table .emi-col {
-    background-color: rgba(49, 130, 206, 0.1);
+    /* background-color: rgba(49, 130, 206, 0.1); */
+    background-color: #146cfa;
 }
 
 .eligibility-table .other-emis-col {
-    background-color: rgba(128, 90, 213, 0.1);
+    /* background-color: rgba(128, 90, 213, 0.1); */
+    background-color: #8B5CF6;;
 }
 
 .eligibility-table .total-col {
@@ -492,7 +496,8 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .eligibility-table .balance-col {
-    background-color: rgba(246, 173, 85, 0.1);
+    /* background-color: rgba(246, 173, 85, 0.1); */
+    background-color: #1E3A8A;
 }
 
 .eligibility-table .foir-col {

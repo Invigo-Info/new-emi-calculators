@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -29,7 +29,7 @@ body {
 
 /* Card Styles */
 .hr-card {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -78,8 +78,8 @@ body {
 
 .hr-input:focus {
     outline: none;
-    border-color: #3182ce;
-    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    border-color: #416cfa;
+    box-shadow: 0 0 0 3px rgba(65, 108, 250, 0.1);
 }
 
 .hr-currency,
@@ -116,7 +116,7 @@ body {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -126,7 +126,7 @@ body {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -192,9 +192,9 @@ body {
 }
 
 .hr-toggle-switch input[type="radio"]:checked + .hr-toggle-label {
-    background: #3182ce;
+    background: #416cfa;
     color: #fff;
-    box-shadow: 0 2px 4px rgba(49, 130, 206, 0.3);
+    box-shadow: 0 2px 4px rgba(65, 108, 250, 0.3);
 }
 
 /* Checkbox Styles */
@@ -225,8 +225,8 @@ body {
 }
 
 .hr-checkbox-label input[type="checkbox"]:checked + .hr-checkbox-custom {
-    background: #3182ce;
-    border-color: #3182ce;
+    background: #416cfa;
+    border-color: #416cfa;
 }
 
 .hr-checkbox-label input[type="checkbox"]:checked + .hr-checkbox-custom::after {
@@ -254,8 +254,8 @@ body {
 
 .hr-select:focus {
     outline: none;
-    border-color: #3182ce;
-    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    border-color: #416cfa;
+    box-shadow: 0 0 0 3px rgba(65, 108, 250, 0.1);
 }
 
 /* EMI Display */
@@ -263,7 +263,7 @@ body {
     text-align: center;
     margin-bottom: 30px;
     padding: 25px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #416cfa;
     border-radius: 12px;
     color: #fff;
 }
@@ -273,12 +273,14 @@ body {
     font-size: 1rem;
     margin-bottom: 8px;
     opacity: 0.9;
+    color: #ffffff;
 }
 
 .hr-emi-value {
     font-size: 2.5rem;
     font-weight: 700;
     display: block;
+    color: #ffffff;
 }
 
 /* Metrics Grid */
@@ -290,24 +292,25 @@ body {
 }
 
 .hr-metric {
-    background: #f7fafc;
+    background: #416cfa;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #416cfa;
+    color: #ffffff;
 }
 
 .hr-metric-label {
     display: block;
     font-size: 0.9rem;
-    color: #718096;
+    color: #ffffff;
     margin-bottom: 5px;
 }
 
 .hr-metric-value {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #ffffff;
 }
 
 /* Chart Container */
@@ -328,7 +331,7 @@ body {
     align-items: center;
     gap: 8px;
     padding: 12px 24px;
-    background: #3182ce;
+    background: #416cfa;
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -341,7 +344,7 @@ body {
 .hr-download-btn:hover {
     background: #2c5282;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(49, 130, 206, 0.3);
+    box-shadow: 0 4px 8px rgba(65, 108, 250, 0.3);
 }
 
 /* Chart Section */
@@ -530,7 +533,7 @@ body {
 .hr-input:focus,
 .hr-select:focus,
 .hr-slider:focus {
-    outline: 2px solid #3182ce;
+    outline: 2px solid #416cfa;
     outline-offset: 2px;
 }
 

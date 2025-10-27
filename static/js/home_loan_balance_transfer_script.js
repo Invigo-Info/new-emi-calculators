@@ -441,15 +441,15 @@ function updateSavingsColors(results) {
     
     // Color code based on positive/negative savings
     if (results.emiSaving > 0) {
-        emiSavingElement.style.color = '#059669';
+        emiSavingElement.style.color = '#ffffff';
     } else {
-        emiSavingElement.style.color = '#dc2626';
+        emiSavingElement.style.color = '#ffffff';
     }
     
     if (results.netCashOutflowSaving > 0) {
-        netSavingsElement.style.color = '#059669';
+        netSavingsElement.style.color = '#ffffff';
     } else {
-        netSavingsElement.style.color = '#dc2626';
+        netSavingsElement.style.color = '#ffffff';
     }
 }
 

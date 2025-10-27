@@ -268,12 +268,12 @@ function updateChart(data) {
             datasets: [{
                 data: [data.principalAmount, data.totalInterest],
                 backgroundColor: [
-                    '#9ae6b4', // Light green for principal
-                    '#fbb6ce'  // Light pink for interest
+                    '#14B8A6', // Principal
+                    '#F59E0B'  // Interest
                 ],
                 borderColor: [
-                    '#68d391',
-                    '#f687b3'
+                    '#14B8A6',
+                    '#F59E0B'
                 ],
                 borderWidth: 2
             }]
