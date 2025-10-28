@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .msme-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -86,7 +86,7 @@ nav {
 
 /* Input Sections */
 .msme-input-sections {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -173,7 +173,7 @@ nav {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: #416cfa;
     outline: none;
     -webkit-appearance: none;
     appearance: none;
@@ -183,7 +183,7 @@ nav {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
     border: none;
 }
@@ -193,22 +193,20 @@ nav {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.msme-custom-slider::-webkit-slider-thumb:hover {
-    background: #2c5aa0;
-}
+.msme-custom-slider::-webkit-slider-thumb:hover { background: #416cfa; }
 
 .msme-custom-slider::-moz-range-track {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
     border: none;
     outline: none;
@@ -219,14 +217,12 @@ nav {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.msme-custom-slider::-moz-range-thumb:hover {
-    background: #2c5aa0;
-}
+.msme-custom-slider::-moz-range-thumb:hover { background: #416cfa; }
 
 .msme-slider-labels {
     display: flex;
@@ -291,7 +287,7 @@ nav {
 }
 
 .msme-tenure-btn.active {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
 }
 
@@ -304,7 +300,7 @@ nav {
 
 /* Results Section */
 .msme-results-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -320,9 +316,9 @@ nav {
 
 .msme-result-item {
     padding: 15px;
-    background: #f8f9fa;
+    background: #416cfa;
     border-radius: 8px;
-    border-left: 4px solid #3182ce;
+    border-left: 4px solid #416cfa;
 }
 
 .msme-result-item:last-child {
@@ -330,7 +326,7 @@ nav {
 }
 
 .msme-result-item.msme-total {
-    background: #edf2f7;
+    background: #416cfa;
 }
 
 .msme-result-item.msme-total .msme-result-label,
@@ -340,7 +336,7 @@ nav {
 
 .msme-result-label {
     font-size: 0.875rem;
-    color: #4a5568;
+    color: #ffffff;
     margin-bottom: 5px;
     text-align: center;
 }
@@ -348,13 +344,11 @@ nav {
 .msme-result-value {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #ffffff;
     text-align: center;
 }
 
-.msme-result-item.msme-total .msme-result-value {
-    color: #3182ce;
-}
+.msme-result-item.msme-total .msme-result-value { color: #ffffff; }
 
 /* Fee Details Section */
 .msme-fee-details {
@@ -441,11 +435,11 @@ nav {
 }
 
 .msme-color-indicator.msme-principal {
-    background: #3182ce;
+    background: #14B8A6;
 }
 
 .msme-color-indicator.msme-interest {
-    background: #e53e3e;
+    background: #F59E0B;
 }
 
 .msme-summary-label {
@@ -509,13 +503,13 @@ nav {
 }
 
 .msme-schedule-btn.active {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .msme-download-btn {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -527,7 +521,7 @@ nav {
 }
 
 .msme-download-btn:hover {
-    background: #2c5aa0;
+    background: #416cfa;
     transform: translateY(-1px);
 }
 
@@ -589,7 +583,7 @@ nav {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .msme-container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
 
     .msme-calculator-container {

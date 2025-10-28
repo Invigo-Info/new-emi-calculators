@@ -234,7 +234,7 @@ function updateChart(data) {
             labels: ['Loan Amount', 'Interest Amount'],
             datasets: [{
                 data: [data.loanAmount, data.totalInterest],
-                backgroundColor: ['#e53e3e', '#38a169'],
+                backgroundColor: ['#14B8A6', '#F59E0B'],
                 borderWidth: 0,
                 hoverOffset: 8
             }]

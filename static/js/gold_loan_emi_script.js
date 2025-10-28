@@ -166,12 +166,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 datasets: [{
                     data: [principal, totalInterest],
                     backgroundColor: [
-                        '#ff8c00',
-                        '#ffa500'
+                        '#14B8A6',
+                        '#F59E0B'
                     ],
                     borderColor: [
-                        '#ff8c00',
-                        '#ffa500'
+                        '#14B8A6',
+                        '#F59E0B'
                     ],
                     borderWidth: 2
                 }]
@@ -184,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         position: 'bottom',
                         labels: {
                             padding: 20,
+                            color: '#ffffff',
                             font: {
                                 size: 12
                             }

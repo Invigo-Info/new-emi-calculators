@@ -502,7 +502,7 @@ function updateMsmeChart(data) {
             labels: ['Principal Amount', 'Total Interest'],
             datasets: [{
                 data: [data.loanAmount, data.totalInterest],
-                backgroundColor: ['#3182ce', '#e53e3e'],
+                backgroundColor: ['#14B8A6', '#F59E0B'],
                 borderWidth: 0,
                 cutout: '60%'
             }]

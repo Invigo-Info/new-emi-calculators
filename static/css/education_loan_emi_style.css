@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -87,7 +87,7 @@ nav {
 
 /* Input Sections */
 .input-sections {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -228,7 +228,7 @@ nav {
 }
 
 .tenure-btn.active {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
 }
 
@@ -304,7 +304,7 @@ nav {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: #416cfa;
     outline: none;
     opacity: 0.7;
     transition: opacity 0.2s;
@@ -320,7 +320,7 @@ nav {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
 }
 
@@ -328,7 +328,7 @@ nav {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
@@ -336,15 +336,13 @@ nav {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.custom-slider::-webkit-slider-thumb:hover {
-    background: #2c5aa0;
-}
+.custom-slider::-webkit-slider-thumb:hover { background: #416cfa; }
 
 .custom-slider::-moz-range-track {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
     border: none;
 }
@@ -353,15 +351,13 @@ nav {
     height: 16px;
     width: 16px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.custom-slider::-moz-range-thumb:hover {
-    background: #2c5aa0;
-}
+.custom-slider::-moz-range-thumb:hover { background: #416cfa; }
 
 .slider-labels {
     display: flex;
@@ -373,7 +369,7 @@ nav {
 
 /* Results Section */
 .results-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -389,7 +385,7 @@ nav {
 }
 
 .result-item {
-    background: #f8f9fa;
+    background: #416cfa;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
@@ -399,10 +395,7 @@ nav {
     margin-bottom: 0;
 }
 
-.result-item.max-loan {
-    background: #e53e3e;
-    color: white;
-}
+.result-item.max-loan { background: #416cfa; color: white; }
 
 .result-item.max-loan .result-label,
 .result-item.max-loan .result-value {
@@ -412,7 +405,7 @@ nav {
 .result-label {
     font-size: 0.875rem;
     font-weight: 500;
-    color: #718096;
+    color: #ffffff;
     margin-bottom: 8px;
     line-height: 1.4;
 }
@@ -420,7 +413,7 @@ nav {
 .result-value {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #ffffff;
 }
 
 .result-item.max-loan .result-value {
@@ -480,11 +473,11 @@ nav {
 }
 
 .color-indicator.principal {
-    background: #3182ce;
+    background: #14B8A6;
 }
 
 .color-indicator.interest {
-    background: #e53e3e;
+    background: #F59E0B;
 }
 
 .summary-label {
@@ -519,7 +512,7 @@ nav {
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
     
     .calculator-container {

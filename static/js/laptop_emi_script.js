@@ -164,7 +164,7 @@ function updateChart(data) {
             labels: ['Down Payment', 'Loan Amount', 'Interest Amount'],
             datasets: [{
                 data: [data.downPayment, data.loanAmount, data.totalInterest],
-                backgroundColor: ['#3182ce', '#e53e3e', '#38a169'],
+                backgroundColor: ['#3182ce', '#14B8A6', '#F59E0B'],
                 borderWidth: 0,
                 hoverOffset: 8
             }]

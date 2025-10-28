@@ -339,7 +339,7 @@ function cgtmseUpdateChart(results, agfData) {
         labels: ['Principal Amount', 'Total Interest'],
         datasets: [{
             data: [results.totalPayment - results.totalInterest, results.totalInterest],
-            backgroundColor: ['#3182ce', '#e53e3e'],
+            backgroundColor: ['#14B8A6', '#F59E0B'],
             borderWidth: 0,
             cutout: '60%'
         }]
@@ -348,7 +348,7 @@ function cgtmseUpdateChart(results, agfData) {
     if (agfData && document.getElementById('cgtmsePassAgf').checked) {
         chartData.labels.push('AGF Charges');
         chartData.datasets[0].data.push(agfData.total);
-        chartData.datasets[0].backgroundColor.push('#f6ad55');
+        chartData.datasets[0].backgroundColor.push('#8B5CF6');
     }
     
     cgtmsePaymentBreakupChart = new Chart(ctx, {

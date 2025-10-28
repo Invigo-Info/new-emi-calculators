@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -86,7 +86,7 @@ nav {
 
 /* Input Sections */
 .input-sections {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -283,7 +283,7 @@ nav {
 }
 
 .tenure-btn.active {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
 }
 
@@ -318,7 +318,7 @@ nav {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: #416cfa;
     outline: none;
     -webkit-appearance: none;
     appearance: none;
@@ -328,7 +328,7 @@ nav {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
     border: none;
 }
@@ -338,22 +338,20 @@ nav {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.custom-slider::-webkit-slider-thumb:hover {
-    background: #2c5aa0;
-}
+.custom-slider::-webkit-slider-thumb:hover { background: #416cfa; }
 
 .custom-slider::-moz-range-track {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
     border: none;
     outline: none;
@@ -364,14 +362,12 @@ nav {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.custom-slider::-moz-range-thumb:hover {
-    background: #2c5aa0;
-}
+.custom-slider::-moz-range-thumb:hover { background: #416cfa; }
 
 .slider-labels {
     display: flex;
@@ -384,7 +380,7 @@ nav {
 
 /* Results Section */
 .results-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -400,15 +396,15 @@ nav {
 
 .result-item {
     padding: 15px;
-    background: #f8f9fa;
+    background: #416cfa;
     border-radius: 8px;
-    border-left: 4px solid #3182ce;
+    border-left: 4px solid #416cfa;
 }
 
 .result-item.main-emi {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #416cfa;
     color: white;
-    border-left: 4px solid rgba(255, 255, 255, 0.8);
+    border-left: 4px solid #416cfa;
 }
 
 .result-item.main-emi .result-label,
@@ -420,9 +416,7 @@ nav {
     margin-bottom: 0;
 }
 
-.result-item.total {
-    background: #edf2f7;
-}
+.result-item.total { background: #416cfa; }
 
 .result-item.total .result-label,
 .result-item.total .result-value {
@@ -431,7 +425,7 @@ nav {
 
 .result-label {
     font-size: 0.875rem;
-    color: #4a5568;
+    color: #ffffff;
     margin-bottom: 5px;
     text-align: center;
 }
@@ -439,13 +433,11 @@ nav {
 .result-value {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #ffffff;
     text-align: center;
 }
 
-.result-item.total .result-value {
-    color: #3182ce;
-}
+.result-item.total .result-value { color: #ffffff; }
 
 .chart-section {
     text-align: center;
@@ -483,13 +475,9 @@ nav {
     border-radius: 50%;
 }
 
-.color-indicator.principal {
-    background: #3182ce;
-}
+.color-indicator.principal { background: #14B8A6; }
 
-.color-indicator.interest {
-    background: #e53e3e;
-}
+.color-indicator.interest { background: #F59E0B; }
 
 .summary-label {
     color: #4a5568;
@@ -560,7 +548,7 @@ nav {
 }
 
 .amortization-toggle-btn.active {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
 }
 
@@ -572,7 +560,7 @@ nav {
 }
 
 .download-btn {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -583,9 +571,7 @@ nav {
     transition: background 0.2s ease;
 }
 
-.download-btn:hover {
-    background: #2c5aa0;
-}
+.download-btn:hover { background: #416cfa; }
 
 .table-container {
     max-height: 400px;
@@ -646,7 +632,7 @@ nav {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
 
     .calculator-container {

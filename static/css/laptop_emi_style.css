@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -201,7 +201,7 @@ nav {
 
 /* Input Sections */
 .input-sections {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -347,7 +347,7 @@ nav {
 }
 
 .tenure-btn.active {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
 }
 
@@ -360,7 +360,7 @@ nav {
     width: 100%;
     height: 8px;
     border-radius: 4px;
-    background: #e2e8f0;
+    background: #416cfa;
     outline: none;
     appearance: none;
     -webkit-appearance: none;
@@ -370,7 +370,7 @@ nav {
     width: 100%;
     height: 8px;
     cursor: pointer;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 4px;
     border: none;
 }
@@ -381,21 +381,19 @@ nav {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-.custom-slider::-webkit-slider-thumb:hover {
-    background: #2c5282;
-}
+.custom-slider::-webkit-slider-thumb:hover { background: #416cfa; }
 
 .custom-slider::-moz-range-track {
     width: 100%;
     height: 8px;
     cursor: pointer;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 4px;
     border: none;
 }
@@ -405,14 +403,12 @@ nav {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-.custom-slider::-moz-range-thumb:hover {
-    background: #2c5282;
-}
+.custom-slider::-moz-range-thumb:hover { background: #416cfa; }
 
 .slider-labels {
     display: flex;
@@ -423,7 +419,7 @@ nav {
 }
 
 .results-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -440,7 +436,7 @@ nav {
 .result-item {
     text-align: center;
     padding: 20px;
-    background: #f7fafc;
+    background: #416cfa;
     border-radius: 8px;
 }
 
@@ -450,19 +446,19 @@ nav {
 
 .result-item.total {
     grid-column: 1 / -1;
-    background: #e2e8f0;
-    border: 2px solid #3182ce;
+    background: #416cfa;
+    border: 2px solid #416cfa;
 }
 
 .result-item.total .result-label,
 .result-item.total .result-value {
-    color: #2d3748;
+    color: #ffffff;
     font-weight: 600;
 }
 
 .result-label {
     font-size: 1rem;
-    color: #718096;
+    color: #ffffff;
     font-weight: 500;
     margin-bottom: 8px;
 }
@@ -470,7 +466,7 @@ nav {
 .result-value {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #3182ce;
+    color: #ffffff;
 }
 
 
@@ -519,13 +515,9 @@ nav {
     background-color: #3182ce;
 }
 
-.color-indicator.loan-amount {
-    background-color: #e53e3e;
-}
+.color-indicator.loan-amount { background-color: #14B8A6; }
 
-.color-indicator.interest-amount {
-    background-color: #38a169;
-}
+.color-indicator.interest-amount { background-color: #F59E0B; }
 
 .summary-label {
     flex: 1;
@@ -542,7 +534,7 @@ nav {
 
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
 
     .calculator-container {
@@ -684,19 +676,22 @@ nav {
 }
 
 .amortization-table th:nth-child(2) {
-    background: #3182ce;
+    background: #14B8A6;
 }
 
 .amortization-table th:nth-child(3) {
-    background: #38a169;
+    background: #F59E0B;
 }
 
 .amortization-table th:nth-child(4) {
     background: #e53e3e;
 }
+.amortization-table th:nth-child(5) {
+    background: #1E3A8A;
+}
 
 .amortization-table th:nth-child(6) {
-    background: #d69e2e;
+    background: #10B981;
 }
 
 .amortization-table th:last-child {

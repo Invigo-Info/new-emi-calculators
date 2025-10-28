@@ -139,7 +139,7 @@ function updateChart(data) {
                     data.totalInterest, 
                     data.gstOnInterest
                 ],
-                backgroundColor: ['#3182ce', '#38a169', '#e53e3e', '#d69e2e'],
+                backgroundColor: ['#14B8A6', '#8B5CF6', '#F59E0B', '#1E3A8A'],
                 borderWidth: 0,
                 hoverOffset: 8
             }]

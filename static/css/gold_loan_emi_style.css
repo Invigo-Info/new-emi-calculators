@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f8f9fa;
+    background: #ffffff;
     min-height: 100vh;
     padding: 20px;
 }
@@ -14,6 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
+   
 }
 
 header {
@@ -200,7 +201,7 @@ nav {
 }
 
 .calculator-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 15px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -251,9 +252,9 @@ nav {
 }
 
 .tenure-options input[type="radio"]:checked + .tenure-btn {
-    background: #ff8c00;
+    background: #416cfa;
     color: white;
-    border-color: #ff8c00;
+    border-color: #416cfa;
 }
 
 select {
@@ -280,7 +281,7 @@ select:focus {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #ddd;
+    background: #416cfa;
     outline: none;
     -webkit-appearance: none;
 }
@@ -290,7 +291,7 @@ select:focus {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #ff8c00;
+    background: #416cfa;
     cursor: pointer;
 }
 
@@ -298,7 +299,7 @@ select:focus {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #ff8c00;
+    background: #416cfa;
     cursor: pointer;
     border: none;
 }
@@ -345,7 +346,7 @@ select:focus {
 }
 
 .ornaments-table th {
-    background: #ff8c00;
+    background: #416cfa;
     color: white;
     font-weight: 600;
 }
@@ -373,16 +374,23 @@ select:focus {
 
 
 .result-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 15px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     height: fit-content;
 }
 
+/* Result Card styling as blue with white text */
+.result-card {
+    background: #416cfa;
+    border-radius: 12px;
+    padding: 20px;
+}
+
 .result-card h3 {
     text-align: center;
-    color: #333;
+    color: #ffffff;
     margin-bottom: 20px;
     font-weight: 600;
 }
@@ -391,7 +399,7 @@ select:focus {
     text-align: center;
     font-size: 2.5rem;
     font-weight: 700;
-    color: #ff8c00;
+    color: #ffffff;
     margin-bottom: 30px;
 }
 
@@ -404,7 +412,7 @@ select:focus {
     justify-content: space-between;
     align-items: center;
     padding: 12px 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     font-size: 1rem;
 }
 
@@ -412,25 +420,23 @@ select:focus {
     border-bottom: none;
 }
 
-.detail-row span:first-child {
-    color: #666;
-}
+.detail-row span:first-child { color: #ffffff; }
 
 .detail-row span:last-child {
     font-weight: 600;
-    color: #333;
+    color: #ffffff;
 }
 
 .detail-row.ltv-highlight {
-    background: #fff5f0;
+    background: rgba(255, 255, 255, 0.1);
     padding: 12px;
     border-radius: 6px;
-    border-left: 4px solid #ff8c00;
+    border-left: 4px solid #ffffff;
     margin: 8px 0;
 }
 
 .detail-row.ltv-highlight span:last-child {
-    color: #ff8c00;
+    color: #ffffff;
     font-weight: 700;
 }
 
@@ -440,7 +446,7 @@ select:focus {
 }
 
 .chart-section h4 {
-    color: #333;
+    color: #ffffff;
     margin-bottom: 20px;
     font-weight: 600;
 }
@@ -489,7 +495,7 @@ select:focus {
 }
 
 .schedule-table th {
-    background: #ff8c00;
+    background: #416cfa;
     color: white;
     font-weight: 600;
 }
