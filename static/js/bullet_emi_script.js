@@ -105,7 +105,7 @@ function updateChart(data) {
 
     const chartData = [data.actualLoanAmount, data.totalInterest, data.downPayment];
     const chartLabels = ['Loan Principal', 'Interest Amount', 'Down Payment'];
-    const chartColors = ['#4facfe', '#43e97b', '#17a2b8'];
+    const chartColors = ['#14B8A6', '#F59E0B', '#1E3A8A'];
     
     bulletEmiChart = new Chart(ctx, {
         type: 'pie',

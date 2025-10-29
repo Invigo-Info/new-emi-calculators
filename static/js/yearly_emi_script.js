@@ -196,19 +196,10 @@ class YearlyEmiCalculator {
                 labels: ['Principal Amount', 'Total Interest'],
                 datasets: [{
                     data: [data.principal, data.totalInterest],
-                    backgroundColor: [
-                        'rgba(102, 126, 234, 0.8)',
-                        'rgba(245, 87, 108, 0.8)'
-                    ],
-                    borderColor: [
-                        'rgba(102, 126, 234, 1)',
-                        'rgba(245, 87, 108, 1)'
-                    ],
+                    backgroundColor: ['#14B8A6', '#F59E0B'],
+                    borderColor: '#fff',
                     borderWidth: 2,
-                    hoverBackgroundColor: [
-                        'rgba(102, 126, 234, 0.9)',
-                        'rgba(245, 87, 108, 0.9)'
-                    ]
+                    hoverBackgroundColor: ['#14B8A6', '#F59E0B']
                 }]
             },
             options: {

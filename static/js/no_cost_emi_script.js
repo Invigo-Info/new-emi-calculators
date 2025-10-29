@@ -171,7 +171,7 @@ function updateChart(data) {
 
     const chartData = [data.mrpPrice, data.hiddenCost];
     const chartLabels = ['Actual Product Cost', 'Hidden Charges'];
-    const chartColors = ['#4facfe', '#e53e3e'];
+    const chartColors = ['#14B8A6', '#F59E0B'];
     
     noCostEmiChart = new Chart(ctx, {
         type: 'pie',

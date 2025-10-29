@@ -404,7 +404,7 @@ function updateChart(data) {
                 backgroundColor: [
                     '#68d391', // Principal - Green
                     '#f6ad55', // Interest - Orange
-                    '#fc8181'  // Fees - Red
+                    '#8B5CF6'  // Fees & Charges - Purple
                 ],
                 borderWidth: 2,
                 borderColor: '#ffffff'

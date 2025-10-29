@@ -341,7 +341,7 @@ function updateChart(data) {
             backgroundColor: [
                 '#48bb78', // Green for principal
                 '#ed8936', // Orange for interest
-                '#e53e3e'  // Red for fees
+                '#8B5CF6'  // Purple for fees & charges
             ],
             borderWidth: 0,
             hoverBorderWidth: 2,

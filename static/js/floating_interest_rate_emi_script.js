@@ -227,7 +227,7 @@ function updateLoanChart(data) {
 
     const chartData = [data.principal, data.total_interest];
     const chartLabels = ['Principal Amount', 'Interest Amount'];
-    const chartColors = ['#4facfe', '#f59e0b'];
+    const chartColors = ['#14B8A6', '#F59E0B'];
     
     loanChart = new Chart(ctx, {
         type: 'pie',

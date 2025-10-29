@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -207,7 +207,7 @@ nav {
 }
 
 .section {
-    background: white;
+    background: #f7fafc;
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -260,8 +260,8 @@ nav {
 }
 
 .input-field-container:focus-within {
-    border-color: #16a085;
-    box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.1);
+    border-color: #416cfa;
+    box-shadow: 0 0 0 3px rgba(65, 108, 250, 0.1);
 }
 
 .input-field-container input[type="number"] {
@@ -293,7 +293,7 @@ nav {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: #416cfa;
     outline: none;
     appearance: none;
 }
@@ -302,7 +302,7 @@ nav {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: #416cfa;
     border: none;
     outline: none;
 }
@@ -312,13 +312,13 @@ nav {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #16a085;
+    background: #416cfa;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(22, 160, 133, 0.3);
+    box-shadow: 0 2px 6px rgba(65, 108, 250, 0.3);
 }
 
 .custom-slider::-webkit-slider-thumb:hover {
-    background: #138d75;
+    background: #416cfa;
 }
 
 .slider-labels {
@@ -330,7 +330,7 @@ nav {
 }
 
 .results-section {
-    background: white;
+    background: #f7fafc;
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -348,7 +348,7 @@ nav {
 
 .result-card {
     position: relative;
-    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    background: #416cfa;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -413,7 +413,7 @@ nav {
 .card-label {
     font-size: 13px;
     font-weight: 500;
-    color: #64748b;
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 4px;
@@ -422,7 +422,7 @@ nav {
 .card-value {
     font-size: 18px;
     font-weight: 700;
-    color: #1a202c;
+    color: #ffffff;
 }
 
 .chart-section {
@@ -499,7 +499,7 @@ nav {
 }
 
 .color-indicator.principal-amount {
-    background: #4facfe;
+    background: #14B8A6;
 }
 
 .color-indicator.interest-amount {
@@ -603,6 +603,33 @@ nav {
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+/* Header column colors */
+.balance-reduction-table thead th:nth-child(3) { /* EMI Paid */
+    background: #10B981;
+    color: #ffffff;
+}
+.balance-reduction-table thead th:nth-child(4) { /* Principal Paid */
+    background: #14B8A6;
+    color: #ffffff;
+}
+.balance-reduction-table thead th:nth-child(5) { /* Interest Paid */
+    background: #F59E0B;
+    color: #ffffff;
+}
+.balance-reduction-table thead th:nth-child(6) { /* Closing Balance */
+    background: #EF4444;
+    color: #ffffff;
+}
+/* Add colors for Year and Opening Balance */
+.balance-reduction-table thead th:nth-child(1) { /* Year */
+    background: #416cfa;
+    color: #ffffff;
+}
+.balance-reduction-table thead th:nth-child(2) { /* Opening Balance */
+    background: #1E3A8A;
+    color: #ffffff;
 }
 
 .balance-reduction-table td {
@@ -774,7 +801,7 @@ nav {
 
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0pxx 15px 15px 15px;
     }
     
     .calculator-container {

@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -242,7 +242,7 @@ nav {
 }
 
 .section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -427,41 +427,44 @@ nav {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: transparent !important;
     outline: none;
     opacity: 0.8;
     transition: opacity 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .custom-slider::-webkit-slider-track {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: transparent !important;
     border: none;
     outline: none;
 }
 
 .custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa !important;
     cursor: pointer;
     border: 3px solid white;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .custom-slider::-webkit-slider-thumb:hover {
-    background: #2c5282;
+    background: #416cfa !important;
 }
 
 .custom-slider::-moz-range-track {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: transparent !important;
     border: none;
     outline: none;
 }
@@ -470,15 +473,31 @@ nav {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa !important;
     cursor: pointer;
     border: 3px solid white;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .custom-slider::-moz-range-thumb:hover {
-    background: #2c5282;
+    background: transparent !important;
 }
+
+/* Ensure visible custom track using the helper div */
+.slider-container { position: relative; }
+.slider-container .slider-track {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 6px;
+    transform: translateY(-50%);
+    background: #416cfa;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 0;
+}
+.slider-container .custom-slider { position: relative; z-index: 1; }
 
 .slider-labels {
     display: flex;
@@ -489,7 +508,7 @@ nav {
 }
 
 .results-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -506,7 +525,7 @@ nav {
 }
 
 .result-card {
-    background: linear-gradient(135deg, #f7fafc, #edf2f7);
+    background: #416cfa;
     border-radius: 12px;
     padding: 20px;
     text-align: center;
@@ -523,7 +542,7 @@ nav {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    background: #416cfa;
     transition: all 0.3s ease;
 }
 
@@ -541,51 +560,51 @@ nav {
 }
 
 .result-card.flat-emi-card {
-    background: linear-gradient(135deg, #e6fffa, #b2f5ea);
+    background: #416cfa;
 }
 
 .result-card.flat-emi-card::before {
-    background: linear-gradient(90deg, #38b2ac, #4fd1c7);
+    background: #416cfa;
 }
 
 .result-card.flat-emi-card:hover {
-    border-color: #38b2ac;
+    border-color: #416cfa;
 }
 
 .result-card.total-interest-card {
-    background: linear-gradient(135deg, #fef5e7, #fed7aa);
+    background: #416cfa;
 }
 
 .result-card.total-interest-card::before {
-    background: linear-gradient(90deg, #ed8936, #f6ad55);
+    background: #416cfa;
 }
 
 .result-card.total-interest-card:hover {
-    border-color: #ed8936;
+    border-color: #416cfa;
 }
 
 .result-card.total-amount-card {
-    background: linear-gradient(135deg, #e6f3ff, #bee3f8);
+    background: #416cfa;
 }
 
 .result-card.total-amount-card::before {
-    background: linear-gradient(90deg, #3182ce, #63b3ed);
+    background: #416cfa;
 }
 
 .result-card.total-amount-card:hover {
-    border-color: #3182ce;
+    border-color: #416cfa;
 }
 
 .result-card.effective-rate-card {
-    background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+    background: #416cfa;
 }
 
 .result-card.effective-rate-card::before {
-    background: linear-gradient(90deg, #38a169, #68d391);
+    background: #416cfa;
 }
 
 .result-card.effective-rate-card:hover {
-    border-color: #38a169;
+    border-color: #416cfa;
 }
 
 .result-card.compound-emi-card {
@@ -653,7 +672,7 @@ nav {
 .card-label {
     font-size: 12px;
     font-weight: 500;
-    color: #718096;
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: center;
@@ -663,7 +682,7 @@ nav {
 .card-value {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #2d3748;
+    color: #ffffff;
     text-align: center;
     line-height: 1.2;
 }
@@ -714,7 +733,7 @@ nav {
 }
 
 .color-indicator.principal-amount {
-    background: #4facfe;
+    background: #14B8A6;
 }
 
 .color-indicator.interest-amount {
@@ -771,8 +790,8 @@ nav {
 }
 
 .amortization-table thead {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
+    background: #f7fafc;
+    color: #2d3748;
 }
 
 .amortization-table th {
@@ -782,6 +801,25 @@ nav {
     text-transform: uppercase;
     font-size: 12px;
     letter-spacing: 0.5px;
+}
+/* Header column colors */
+.amortization-table thead th:nth-child(1) { /* Year */
+    background: #416cfa; color: #ffffff;
+}
+.amortization-table thead th:nth-child(2) { /* Total Payment */
+    background: #10B981; color: #ffffff;
+}
+.amortization-table thead th:nth-child(3) { /* Principal */
+    background: #14B8A6; color: #ffffff;
+}
+.amortization-table thead th:nth-child(4) { /* Interest */
+    background: #F59E0B; color: #ffffff;
+}
+.amortization-table thead th:nth-child(5) { /* Balance */
+    background: #EF4444; color: #ffffff;
+}
+.amortization-table thead th:nth-child(6) { /* Loan Paid % */
+    background: #416cfa; color: #ffffff;
 }
 
 .amortization-table th:nth-child(2),

@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 20px 20px 20px 20px;
 }
 
 header {
@@ -206,7 +206,7 @@ nav {
 }
 
 .section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -298,7 +298,7 @@ nav {
 .custom-slider {
     width: 100%;
     height: 6px;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
     outline: none;
     -webkit-appearance: none;
@@ -308,7 +308,7 @@ nav {
 .custom-slider::-webkit-slider-track {
     width: 100%;
     height: 6px;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
     border: none;
 }
@@ -317,7 +317,7 @@ nav {
     appearance: none;
     width: 20px;
     height: 20px;
-    background: #3182ce;
+    background: #416cfa;
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -330,7 +330,7 @@ nav {
 .custom-slider::-moz-range-track {
     width: 100%;
     height: 6px;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
     border: none;
 }
@@ -338,7 +338,7 @@ nav {
 .custom-slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
-    background: #3182ce;
+    background: #416cfa;
     border-radius: 50%;
     cursor: pointer;
     border: none;
@@ -374,10 +374,11 @@ nav {
 }
 
 .result-item {
-    background: white;
+    background: #416cfa;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .result-item:last-child {
@@ -385,7 +386,7 @@ nav {
 }
 
 .result-item.total {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #416cfa;
 }
 
 .result-item.total .result-label,
@@ -396,14 +397,14 @@ nav {
 .result-label {
     font-size: 14px;
     font-weight: 500;
-    color: #718096;
+    color: #ffffff;
     margin-bottom: 8px;
 }
 
 .result-value {
     font-size: 20px;
     font-weight: 600;
-    color: #2d3748;
+    color: #ffffff;
 }
 
 .result-item.total .result-value {
@@ -411,7 +412,7 @@ nav {
 }
 
 .chart-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -464,11 +465,11 @@ nav {
 }
 
 .color-indicator.principal {
-    background: #3182ce;
+    background: #14B8A6;
 }
 
 .color-indicator.interest {
-    background: #f56565;
+    background: #F59E0B;
 }
 
 .summary-label {
@@ -488,7 +489,7 @@ nav {
 }
 
 .input-sections .schedule-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -551,7 +552,7 @@ nav {
 }
 
 .download-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #416cfa;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -566,7 +567,7 @@ nav {
 
 .download-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 12px rgba(65, 108, 250, 0.4);
 }
 
 .download-btn:active {
@@ -575,7 +576,7 @@ nav {
 
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
     
     .calculator-container {

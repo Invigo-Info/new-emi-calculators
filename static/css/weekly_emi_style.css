@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -206,7 +206,7 @@ nav {
 }
 
 .section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -246,7 +246,7 @@ nav {
 .input-field-container {
     display: flex;
     align-items: center;
-    background: white;
+    background: #ffffff;
     border: 2px solid #e2e8f0;
     border-radius: 8px;
     padding: 12px 16px;
@@ -291,7 +291,7 @@ nav {
     appearance: none;
     width: 100%;
     height: 6px;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
     outline: none;
     cursor: pointer;
@@ -301,7 +301,7 @@ nav {
     -webkit-appearance: none;
     appearance: none;
     height: 6px;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
 }
 
@@ -310,7 +310,7 @@ nav {
     appearance: none;
     width: 20px;
     height: 20px;
-    background: #3182ce;
+    background: #416cfa;
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -322,7 +322,7 @@ nav {
 
 .custom-slider::-moz-range-track {
     height: 6px;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 3px;
     border: none;
     outline: none;
@@ -331,7 +331,7 @@ nav {
 .custom-slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
-    background: #3182ce;
+    background: #416cfa;
     border-radius: 50%;
     cursor: pointer;
     border: none;
@@ -352,7 +352,7 @@ nav {
 }
 
 .results-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -371,7 +371,7 @@ nav {
 .result-item {
     text-align: center;
     padding: 20px;
-    background: #f7fafc;
+    background: #416cfa;
     border-radius: 8px;
 }
 
@@ -379,26 +379,21 @@ nav {
     grid-column: 1 / -1;
 }
 
-.result-item.total {
-    background: linear-gradient(135deg, #3182ce, #2d3748);
-}
-
-.result-item.total .result-label,
-.result-item.total .result-value {
-    color: white;
-}
+.result-item.total { background: #416cfa; }
+.result-item .result-label,
+.result-item .result-value { color: #ffffff; }
 
 .result-label {
     font-size: 0.875rem;
     font-weight: 500;
-    color: #4a5568;
+    color: #ffffff;
     margin-bottom: 8px;
 }
 
 .result-value {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #2d3748;
+    color: #ffffff;
 }
 
 .result-item.total .result-value {
@@ -453,11 +448,11 @@ nav {
 }
 
 .color-indicator.principal {
-    background-color: #3182ce;
+    background-color: #14B8A6;
 }
 
 .color-indicator.interest {
-    background-color: #f56565;
+    background-color: #F59E0B;
 }
 
 .summary-label {
@@ -475,16 +470,14 @@ nav {
 
 .schedule-section {
     margin-top: 20px;
-    display: none; /* Hide the weekly payment schedule table */
 }
 
 .input-sections .schedule-section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 0;
-    display: none; /* Hide the weekly payment schedule table */
 }
 
 .schedule-header {
@@ -521,6 +514,24 @@ nav {
     z-index: 10;
 }
 
+/* Schedule header column colors */
+.schedule-table thead th:nth-child(2) { /* Principal */
+    background: #14B8A6;
+    color: #ffffff;
+}
+.schedule-table thead th:nth-child(3) { /* Interest */
+    background: #F59E0B;
+    color: #ffffff;
+}
+.schedule-table thead th:nth-child(4) { /* Weekly Payment */
+    background: #10B981;
+    color: #ffffff;
+}
+.schedule-table thead th:nth-child(5) { /* Remaining Balance */
+    background: #EF4444;
+    color: #ffffff;
+}
+
 .schedule-table td {
     padding: 10px 8px;
     text-align: center;
@@ -538,7 +549,7 @@ nav {
 
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
 
     .calculator-container {

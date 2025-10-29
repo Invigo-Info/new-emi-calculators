@@ -194,9 +194,9 @@ function updateChart(data) {
             datasets: [{
                 data: [data.originalTotalAmount, data.revisedTotalAmount, data.totalSavings],
                 backgroundColor: [
-                    '#4facfe',  // Blue for original total
-                    '#43e97b',  // Green for revised total
-                    '#fa709a'   // Pink for savings
+                    '#93b0ff',  // Original total
+                    '#416cfa',  // Revised total
+                    '#8B5CF6'   // Total savings
                 ],
                 borderWidth: 0,
                 hoverOffset: 15

@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -81,7 +81,7 @@ nav {
 
 /* Input Sections */
 .input-sections {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -224,7 +224,7 @@ nav {
 }
 
 .tenure-btn.active {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
 }
 
@@ -237,7 +237,7 @@ nav {
     width: 100%;
     height: 4px;
     border-radius: 2px;
-    background: #e2e8f0;
+    background: #416cfa;
     outline: none;
     appearance: none;
     cursor: pointer;
@@ -247,7 +247,7 @@ nav {
     width: 100%;
     height: 4px;
     cursor: pointer;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 2px;
 }
 
@@ -256,21 +256,21 @@ nav {
     height: 18px;
     width: 18px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .custom-slider::-webkit-slider-thumb:hover {
-    background: #2c5aa0;
+    background: #416cfa;
 }
 
 .custom-slider::-moz-range-track {
     width: 100%;
     height: 4px;
     cursor: pointer;
-    background: #e2e8f0;
+    background: #416cfa;
     border-radius: 2px;
     border: none;
 }
@@ -279,14 +279,14 @@ nav {
     height: 18px;
     width: 18px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .custom-slider::-moz-range-thumb:hover {
-    background: #2c5aa0;
+    background: #416cfa;
 }
 
 .slider-labels {
@@ -317,9 +317,9 @@ nav {
 
 .emi-scheme-btn {
     padding: 10px 20px;
-    border: 2px solid #3182ce;
+    border: 2px solid #416cfa;
     background: white;
-    color: #3182ce;
+    color: #416cfa;
     border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
@@ -331,14 +331,14 @@ nav {
 }
 
 .emi-scheme-btn.active {
-    background: #3182ce;
+    background: #416cfa;
     color: white;
-    box-shadow: 0 2px 4px rgba(49, 130, 206, 0.3);
+    box-shadow: 0 2px 4px rgba(65, 108, 250, 0.3);
 }
 
 /* Results Section */
 .results-section {
-    background: #fff;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -354,7 +354,8 @@ nav {
     text-align: center;
     padding: 15px;
     border-radius: 8px;
-    background: #f7fafc;
+    background: #416cfa;
+    color: #ffffff;
     border: 1px solid #e2e8f0;
 }
 
@@ -363,25 +364,26 @@ nav {
 }
 
 .result-item.total {
-    background: #ebf8ff;
-    border-color: #bee3f8;
+    background: #416cfa;
+    border-color: #416cfa;
+    color: #ffffff;
 }
 
 .result-item.total .result-label,
 .result-item.total .result-value {
-    color: #2b6cb0;
+    color: #ffffff;
 }
 
 .result-label {
     font-size: 0.9rem;
-    color: #718096;
+    color: #ffffff;
     margin-bottom: 8px;
 }
 
 .result-value {
     font-size: 1.4rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #ffffff;
 }
 
 .result-item.total .result-value {
@@ -398,6 +400,12 @@ nav {
     justify-content: center;
     margin-bottom: 20px;
     height: 200px;
+}
+
+/* Make chart responsive on small screens */
+.pie-chart-container canvas {
+    max-width: 100%;
+    height: auto !important;
 }
 
 .chart-summary {
@@ -436,7 +444,7 @@ nav {
 }
 
 .color-indicator.fees {
-    background-color: #fc8181;
+    background-color: #8B5CF6;
 }
 
 .summary-label {
@@ -583,7 +591,7 @@ nav {
 
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
     
     .info-grid {
@@ -594,6 +602,23 @@ nav {
     .results-section {
         padding: 20px;
     }
+
+    /* Ensure inputs stack and fit within container */
+    .input-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .input-field-container,
+    .tenure-input-container {
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* Keep inputs before results on mobile */
+    .input-sections { order: 1; }
+    .results-section { order: 2; }
     
     .input-sections {
         padding: 15px;
@@ -601,6 +626,12 @@ nav {
     
     .results-section {
         padding: 15px;
+    }
+
+    /* Make result cards single column on mobile */
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
     
     .emi-scheme-options {

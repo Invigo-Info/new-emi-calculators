@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -242,7 +242,7 @@ nav {
 }
 
 .section {
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -425,7 +425,7 @@ nav {
     width: 100%;
     height: 6px;
     border-radius: 3px;
-    background: #e2e8f0;
+    background: #416cfa;
     outline: none;
     cursor: pointer;
     -webkit-appearance: none;
@@ -435,7 +435,7 @@ nav {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: linear-gradient(90deg, #3182ce, #2563eb);
+    background: #416cfa;
     border-radius: 3px;
     border: none;
 }
@@ -445,21 +445,21 @@ nav {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
     -webkit-appearance: none;
-    box-shadow: 0 2px 8px rgba(49, 130, 206, 0.3);
+    box-shadow: 0 2px 8px rgba(65, 108, 250, 0.3);
 }
 
 .custom-slider::-webkit-slider-thumb:hover {
-    background: #2c5282;
+    background: #416cfa;
 }
 
 .custom-slider::-moz-range-track {
     width: 100%;
     height: 6px;
     cursor: pointer;
-    background: linear-gradient(90deg, #3182ce, #2563eb);
+    background: #416cfa;
     border-radius: 3px;
     border: none;
 }
@@ -469,13 +469,13 @@ nav {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #3182ce;
+    background: #416cfa;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(49, 130, 206, 0.3);
+    box-shadow: 0 2px 8px rgba(65, 108, 250, 0.3);
 }
 
 .custom-slider::-moz-range-thumb:hover {
-    background: #2c5282;
+    background: #416cfa;
 }
 
 .slider-labels {
@@ -490,7 +490,7 @@ nav {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background: white;
+    background: #f7fafc;
     border-radius: 12px;
     padding: 24px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -505,11 +505,11 @@ nav {
 }
 
 .result-card {
-    background: white;
-    border: 2px solid #e2e8f0;
+    background: #416cfa;
+    border: 2px solid #416cfa;
     border-radius: 12px;
     padding: 20px;
-    color: #2d3748;
+    color: #ffffff;
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -524,7 +524,6 @@ nav {
 
 .result-card:hover .card-icon {
     transform: scale(1.1);
-    color: #3182ce;
 }
 
 .result-card.loan-amount-card {
@@ -576,13 +575,13 @@ nav {
 .card-icon {
     font-size: 2rem;
     transition: transform 0.3s ease;
-    color: #4a5568;
+    color: #ffffff;
 }
 
 .card-label {
     font-size: 14px;
     font-weight: 500;
-    color: #718096;
+    color: #ffffff;
     line-height: 1.3;
     margin-bottom: 4px;
 }
@@ -591,7 +590,7 @@ nav {
     font-size: 1.5rem;
     font-weight: 700;
     line-height: 1.2;
-    color: #2d3748;
+    color: #ffffff;
 }
 
 .chart-section {
@@ -616,6 +615,11 @@ nav {
     height: 300px;
 }
 
+.pie-chart-container canvas {
+    max-width: 100%;
+    height: auto !important;
+}
+
 .chart-summary {
     display: flex;
     flex-direction: column;
@@ -636,11 +640,11 @@ nav {
 }
 
 .color-indicator.principal-amount {
-    background: #4facfe;
+    background: #14B8A6;
 }
 
 .color-indicator.interest-amount {
-    background: #43e97b;
+    background: #F59E0B;
 }
 
 .summary-label {
@@ -685,8 +689,18 @@ nav {
 }
 
 .amortization-table thead {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #416cfa;
     color: white;
+}
+
+/* Color-code specific header cells */
+.amortization-table thead tr th:nth-child(3) { /* Principal */
+    background: #14B8A6;
+    color: #ffffff;
+}
+.amortization-table thead tr th:nth-child(4) { /* Interest */
+    background: #F59E0B;
+    color: #ffffff;
 }
 
 .amortization-table th {
@@ -897,7 +911,7 @@ nav {
 
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
 
     .calculator-container {

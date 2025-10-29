@@ -135,7 +135,7 @@ function updateChart(data) {
 
     const chartData = [data.loanAmount, data.totalInterest];
     const chartLabels = ['Principal Amount', 'Interest Amount'];
-    const chartColors = ['#4facfe', '#43e97b'];
+    const chartColors = ['#14B8A6', '#F59E0B'];
     
     stepUpEmiChart = new Chart(ctx, {
         type: 'pie',

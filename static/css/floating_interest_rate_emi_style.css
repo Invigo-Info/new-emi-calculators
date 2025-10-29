@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
     line-height: 1.6;
 }
@@ -14,7 +14,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
 }
 
 header {
@@ -207,7 +207,7 @@ nav {
 }
 
 .section {
-    background: white;
+    background: #f7fafc;
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -290,35 +290,55 @@ nav {
     margin-top: 8px;
 }
 
+.slider-container .slider-track {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 6px;
+    background: #416cfa;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 0;
+}
+.slider-container .custom-slider {
+    position: relative;
+    z-index: 1;
+}
+
 .custom-slider {
     width: 100%;
     height: 6px;
-    background: #e2e8f0;
+    background: transparent;
     border-radius: 3px;
     outline: none;
     opacity: 0.8;
     transition: opacity 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .custom-slider::-webkit-slider-track {
     width: 100%;
     height: 6px;
-    background: #e2e8f0;
+    background: transparent;
     border-radius: 3px;
 }
 
 .custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
-    background: #3182ce;
+    background: #416cfa;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .custom-slider::-webkit-slider-thumb:hover {
-    background: #2c5282;
+    background: #416cfa;
 }
 
 .slider-labels {
@@ -330,7 +350,7 @@ nav {
 }
 
 .results-section {
-    background: white;
+    background: #f7fafc;
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -346,7 +366,7 @@ nav {
 }
 
 .result-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #416cfa;
     border-radius: 12px;
     padding: 20px;
     color: white;
@@ -363,7 +383,7 @@ nav {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+    background: transparent;
     pointer-events: none;
 }
 
@@ -404,6 +424,16 @@ nav {
     background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
 }
 
+/* Ensure all result cards keep solid blue background */
+.result-card.initial-emi-card::before,
+.result-card.revised-emi-card::before,
+.result-card.total-interest-card::before,
+.result-card.total-amount-card::before,
+.result-card.principal-amount-card::before,
+.result-card.outstanding-card::before {
+    background: transparent !important;
+}
+
 .card-content {
     position: relative;
     z-index: 1;
@@ -425,6 +455,7 @@ nav {
     opacity: 0.9;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    color: #ffffff;
 }
 
 .card-value {
@@ -509,7 +540,7 @@ nav {
 }
 
 .color-indicator.principal-amount {
-    background: #4facfe;
+    background: #14B8A6;
 }
 
 .color-indicator.interest-amount {
@@ -628,6 +659,35 @@ nav {
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+/* Header column colors */
+.balance-reduction-table thead th:nth-child(1) { /* Year */
+    background: #416cfa;
+    color: #ffffff;
+}
+.balance-reduction-table thead th:nth-child(2) { /* Opening Balance */
+    background: #1E3A8A;
+    color: #ffffff;
+}
+.balance-reduction-table thead th:nth-child(3) { /* EMI Paid */
+    background: #10B981;
+    color: #ffffff;
+}
+.balance-reduction-table thead th:nth-child(4) { /* Principal Paid */
+    background: #14B8A6;
+    color: #ffffff;
+}
+.balance-reduction-table thead th:nth-child(5) { /* Interest Paid */
+    background: #F59E0B;
+    color: #ffffff;
+}
+.balance-reduction-table thead th:nth-child(6) { /* Closing Balance */
+    background: #EF4444;
+    color: #ffffff;
+}
+.balance-reduction-table thead th:nth-child(7) { /* Rate Used */
+    background: #416cfa;
+    color: #ffffff;
 }
 
 .balance-reduction-table td {
@@ -791,7 +851,7 @@ nav {
 
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0px 15px 15px 15px;
     }
 
     .calculator-container {
