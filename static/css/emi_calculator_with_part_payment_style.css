@@ -27,3 +27,39 @@
 .results-section .result-card.new-loan-amount-card .card-value {
     color: #ffffff !important;
 }
+
+/* Overrides: specific results cards use blue background and white text */
+.results-section .result-card.original-emi-card,
+.results-section .result-card.tenure-reduction-card,
+.results-section .result-card.current-loan-amount-card,
+.results-section .result-card.new-loan-amount-card,
+.results-section .result-card.interest-savings-card,
+.results-section .result-card.total-savings-card,
+.results-section .result-card.revised-emi-card {
+    background: #416cfa !important;
+    color: #ffffff !important;
+}
+
+.results-section .result-card.original-emi-card .card-label,
+.results-section .result-card.original-emi-card .card-value,
+.results-section .result-card.original-emi-card .card-icon,
+.results-section .result-card.tenure-reduction-card .card-label,
+.results-section .result-card.tenure-reduction-card .card-value,
+.results-section .result-card.tenure-reduction-card .card-icon,
+.results-section .result-card.current-loan-amount-card .card-label,
+.results-section .result-card.current-loan-amount-card .card-value,
+.results-section .result-card.current-loan-amount-card .card-icon,
+.results-section .result-card.new-loan-amount-card .card-label,
+.results-section .result-card.new-loan-amount-card .card-value,
+.results-section .result-card.new-loan-amount-card .card-icon,
+.results-section .result-card.interest-savings-card .card-label,
+.results-section .result-card.interest-savings-card .card-value,
+.results-section .result-card.interest-savings-card .card-icon,
+.results-section .result-card.total-savings-card .card-label,
+.results-section .result-card.total-savings-card .card-value,
+.results-section .result-card.total-savings-card .card-icon,
+.results-section .result-card.revised-emi-card .card-label,
+.results-section .result-card.revised-emi-card .card-value,
+.results-section .result-card.revised-emi-card .card-icon {
+    color: #ffffff !important;
+}
